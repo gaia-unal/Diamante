@@ -1,0 +1,46 @@
+@font-face {
+    font-family: 'Berlin Sans';
+    src: url('../font/Berlin Sans FB Regular.ttf') format('truetype');
+}
+
+body, html {
+    background-color: #EAF4D7;
+}
+
+.contenedor-actividad {
+    font-family: 'Berlin Sans', Arial, sans-serif;
+}
+
+.contenedor-instruccion {
+    margin-top: 0.5em;
+    padding: 0 5px;
+    border-radius: 5px;
+    background-color: #FFF;
+    font-weight: bold;
+    font-size: 1.4em;
+    text-align: center;
+}
+
+.contenedor-iframe {
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 470px;
+    background-color: #FFF;
+}
+
+.contador-progreso {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+/* Esta imagen debe permanecer oculta, su src se usa en la alerta que aparece al finalizar la prueba */
+.icono-diamante {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    display: none;
+}

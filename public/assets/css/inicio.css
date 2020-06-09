@@ -1,0 +1,13 @@
+/*.hero {
+    background-image: url('../img/fondo-inicio.png');
+}*/
+
+.niveles .card-image {
+    padding-top: 1em;
+}
+.niveles .icono {
+    font-size: 5em;
+}
+.footer .logos {
+    height: 90px;
+}

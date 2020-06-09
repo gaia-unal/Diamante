@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>10.2</title>
+	<meta charset="UTF-8"/>
+	<link rel="stylesheet" type="text/css" href="estilo.css">
+</head>
+<body onload="imag()">
+	<div class="contenedor">
+		<img id="pregunta" src="">
+	    <div class="opciones">
+	        <input id="mes_1" type="radio" name="mes" value="false" onclick="mostrarContinuar()";/>
+	        <label class="respuesta mes_1" for="mes_1" id="rta_mes_1"></label>
+	        <input id="mes_2" type="radio" name="mes" value="true" onclick="mostrarContinuar()";/>
+	        <label class="respuesta mes_2" for="mes_2" id="rta_mes_2"></label>
+	        <input id="mes_3" type="radio" name="mes" value="false" onclick="mostrarContinuar()";/>
+	        <label class="respuesta mes_3" for="mes_3" id="rta_mes_3"></label>
+	        <input id="mes_4" type="radio" name="mes" value="false" onclick="mostrarContinuar()";/>
+	        <label class="respuesta mes_4" for="mes_4" id="rta_mes_4"></label>
+	    </div>
+		<div id="continuar" style="display:none;"><button id="btn-continuar">Continuar</button></div>
+		<div id="sonido"><a href="#" onClick="sonido()"><img src ="botonAudio.png" alt="sonido" height="30"></a></div>
+	</div>
+	<script src="script.js"></script>
+</body>
+</html>

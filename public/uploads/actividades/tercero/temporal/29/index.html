@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html lang="es">
+	<head>
+		<title>14.1.html</title>
+		<meta charset="UTF-8"/>
+		<link rel="stylesheet" type="text/css" href="estilo.css">
+	</head>
+
+	<body>
+		<div class="contenedor">			
+			<div id="reloj"><img src ="reloj.png" height="100" alt="reloj"></div>
+		
+            <!--Opciones-->
+			<label class="checkeable">
+			  <input type="checkbox" name="cap1"  value="false" onclick="seleccionar(0)"; />
+			 <img src="años.png" id="imagen1"  height="50" alt="imagen1" align="middle" />
+			</label>
+			
+			<label class="checkeable">
+			  <input type="checkbox" name="cap1" value="true" onclick="seleccionar(1)"; />
+			<img src="horas.png" id="imagen2"  height="50" alt="imagen2" align="middle"/>
+			</label>
+			
+			<label class="checkeable">
+			  <input type="checkbox" name="cap1" value="false" onclick="seleccionar(2)";/>
+			  <img src="meses.png" id="imagen3"  height="50" alt="imagen3" align="middle"/ >
+			</label>
+
+			<label class="checkeable">
+			  <input type="checkbox" name="cap1" value="true" onclick="seleccionar(3)";/>
+				<img src="segundos.png" id="imagen4"  height="50" alt="imagen4" align="middle"/>
+			</label>
+
+			<label class="checkeable">
+			  <input type="checkbox" name="cap1" value="false" onclick="seleccionar(4)";/>
+		<img src="dias.png" id="imagen5"  height="50" alt="imagen5"align="middle" />
+			</label>
+
+			<label class="checkeable">
+			  <input type="checkbox" name="cap1" value="true" onclick="seleccionar(5)"; />
+			<img src="minutos.png" id="imagen6"  height="50" alt="imagen6" align="middle" />
+			</label>
+			
+			<div id="continuar"><button id="btn-continuar">Continuar</button></div>
+			<div id="sonido"><a href= "#" onClick="sonido()"><img src ="botonAudio.png" alt="sonido" height="30"></a></div>
+
+		</div>
+		<script src="script.js"></script>
+	</body>
+</html>

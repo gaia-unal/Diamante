@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<html lang="es">
+	<head>
+		<title>18_1.html</title>
+		<meta charset="UTF-8"/>
+		<link rel="stylesheet" type="text/css" href="estilo.css">
+	</head>
+
+	<body>
+		<div class="contenedor">			
+			<div class="numero" id="numero"><img src ="numero.png" height="70" alt="numero"></div>			
+
+
+            <!--Opciones-->
+			<p style="top:226px;left:100px">a.</p>
+			<div class="imagen opcion1"><img src="numeroquees.png" id="opcion1"  height="50" alt="opcion1" onclick="seleccionar(1);"></div>
+
+			<p style="top:226px;left:260px">b.</p>
+			<div class="imagen opcion2"><img src="opcion2.png" id="opcion2"  height="50" alt="opcion2" onclick="seleccionar(2);"></div>
+
+			<p style="top:226px;left:420px">c.</p>
+			<div class="imagen opcion3"><img src="opcion3.png" id="opcion3"  height="50" alt="opcion3" onclick="seleccionar(3);"></div>
+
+         	<div id="continuar"><button id="btn-continuar">Continuar</button></div>
+			<div id="sonido"><a href= "#" onClick="sonido()"><img src ="botonAudio.png" alt="sonido" height="30"></a></div>
+
+		</div>
+		<script src="script.js"></script>
+	</body>
+</html>

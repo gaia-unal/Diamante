@@ -1,0 +1,30 @@
+.seccion-vistas {
+    padding-top: 1em;
+}
+
+.item-lista:hover {
+    background-color: #f9f9f9;
+}
+
+.contenedor-actividades-nuevas {
+    padding-top: 1em;
+}
+
+.paginacion-tabla {
+    margin-top: 1.5em;
+}
+
+.instruccion-actividad {
+    margin-bottom: 1.5em;
+    text-align: center;
+}
+
+.contenedor-iframe {
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 470px;
+    background-color: #FFF;
+}

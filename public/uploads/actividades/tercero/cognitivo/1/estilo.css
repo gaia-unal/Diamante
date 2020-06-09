@@ -1,0 +1,69 @@
+.contenedor{
+	width: 630px;
+	max-width: 630px;
+	height: 430px;
+	max-height: 430px;
+	font-family: sans-serif;
+	text-align: center;
+}
+
+#continuar {
+	position: absolute;
+	left: 270px;
+	top: 392px;
+	display: none;
+}
+
+#btn-continuar {
+	width: 106px;
+	background-color:#3d94f6;
+	-moz-border-radius:13px;
+	-webkit-border-radius:13px;
+	border-radius:13px;
+	border:1px solid #337fed;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-size:17px;
+	padding:10px 15px;
+	text-decoration:none;
+}
+
+#btn-continuar:hover {
+	background-color:#1e62d0;
+}
+
+#sonido {
+	position: absolute;
+	left: 590px;
+	top: 397px;
+	display: none;
+}
+
+.num{position:absolute;color:#787878;font-size:60px;}
+.numero1{top:90px;left:305px;}
+.numero2{top:160px;left:305px;}
+.signo{top:122px;left:235px;text-align:center;width:65px;height:80px;}
+#signo{line-height:80px;vertical-align:middle;}
+.raya{position:absolute;top:200px;left:255px;color:#62bda8;font-size:60px;font-weight:bold;}
+#respuesta{
+	position:absolute;
+	top:280px;
+	left:280px;
+	border:3px solid #51b59f;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	width:5.6em;
+	text-align:center;
+	color:#787878;
+	font-size:40px;
+	padding: 0;
+	direction: rtl;
+    unicode-bidi: bidi-override;	
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+     margin: 0; 
+}

@@ -1,0 +1,66 @@
+{% extends 'layout/base.twig' %}
+
+{% block titulo %}Docente - Diamante{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ constant('APP_URL') }}assets/css/docente.css">
+{% endblock %}
+
+{% block contenido %}
+    <div id="app" data-info="{{ datos|json_encode }}">
+        <nav class="navbar is-info" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+                <a class="navbar-item">
+                    <img src="{{ constant('APP_URL') }}assets/img/logo-claro.png" alt="Diamante: entorno educativo informático">
+                </a>
+                <a class="navbar-burger" role="button" aria-label="menu" aria-expanded="false" @click="toggleNavMovil">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+            <div class="navbar-menu" :class="{'is-active': navMovilActivo}">
+                <div class="navbar-start">
+                    {% verbatim %}
+                    <a 
+                        v-for="vista in vistas"
+                        :key="vista.nombre"
+                        :class="['navbar-item', { 'is-active': vistaActual == vista.nombre }]"
+                        @click="vistaActual = vista.nombre">
+                        <div>
+                            <b-icon :icon="vista.icono"></b-icon>
+                            <span>{{ vista.nombre }}</span>
+                        </div>
+                    </a>
+                    {% endverbatim %}
+                </div>
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <a href="{{ path_for('auth.logout') }}" class="button is-danger">
+                            <b-icon icon="logout"></b-icon>
+                            <span>Cerrar sesión</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <section class="section seccion-vistas">
+            <component :is="componenteVistaActual" v-if="cargaInicial" @cargando="cargandoComponente($event)"></component>
+        </section>
+
+        <b-loading :active="componenteCargado" :can-cancel="false"></b-loading>
+
+        <div v-show="false">
+            {% include 'layout/campos-csrf.twig' %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-chartjs/3.3.2/vue-chartjs.min.js"></script>
+    <script src="{{ constant('APP_URL') }}assets/js/docente.js"></script>
+{% endblock %}

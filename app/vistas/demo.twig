@@ -1,0 +1,61 @@
+{% extends 'layout/base.twig' %}
+
+{% block titulo %}Prueba las actividades - Diamante{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ constant('APP_URL') }}assets/css/demo.css">
+{% endblock %}
+
+{% block contenido %}
+    <div id="app" data-actividades="{{ actividades|json_encode }}">
+        <div class="container contenedor-actividad" v-if="actividades.length > 0">
+            <div class="columns is-multiline">
+                <div class="column is-10-tablet is-8-desktop is-offset-1-tablet is-offset-2-desktop">
+                    <div class="contenedor-instruccion">
+                        {% verbatim %}
+                        <p>{{ actividades[indice].instruccion }}</p>
+                        {% endverbatim %}
+                    </div>
+                </div>
+                <div class="column is-10-tablet is-8-desktop is-offset-1-tablet is-offset-2-desktop">
+                    <div class="contenedor-iframe">
+                        <iframe :src="actividades[indice].rutaArchivo" width="650" height="450" ref="iframe"></iframe>
+                    </div>
+                </div>
+                <div class="column is-10-tablet is-8-desktop is-offset-1-tablet is-offset-2-desktop">
+                    <div class="columns is-mobile">
+                        <div class="column is-8">
+                            <progress class="progress is-large is-info" :value="porcentaje" max="100"></progress>
+                        </div>
+                        <div class="column is-2 has-text-centered">
+                            <div class="contador-progreso">
+                                {% verbatim %}
+                                <p>{{ indice }}/{{ actividades.length }}</p>
+                                {% endverbatim %}
+                            </div>
+                        </div>
+                        <div class="column is-2 has-text-centered">
+                            <b-tooltip label="Regresar" type="is-dark" position="is-top" animated>
+                                <a href="{{ path_for('inicio') }}" class="button is-info" ref="regresar"><b-icon icon="arrow-left-thick"></b-icon></a>
+                            </b-tooltip>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div v-else>
+            <section class="section">
+                <div class="content has-text-grey has-text-centered">
+                    <p><b-icon icon="alert-circle-outline" size="is-large"></b-icon></p>
+                    <p class="subtitle">No se ha cargado ninguna actividad, por favor recarga la página</p>
+                </div>
+            </section>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ constant('APP_URL') }}assets/js/demo.js"></script>
+{% endblock %}

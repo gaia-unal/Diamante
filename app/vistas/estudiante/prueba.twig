@@ -1,0 +1,71 @@
+{% extends 'layout/base.twig' %}
+
+{% block titulo %}Realizar prueba - Diamante{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ constant('APP_URL') }}assets/css/prueba.css">
+{% endblock %}
+
+{% block contenido %}
+    <div id="app">
+        <div class="container contenedor-actividad" v-if="actividades.length > 0 && actividadActual">
+            <div class="columns is-multiline">
+                <div class="column is-10-tablet is-8-desktop is-offset-1-tablet is-offset-2-desktop">
+                    <div class="contenedor-instruccion">
+                        {% verbatim %}
+                        <p>{{ actividadActual.instruccion }}</p>
+                        {% endverbatim %}
+                    </div>
+                </div>
+                <div class="column is-10-tablet is-8-desktop is-offset-1-tablet is-offset-2-desktop">
+                    <div class="contenedor-iframe">
+                        <iframe :src="urlActividad" width="650" height="450" ref="iframe" @load="iframeCargado"></iframe>
+                    </div>
+                </div>
+                <div class="column is-10-tablet is-8-desktop is-offset-1-tablet is-offset-2-desktop">
+                    <div class="columns is-mobile">
+                        <div class="column is-8">
+                            <progress class="progress is-large is-info" :value="porcentaje" max="100"></progress>
+                        </div>
+                        <div class="column is-2 has-text-centered">
+                            <div class="contador-progreso">
+                                {% verbatim %}
+                                <p>{{ contadorActual }}/{{ totalActual }}</p>
+                                {% endverbatim %}
+                            </div>
+                        </div>
+                        <div class="column is-2 has-text-centered">
+                            <b-tooltip label="Regresar" type="is-dark" position="is-top" animated>
+                                <button type="button" class="button is-info" @click="regresar(false)"><b-icon icon="arrow-left-thick"></b-icon></a>
+                            </b-tooltip>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div v-if="actividades.length == 0">
+            <section class="section">
+                <div class="content has-text-grey has-text-centered">
+                    <p><b-icon icon="alert-circle-outline" size="is-large"></b-icon></p>
+                    <p class="subtitle">Ha ocurrido un error cargando las actividades, por favor recarga la página</p>
+                </div>
+            </section>
+        </div>
+
+        <b-loading :active="cargando" :can-cancel="false"></b-loading>
+
+        <div v-show="false">
+            {% include 'layout/campos-csrf.twig' %}
+            <input type="hidden" data-url="{{ path_for('estudiante') }}" ref="urlestudiante">
+            <input type="hidden" data-url="{{ path_for('estudiante.prueba.actividades') }}" ref="urlactividades">
+            <img src="{{ constant('APP_URL') }}assets/img/96x96.png" alt="icono Diamante" class="icono-diamante" ref="iconodiamante" style="display: none;">
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ constant('APP_URL') }}assets/js/easytimer.min.js"></script>
+    <script src="{{ constant('APP_URL') }}assets/js/prueba.js"></script>
+{% endblock %}

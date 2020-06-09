@@ -1,0 +1,92 @@
+.contenedor{
+	width: 630px;
+	max-width: 630px;
+	height: 430px;
+	max-height: 430px;
+	font-family: sans-serif;
+	text-align: center;
+}
+
+#continuar {
+	position: absolute;
+	left: 270px;
+	top: 392px;
+	display: none;
+}
+
+#btn-continuar {
+	width: 106px;
+	background-color:#3d94f6;
+	-moz-border-radius:13px;
+	-webkit-border-radius:13px;
+	border-radius:13px;
+	border:1px solid #337fed;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-size:17px;
+	padding:10px 15px;
+	text-decoration:none;
+}
+
+#btn-continuar:hover {
+	background-color:#1e62d0;
+}
+
+#sonido {
+	position: absolute;
+	left: 590px;
+	top: 397px;
+	display: none;
+}
+
+.btnSigno{
+position:absolute;
+width:50px;
+height:50px;
+font-size:40px;
+background-color:#DDD;
+color:#787878;
+text-align:center;
+vertical-align:middle;
+-moz-border-radius:5px;
+-webkit-border-radius:5px;
+border-radius:5px;
+border:2px solid #ccc;
+cursor:pointer;
+}
+
+.btnSigno:focus{
+border-width:3px;
+border-color:#62bda8;
+outline-width:1px;
+outline-color:#62bda8;
+}
+
+.btnSigno:hover{
+background-color:#EEE;
+}
+.btnSigno1{
+top:100px;
+left:115px;
+}
+
+.btnSigno2{
+top:170px;
+left:115px;}
+
+.btnSigno3{
+top:240px;
+left:115px;}
+
+.num{position:absolute;
+	color:#787878ff;
+	font-size:60px;
+}
+.numero1{top:90px;left:315px;}
+.numero2{top:160px;left:315px;}
+.resultado{top:250px;left:315px;}
+.resultado2{top:250px;left:300px;}
+.signo{top:122px;left:245px;text-align:center;width:65px;height:80px;}
+#signo{line-height:80px;vertical-align:middle;}
+.raya{position:absolute;top:200px;left:275px;color:#62bda8;font-size:40px;font-weight:bold;}

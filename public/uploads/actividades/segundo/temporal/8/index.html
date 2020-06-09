@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<title>11</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="estilo.css">
+</head>
+<body>
+	<div class="contenedor">
+		<div class="opciones">
+			<div class="num numero1"><span id="numero1"></span></div>
+			<div class="num numero2"><span id="numero2"></span></div>
+			<div class="num numero3"><span id="numero3"></span></div>
+			<input class="respuesta res1" id="res1" type="number" autofocus onkeyup="validar();" />
+			<input class="respuesta res2" id="res2" type="number" autofocus onkeyup="validar();"/>
+		</div>
+		<div id="continuar"><button id="btn-continuar">Continuar</button></div>
+		<div id="sonido"><a href="#" onclick="sonido()"><img src="botonAudio.png" alt="sonido" height="30"></a></div>
+	</div>
+	<script src="script.js"></script>
+</body>
+</html>

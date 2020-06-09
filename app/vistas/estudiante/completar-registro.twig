@@ -1,0 +1,46 @@
+{% extends 'layout/base.twig' %}
+
+{% block titulo %}Completar registro estudiante - Diamante{% endblock %}
+
+{% block contenido %}
+    <div id="app" data-estudiante="{{ estudiante|json_encode }}">
+        <section class="hero is-light is-fullheight">
+            <div class="hero-body">
+                <div class="container">
+                    <div class="column is-6 is-offset-3">
+                            <div class="box">
+                                <form @submit.prevent="completarRegistro" ref="formulario" data-url="{{ path_for('auth.completar.estudiante') }}">
+                                    {% verbatim %}
+                                    <h2 class="title is-size-4 has-text-dark has-text-centered" style="padding-bottom: 1em;">Hola {{ estudiante.nombre }}</h2>
+                                    <p class="subtitle">Por favor ingresa la contraseña de tu nueva cuenta.</p>
+                                    <p class="subtitle">Usuario: <strong>{{ estudiante.usuario }}</strong></p>
+                                    {% endverbatim %}
+                                    <div class="columns">
+                                        <div class="column">
+                                            <b-field label="Contraseña" :type="errores.password ? 'is-danger':''" :message="errores.password">
+                                                <b-input v-model="form.password" type="password"></b-input>
+                                            </b-field>
+                                        </div>
+                                        <div class="column">
+                                            <b-field label="Confirmar contraseña" :type="errores.passwordC ? 'is-danger':''" :message="errores.passwordC">
+                                                <b-input v-model="form.passwordC" type="password"></b-input>
+                                            </b-field>
+                                        </div>
+                                    </div>
+                                    <div class="buttons is-centered">
+                                        <button type="submit" class="button is-success">Continuar</button>
+                                    </div>
+                                    {% include 'layout/campos-csrf.twig' %}
+                                </form>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ constant('APP_URL') }}assets/js/completar-registro-estudiante.js"></script>
+{% endblock %}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>13.1</title>
+	<meta charset="UTF-8"/>
+	<link rel="stylesheet" type="text/css" href="estilo.css">
+</head>
+<body>
+	<div class="contenedor">
+		<div class="opciones">
+			<div>
+		        <input id="tiempo_1" type="checkbox" name="unidades" value="true" onclick="calificar(1)";/>
+		        <label class="respuesta tiempo_1" for="tiempo_1"></label>
+		        <input id="tiempo_2" type="checkbox" name="unidades" value="false" onclick="calificar(2)";/>
+		        <label class="respuesta tiempo_2" for="tiempo_2" color="red"></label>
+		        <input id="tiempo_3" type="checkbox" name="unidades" value="false" onclick="calificar(3)";/>
+		        <label class="respuesta tiempo_3" for="tiempo_3"></label>
+		    </div>
+		    <div>
+		        <input id="tiempo_4" type="checkbox" name="unidades" value="true" onclick="calificar(4)";/>
+		        <label class="respuesta tiempo_4" for="tiempo_4"></label>
+		        <input id="tiempo_5" type="checkbox" name="unidades" value="true" onclick="calificar(5)";/>
+		        <label class="respuesta tiempo_5" for="tiempo_5" color="red"></label>
+		        <input id="tiempo_6" type="checkbox" name="unidades" value="false" onclick="calificar(6)";/>
+		        <label class="respuesta tiempo_6" for="tiempo_6"></label>
+		    </div>
+		<div id="continuar" style="display:none;"><button id="btn-continuar">Continuar</button></div>
+		<div id="sonido"><a href="#" onClick="sonido()"><img src ="botonAudio.png" alt="sonido" height="30"></a></div>
+	</div>
+	<script src="script.js"></script>
+</body>
+</html>

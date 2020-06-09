@@ -1,0 +1,50 @@
+#enunciado{
+    position:absolute;
+    top:50px;
+    left:100px;
+    font-family:Berlin sans Fb;
+    font-size:20px;
+    color:#787878ff;
+}
+
+#imagen1{
+    position:absolute;
+    top:100px;
+    left:130px;
+}
+
+#imagen2{
+    position:absolute;
+    top:100px;
+    left:370px;
+}
+            
+#imagen3{
+    position:absolute;
+    top:200px;
+    left:250px;
+}
+            
+#sonido{
+    position:absolute;
+    top:45px;left:50px;
+    display: none;
+}
+            
+#marco1{
+    position:absolute;
+    top:85px;
+    left:121px;
+}
+            
+#marco2{
+    position:absolute;
+    top:85px;
+    left:361px;
+}
+            
+#marco3{
+    position:absolute;
+    top:185px;
+    left:241px;
+}

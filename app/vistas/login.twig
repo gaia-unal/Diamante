@@ -1,0 +1,75 @@
+{% extends 'layout/base.twig' %}
+
+{% block titulo %}Iniciar sesión - Diamante{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ constant('APP_URL') }}assets/css/login.css">
+{% endblock %}
+
+{% block contenido %}
+    <div id="app">
+        <section class="hero is-fullheight fondo-azul">
+            <div class="hero-head">
+                <div class="logo">
+                    <a href="{{ path_for('inicio') }}">
+                    <figure class="image">
+                        <img src="{{ constant('APP_URL') }}assets/img/logo-claro.png" alt="Logo Diamante">
+                    </figure>
+                    </a>
+                </div>
+            </div>
+            <div class="hero-body">
+                <div class="container">
+                    <div class="columns">
+                        <div class="column is-4-widescreen is-offset-1-widescreen">
+                            <form-login-estudiante inline-template>
+                                <div class="box">
+                                    <form @submit.prevent="procesar" ref="formulario" data-url="{{ path_for('auth.login.estudiante') }}">
+                                        <h2 class="title has-text-dark has-text-centered">Estudiante</h2>
+                                        <b-field :type="errores.usuario ? 'is-danger':''" :message="errores.usuario">
+                                            <b-input v-model="form.usuario" placeholder="Usuario" icon="account" :disabled="usuarioValido"></b-input>
+                                        </b-field>
+                                        <b-field v-if="usuarioValido" :type="errores.password ? 'is-danger':''" :message="errores.password">
+                                            <b-input v-model="form.password" type="password" placeholder="Contraseña" icon="lock-question"></b-input>
+                                        </b-field>
+                                        <div class="buttons is-centered">
+                                            <button type="submit" class="button is-success" :class="{'is-loading': cargando}">Ingresar</button>
+                                            <button type="button" v-if="usuarioValido" @click="cambiarUsuario" class="button is-light">Cambiar usuario</button>
+                                        </div>
+                                        {% include 'layout/campos-csrf.twig' %}
+                                    </form>
+                                </div>
+                            </form-login-estudiante>
+                        </div>
+                        <div class="column is-4-widescreen is-offset-2-widescreen">
+                            <form-login-docente inline-template>
+                                <div class="box">
+                                    <form @submit.prevent="iniciarSesion" ref="formulario" data-url="{{ path_for('auth.login.docente') }}">
+                                        <h2 class="title has-text-dark has-text-centered">Docente</h2>
+                                        <b-field :type="errores.email ? 'is-danger':''" :message="errores.email">
+                                            <b-input type="email" v-model="form.email" placeholder="Email" icon="email"></b-input>
+                                        </b-field>
+                                        <b-field :type="errores.password ? 'is-danger':''" :message="errores.password">
+                                            <b-input type="password" v-model="form.password" placeholder="Contraseña" icon="lock-question"></b-input>
+                                        </b-field>
+                                        <div class="buttons is-centered">
+                                            <button type="submit" class="button is-success" :class="{'is-loading': cargando}">Ingresar</button>
+                                            <a href="{{ path_for('auth.registro') }}" class="button is-text">¿No tienes cuenta? Regístrate</a>
+                                        </div>
+                                        {% include 'layout/campos-csrf.twig' %}
+                                    </form>
+                                </div>
+                            </form-login-docente>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ constant('APP_URL') }}assets/js/login.js"></script>
+{% endblock %}

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>19.1</title>
+	<meta charset="UTF-8"/>
+	<link rel="stylesheet" type="text/css" href="estilo.css">
+</head>
+<body>
+	<div class="contenedor">
+		<div class="descomponer">
+			<h1 id="num_base"></h1>
+			<p style="font-size:20px;">Centenas: <input id="cen" class="resp_unid" type="text" onkeyup="mostrarContinuar()" onkeypress="validarNumeros(event);" maxlength="5" autofocus="autofocus"></p>
+			<p style="font-size:20px;">Decimas: <input id="dec" class="resp_unid" type="text" onkeyup="mostrarContinuar()" onkeypress="validarNumeros(event);" maxlength="5"></p>
+			<p style="font-size:20px;">Unidades: <input id="uni" class="resp_unid" type="text" onkeyup="mostrarContinuar()" onkeypress="validarNumeros(event);" maxlength="5"></p>
+		</div>
+		<div id="continuar" style="display:none;"><button id="btn-continuar">Continuar</button></div>
+		<div id="sonido"><a href="#" onClick="sonido()"><img src ="botonAudio.png" alt="sonido" height="30"></a></div
+	</div>
+	<script src="script.js"></script>
+</body>
+</html>

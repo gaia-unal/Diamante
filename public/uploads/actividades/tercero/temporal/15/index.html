@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>9.1</title>
+	<meta charset="UTF-8"/>
+	<link rel="stylesheet" type="text/css" href="estilo.css">
+</head>
+<body>
+	<div class="contenedor">
+		<div class="opciones">
+			
+			<div>
+		        <input id="secuencia_1" type="checkbox" name="unidades" value="true" onclick="mostrarContinuar()";/>
+		        <label id="from1" class="respuesta secuencia_1" for="secuencia_1"></label>
+		        <input id="secuencia_2" type="checkbox" name="unidades" value="false" onclick="mostrarContinuar()";/>
+		        <label id="from2" class="respuesta secuencia_2" for="secuencia_2" color="red"></label>
+		        
+		    </div>
+		    <div>
+		        <input id="secuencia_3" type="checkbox" name="unidades" value="true" onclick="mostrarContinuar()";/>
+		        <label id="from3" class="respuesta secuencia_3" for="secuencia_3"></label>
+		        <input id="secuencia_4" type="checkbox" name="unidades" value="false" onclick="mostrarContinuar()";/>
+		        <label id="from4" class="respuesta secuencia_4" for="secuencia_4" color="red"></label> 
+		    </div>
+		    <div><img id="imagenUno" src="muestraSecuencia.png" width="570" height="110"></div>
+			
+			<div id="continuar"><button id="btn-continuar">Continuar</button></div>
+			<div id="sonido"><a href="#" onclick="sonido()"><img src="botonAudio.png" alt="sonido" height="30"></a></div>
+	</div>
+	<script src="script.js"></script>
+</body>
+</html>

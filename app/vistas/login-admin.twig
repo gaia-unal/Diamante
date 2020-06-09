@@ -1,0 +1,100 @@
+{% extends 'layout/base.twig' %}
+
+{% block titulo %}Iniciar sesión - Diamante{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ constant('APP_URL') }}assets/css/login.css">
+{% endblock %}
+
+{% block contenido %}
+    <div id="app">
+        <section class="hero is-fullheight is-primary">
+            <div class="hero-head">
+                <div class="logo">
+                    <a href="{{ path_for('inicio') }}">
+                    <figure class="image">
+                        <img src="{{ constant('APP_URL') }}assets/img/logo-claro.png" alt="Logo Diamante">
+                    </figure>
+                    </a>
+                </div>
+            </div>
+            <div class="hero-body">
+                <div class="container">
+                    <div class="columns">
+                        <div class="column is-4 is-offset-4">
+                            <form-login-admin inline-template>
+                                <div class="box">
+                                    <form @submit.prevent="iniciarSesion" ref="formulario" data-url="{{ path_for('auth.login.admin') }}">
+                                        <h2 class="title has-text-dark has-text-centered">Administrador</h2>
+                                        <b-field :type="errores.email ? 'is-danger':''" :message="errores.email">
+                                            <b-input type="email" v-model="form.email" placeholder="Email" icon="email"></b-input>
+                                        </b-field>
+                                        <b-field :type="errores.password ? 'is-danger':''" :message="errores.password">
+                                            <b-input type="password" v-model="form.password" placeholder="Contraseña" icon="lock-question"></b-input>
+                                        </b-field>
+                                        <div class="buttons is-centered">
+                                            <button type="submit" class="button is-success" :class="{'is-loading': cargando}">Ingresar</button>
+                                        </div>
+                                        {% include 'layout/campos-csrf.twig' %}
+                                    </form>
+                                </div>
+                            </form-login-admin>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ constant('APP_URL') }}assets/js/login-admin.js"></script>
+{% endblock %}
+
+{% block none %}
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l6 offset-l3">
+                <div class="card-panel">
+                    <h5 class="center">Inicio de sesión - Administración</h5>
+                    <form action="{{ path_for('auth.login.admin') }}" method="post">
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">email</i>
+                                <input type="email" name="email" id="email" class="validate">
+                                <label for="email">Email</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">lock</i>
+                                <input type="password" name="password" id="password">
+                                <label for="password">Contraseña</label>
+                            </div>
+                        </div>
+
+                        {% if flash('login.admin') %}
+                        <div class="row">
+                            <div class="col s12">
+                                <div class="card-panel center {{ (flash('login.admin')[0]['tipo'] == 'advertencia') ? 'orange accent-1' : 'red' }}">
+                                    <span>{{ flash('login.admin')[0]['texto'] }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <div class="row">
+                            <div class="col s12 center">
+                                <button type="submit" class="btn waves-effect">Ingresar</button>
+                            </div>
+                        </div>
+                        
+                        {% include 'layout/campos-csrf.twig' %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

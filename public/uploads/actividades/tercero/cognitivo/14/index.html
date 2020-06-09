@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>23.3</title>
+	<meta charset="UTF-8"/>
+	<link rel="stylesheet" type="text/css" href="estilo.css">
+</head>
+<body>
+	<div id="contenedor">
+		<img src="leche.png" draggable="true" ondragstart="drag(event)" class="objeto" id="suave">
+		<img src="sandia.png" draggable="true" ondragstart="drag(event)" class="objeto" id="pesado">
+		<img src="vaca.png" draggable="true" ondragstart="drag(event)" class="objeto" id="extrapesado">
+		<img src="pez.png" draggable="true" ondragstart="drag(event)" class="objeto" id="mediosuave">
+		<img src="cake.png" draggable="true" ondragstart="drag(event)" class="objeto" id="liviano">
+	    <div class="opciones">
+			<div id="extramayor_con" ondrop="drop(event)" ondragover="allowDrop(event)" class="opcion"></div>
+			<div id="mayor_con" ondrop="drop(event)" ondragover="allowDrop(event)" class="opcion"></div>
+			<div id="medio_con" ondrop="drop(event)" ondragover="allowDrop(event)" class="opcion"></div>
+			<div id="intermedio_con" ondrop="drop(event)" ondragover="allowDrop(event)" class="opcion"></div>
+			<div id="menor_con" ondrop="drop(event)" ondragover="allowDrop(event)" class="opcion"></div>
+	    </div>
+		<div id="continuar" style="display: none"><button id="btn-continuar" onclick="procesarPuntaje();">Continuar</button></div>
+		<div id="reset" style="display: none"><button id="btn-reset" onclick="reset();">Reiniciar</button></div>
+		<div id="sonido"><a href="#" onClick="sonido()"><img src ="botonAudio.png" alt="sonido" height="30"></a></div>
+	</div>
+	<script src="script.js"></script>
+</body>
+</html>
+

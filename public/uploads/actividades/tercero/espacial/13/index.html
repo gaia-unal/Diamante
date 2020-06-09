@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html lang="es">
+	<head>
+		<title>5_3.html</title>
+		<meta charset="UTF-8"/>
+		<link rel="stylesheet" type="text/css" href="estilo.css">
+	</head>
+
+	<body>
+		<div class="contenedor">
+			<div class="fondo"><img src="fondo.png" id="fondo" alt="fondo"></div>
+
+			<div class="imagen granero"><img src="granero.png" id="granero" height="250" alt="granero"></div>
+
+			<div id="marco1" style="display:none"><img src ="marco.png" height="65" width="150" alt="marco1"></div>
+			<div class="imagen caballos"><img src="caballodentro.png" id="interior" height="70" alt="caballos" onclick="seleccionar(0);"></div>
+
+            <div id="marco2" style="display:none"><img src ="marco.png" height="110" width="140" alt="marco2"></div>
+            <div class="imagen gallinas"><img src="gallinas.png" id="agrupados1" height="140" alt="gallinas" onclick="seleccionar(1);"></div>
+
+            <div id="marco3" style="display:none"><img src ="marco.png" height="135" width="150" alt="marco3"></div>
+            <div class="imagen ovejas "><img src="ovejas.png" id="agrupados2" height="150" alt="ovejas" onclick="seleccionar(2);"></div>
+			
+             <div id="marco4" style="display:none"><img src ="marco.png" height="40" width="50" alt="marco3"></div>
+            <div class="imagen hombre "><img src="dentro.png" id="dentro" height="39" alt="hombre" onclick="seleccionar(3);"></div>
+
+			<div id="continuar"><button id="btn-continuar">Continuar</button></div>
+			<div id="sonido"><a href="#" onclick="sonido()"><img src="botonAudio.png" alt="sonido" height="30"></a></div>
+		</div>
+		<script src="script.js"></script>
+	</body>
+</html>

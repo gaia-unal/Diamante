@@ -1,0 +1,49 @@
+<form method="post" data-url="{{ path_for('admin.cargar.actividad.previa') }}" enctype="multipart/form-data" id="form-cargar-actividad-previa">
+    <div class="row">
+        <div class="input-field col s12 m6">
+            <input type="text" name="nombre" id="nombre-previa" class="validate" data-length="100">
+            <label for="nombre-previa">Nombre</label>
+            <span class="helper-text"></span>
+        </div>
+        <div class="input-field col s12 m6">
+            <textarea name="descripcion" id="descripcion-previa" class="materialize-textarea validate" data-length="500"></textarea>
+            <label for="descripcion-previa">Descripción</label>
+            <span class="helper-text"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="input-field col s12 m6">
+            <textarea name="instruccion" id="instruccion-previa" class="materialize-textarea" data-length="150"></textarea>
+            <label for="instruccion-previa">Instrucción</label>
+            <span class="helper-text"></span>
+        </div>
+        <div class="file-field input-field col s12 m6">
+            <div class="btn">
+                <span>Archivo</span>
+                <input type="file" name="archivo_actividad" id="archivo-actividad-previa">
+                <span class="helper-text"></span>
+            </div>
+            <div class="file-path-wrapper">
+                <input class="file-path validate" type="text" placeholder="Selecciona un archivo zip">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12">
+            <div class="alerta"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12 center">
+            <button type="submit" class="btn waves-effect waves-light green">
+                <i class="material-icons left">cloud_upload</i>
+                Cargar actividad previa
+            </button>
+        </div>
+    </div>
+
+    {% include 'layout/campos-csrf.twig' %}
+</form>

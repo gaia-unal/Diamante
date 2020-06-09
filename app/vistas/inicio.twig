@@ -1,0 +1,169 @@
+{% extends 'layout/base.twig' %}
+
+{% block titulo %}Diamante - Entorno educativo{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ constant('APP_URL') }}assets/css/inicio.css">
+{% endblock %}
+
+{% block contenido %}
+    <div id="app">
+        <nav class="navbar is-info" role="navigation" aria-label="main navigation">
+            <div class="container">
+                <div class="navbar-brand">
+                    <a href="{{ path_for('inicio') }}" class="navbar-item">
+                        <span class="title">Diamante</span>
+                    </a>
+                    <a class="navbar-burger" role="button" aria-label="menu" aria-expanded="false" @click="toggleNavMovil">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+
+                <div class="navbar-menu" :class="{'is-active': navMovilActivo}">
+                    <div class="navbar-start"></div>
+                    <div class="navbar-end">
+                        {% if usuario %}
+                            {% if usuario.tipo == "ESTUDIANTE" %}
+                            <div class="navbar-item">
+                                <a href="{{ path_for('estudiante') }}" class="button is-success">
+                                    <b-icon icon="login-variant"></b-icon>
+                                    <span>Ingresar</span>
+                                </a>
+                            </div>
+                            {% elseif usuario.tipo == "DOCENTE" %}
+                            <div class="navbar-item">
+                                <a href="{{ path_for('docente') }}" class="button is-success">
+                                    <b-icon icon="login-variant"></b-icon>
+                                    <span>Ingresar</span>
+                                </a>
+                            </div>
+                            {% else %}
+                            <div class="navbar-item">
+                                <a href="{{ path_for('admin') }}" class="button is-success">
+                                    <b-icon icon="login-variant"></b-icon>
+                                    <span>Ingresar</span>
+                                </a>
+                            </div>
+                            {% endif %}
+                        {% else %}
+                            <div class="navbar-item">
+                                <a href="{{ path_for('auth.registro') }}" class="button is-light">
+                                    <b-icon icon="account-plus"></b-icon>
+                                    <span>Registrarse</span>
+                                </a>
+                            </div>
+                            <div class="navbar-item">
+                                <a href="{{ path_for('auth.login') }}" class="button is-success">
+                                    <b-icon icon="login-variant"></b-icon>
+                                    <span>Iniciar sesión</span>
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <section class="hero">
+            <div class="hero-body">
+                <div class="container has-text-centered">
+                    <img src="{{ constant('APP_URL') }}assets/img/logo-oscuro.png" alt="Logo Diamante">
+                    <h1 class="title">Apoyo al docente a realizar una identificación temprana de la Discalculia en el aula de clase</h1>
+                    <p class="subtitle">¡Niños con más oportunidades de mejorar su dificultad de aprendizaje en la matemática!</p>
+                    <a href="{{ path_for('auth.registro') }}" class="button is-primary is-large">Regístrate</a>
+                    <h2 class="title">Entorno informático para niños de 1°, 2° y 3° de primaria</h2>
+                </div>
+            </div>
+            <!-- hero-body/> -->
+        </section>
+        <section class="container">
+            <div class="notification has-text-centered">
+                <h2 class="title">Niveles cognitivos</h2>
+                <p class="subtitle">DIAMANTE, entorno informático enfocado en actividades interactivas que están asociadas a cada nivel cognitivo
+                    afectado por la discalculia</p>
+            </div>
+            {% verbatim %}
+            <div class="columns is-mobile is-multiline niveles">
+                <div v-for="nivel in niveles" :key="nivel.id" class="column is-6-mobile">
+                    <div class="card">
+                        <div class="card-image has-text-centered">
+                            <b-icon :icon="nivel.icono" type="is-primary" custom-size="mdi-48px"></b-icon>
+                        </div>
+                        <div class="card-content has-text-centered">
+                            <div class="content">
+                                <p class="title">{{ nivel.nombre }}</p>
+                                <p>{{ nivel.descripcion }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endverbatim %}
+        </section>
+        <section class="container">
+            <div class="notification has-text-centered">
+                <h2 class="title">Actividades educativas</h2>
+                <p class="subtitle">Actividades diseñadas con el objetivo de realizar una identificación temprana al niño y ayudar en las debilidades
+                    encontradas reforzando sus habilidades cognitivas</p>
+                <a href="{{ path_for('demo') }}" class="button is-warning is-large">Pruébalas</a>
+            </div>
+            <div class="columns is-multiline">
+                <div class="column is-4-widescreen">
+                    <img class="image" src="{{ constant('APP_URL') }}assets/img/act1.png" alt="Actividad 1">
+                </div>
+                <div class="column is-4-widescreen">
+                    <img class="image" src="{{ constant('APP_URL') }}assets/img/act2.png" alt="Actividad 2">
+                </div>
+                <div class="column is-4-widescreen">
+                    <img class="image" src="{{ constant('APP_URL') }}assets/img/act3.png" alt="Actividad 3">
+                </div>
+                <div class="column is-4-widescreen">
+                    <img class="image" src="{{ constant('APP_URL') }}assets/img/act4.png" alt="Actividad 4">
+                </div>
+                <div class="column is-4-widescreen">
+                    <img class="image" src="{{ constant('APP_URL') }}assets/img/act5.png" alt="Actividad 5">
+                </div>
+                <div class="column is-4-widescreen">
+                    <img class="image" src="{{ constant('APP_URL') }}assets/img/act6.png" alt="Actividad 6">
+                </div>
+            </div>
+        </section>
+        <footer class="footer">
+            <div class="container">
+                <div class="columns">
+                    <div class="column">
+                        <p><strong>Integrantes</strong></p>
+                        <ul>
+                            <li>Néstor Darío Duque Méndez - ndduqueme@unal.edu.co</li>
+                            <li>Maria Alejandra Hurtado Parra - mahurtadopa@unal.edu.co</li>
+                            <li>Alejandro Hernandez Valencia - alhernandezva@unal.edu.co</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <div class="level">
+                            <div class="level-left">
+                                <div class="level-item">
+                                    <img class="logos image" src="{{ constant('APP_URL') }}assets/img/unalman-logo.png" alt="Logo UNAL Manizales">
+                                </div>
+                            </div>
+                            <div class="level-right">
+                                <div class="level-item">
+                                    <img class="logos image" src="{{ constant('APP_URL') }}assets/img/gaia.png" alt="Logo GAIA">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="has-text-centered">Proyecto financiado por medio de la <strong>CONVOCATORIA NACIONAL DE PROYECTOS PARA EL FORTALECIMIENTO DE LA INVESTIGACIÓN, CREACIÓN E INNOVACIÓN DE LA UNIVERSIDAD NACIONAL DE COLOMBIA 2016-2018</strong></p>
+            </div>
+        </footer>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ constant('APP_URL') }}assets/js/inicio.js"></script>
+{% endblock %}
+

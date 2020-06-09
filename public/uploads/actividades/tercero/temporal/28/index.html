@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>13.2</title>
+	<meta charset="UTF-8"/>
+	<link rel="stylesheet" type="text/css" href="estilo.css">
+</head>
+<body onload="imag()">
+	<div class="contenedor">
+		<img id="reloj" src="" width=140px height=120px>
+	    <div class="opciones">
+	        <input id="hora_1" type="radio" name="hora_digital" value="true" onclick="mostrarContinuar()";/>
+	        <label id="rta_hora_1" class="respuesta" for="hora_1"></label>
+	        <input id="hora_2" type="radio" name="hora_digital" value="false" onclick="mostrarContinuar()";/>
+	        <label id="rta_hora_2" class="respuesta" for="hora_2"></label>
+	        <input id="hora_3" type="radio" name="hora_digital" value="false" onclick="mostrarContinuar()";/>
+	        <label id="rta_hora_3" class="respuesta" for="hora_3"></label>
+	    </div>
+		<div id="continuar" style="display:none;"><button id="btn-continuar">Continuar</button></div>
+		<div id="sonido"><a href="#" onClick="sonido()"><img src ="botonAudio.png" alt="sonido" height="30"></a></div>
+	</div>
+	<script src="script.js"></script>
+</body>
+</html>

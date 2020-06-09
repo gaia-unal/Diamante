@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<title>1.2</title>
+	<link rel="stylesheet" type="text/css" href="estilo.css">
+</head>
+
+<body>
+	<div class="contenedor">
+		<div class="objetivo">
+			<div class="contenedor-audio">
+				<a href="#" onclick="audioObjetivo()"><img src="botonAudio.png" alt="número a escribir" height="30" id="objetivo-audio"></a>
+			</div>
+			<div class="contenedor-img">
+				<img src="" alt="número" height="70" id="num_dictado">
+			</div>
+		</div>
+		<canvas width="250" height="250" id="lienzo"></canvas>
+		<div id="borrar"><button id="btn-borrar" onClick="dibujarCanvas()">Borrar</button></div>
+		<div id="continuar"><button id="btn-continuar">Continuar</button></div>
+		<div id="sonido"><a href="#" onclick="sonido()"><img src ="botonAudio.png" alt="sonido" height="30"></a></div>
+	</div>
+	<script src="script.js"></script>
+</body>
+</html>

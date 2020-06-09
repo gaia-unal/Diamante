@@ -1,0 +1,145 @@
+#contenedor{
+    position: absolute;
+    top:200px;
+    width: 630px;
+    max-width: 630px;
+    height: 430px;
+    max-height: 430px;
+    font-family: sans-serif;
+    text-align: center;
+}
+
+#btn-continuar {
+    width: 106px;
+    background-color:#3d94f6;
+    -moz-border-radius:13px;
+    -webkit-border-radius:13px;
+    border-radius:13px;
+    border:1px solid #337fed;
+    cursor:pointer;
+    color:#ffffff;
+    font-size:17px;
+    padding:10px 15px;
+    text-decoration:none;
+    position: absolute;
+    top: 330px;
+    left: 180px;
+}
+
+#btn-reset {
+    width: 106px;
+    background-color:#3d94f6;
+    -moz-border-radius:13px;
+    -webkit-border-radius:13px;
+    border-radius:13px;
+    border:1px solid #337fed;
+    cursor:pointer;
+    color:#ffffff;
+    font-size:17px;
+    padding:10px 15px;
+    text-decoration:none;
+    position: absolute;
+    left: 330px;
+    top: 330px;
+}
+
+#sonido {
+    position: absolute;
+    left: 490px;
+    top: 340px;
+	display: none;
+}
+
+#extramayor_con {
+    position: absolute;
+    width: 85px;
+    height: 85px;
+    margin: 30px;
+    padding: 10px;
+    border: 2px solid black;
+    top: 120px;
+}
+
+#mayor_con {
+    position: absolute;
+    width: 85px;
+    height: 85px;
+    margin: 30px;
+    padding: 10px;
+    border: 2px solid black;
+    top: 120px;
+    left: 120px;
+}
+
+#medio_con {
+    position: absolute;
+    width: 85px;
+    height: 85px;
+    margin: 30px;
+    padding: 10px;
+    border: 2px solid black;
+    top: 120px;
+    left: 240px;
+}
+
+#intermedio_con {
+    position: absolute;
+    width: 85px;
+    height: 85px;
+    margin: 30px;
+    padding: 10px;
+    border: 2px solid black;
+    top: 120px;
+    left: 360px;
+}
+
+#menor_con {
+    position: absolute;
+    width: 85px;
+    height: 85px;
+    margin: 30px;
+    padding: 10px;
+    border: 2px solid black;
+    top: 120px;
+    left: 480px;
+}
+
+#suave {
+    position: sticky;
+    float: left;
+    width: 115px;
+    height: 115px;
+    left: 10px;
+}
+
+#mediosuave {
+    position: sticky;
+    float: left;
+    width: 115px;
+    height: 115px;
+    left: 10px;
+}
+
+#pesado {
+    position: sticky;
+    float: left;
+    width: 115px;
+    height: 115px;
+    left: 10px;
+}
+
+#extrapesado {
+    position: sticky;
+    float: left;
+    width: 115px;
+    height: 115px;
+    left: 10px;
+}
+
+#liviano {
+    position: sticky;
+    float: left;
+    width: 115px;
+    height: 115px;
+    left: 10px;
+}

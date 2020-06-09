@@ -1,0 +1,111 @@
+<form method="post" data-url="{{ path_for('admin.cargar.actividad') }}" enctype="multipart/form-data" id="cargar-actividad-form">
+    <div class="row">
+        <div class="input-field col s12 m6">
+            <input type="text" name="nombre" id="nombre" class="validate" data-length="100">
+            <label for="nombre">Nombre</label>
+            <span class="helper-text"></span>
+        </div>
+        <div class="input-field col s12 m6">
+            <textarea name="descripcion" id="descripcion" class="materialize-textarea validate" data-length="500"></textarea>
+            <label for="descripcion">Descripción</label>
+            <span class="helper-text"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="input-field col s12 m6">
+            <textarea name="instruccion" id="instruccion" class="materialize-textarea" data-length="150"></textarea>
+            <label for="instruccion">Instrucción</label>
+            <span class="helper-text"></span>
+        </div>
+        <div class="input-field col s6 m3">
+            <input type="number" step="any" name="puntaje" id="puntaje">
+            <label for="puntaje">Puntaje</label>
+            <span class="helper-text"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="input-field col s6 m3">
+            <select name="grado" id="grado">
+                <option value="-1" disabled="disabled" selected="selected">Selecciona un grado</option>
+                {% for grado in grados %}
+                    <option value="{{ grado.id }}">{{ grado.nombre }}</option>
+                {% endfor %}
+            </select>
+            <label for="grado">Grado</label>
+            <span class="helper-text"></span>
+        </div>
+        <div class="input-field col s6 m3">
+            <select name="nivel" id="nivel" data-url="{{ path_for('admin.get.categorias') }}">
+                <option value="-1" disabled="disabled" selected="selected">Selecciona un nivel</option>
+                {% for nivel in niveles %}
+                    <option value="{{ nivel.id }}">{{ nivel.nombre }}</option>
+                {% endfor %}
+            </select>
+            <label for="nivel">Nivel</label>
+            <span class="helper-text"></span>
+        </div>
+        <div class="input-field col s12 m6" id="div-categoria">
+            <select name="categoria[]" id="categoria" multiple="multiple"></select>
+            <label for="categoria">Categoria</label>
+            <span class="helper-text"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-field col s12 m6">
+            <select name="habilidad[]" id="habilidad" multiple="multiple">
+                <option value="-1" disabled="disabled" selected="selected">Selecciona una o varías habilidades</option>
+                {% for habilidad in habilidades %}
+                    <option value="{{ habilidad.id }}">{{ habilidad.nombre }}</option>
+                {% endfor %}
+            </select>
+            <label for="habilidad">Habilidad</label>
+            <span class="helper-text"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="file-field input-field col s12 m6">
+            <div class="btn">
+                <span>Archivo</span>
+                <input type="file" name="archivo_actividad" id="archivo-actividad">
+                <span class="helper-text"></span>
+            </div>
+            <div class="file-path-wrapper">
+                <input class="file-path validate" type="text" placeholder="Selecciona un archivo zip">
+            </div>
+        </div>
+        <div class="col s12 m6">
+            <div class="input-field">
+                <label>Tipo de revisión de la actividad</label>
+                <br>
+            </div>
+            <label>
+                <input type="radio" name="revision" value="1" checked="checked" class="with-gap">
+                <span>Automática</span>
+            </label>
+            <label>
+                <input type="radio" name="revision" value="2" class="with-gap">
+                <span>Manual</span>
+            </label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12">
+            <div class="alerta"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12 center">
+            <button type="submit" class="btn waves-effect waves-light green">
+                <i class="material-icons left">cloud_upload</i>
+                Cargar actividad
+            </button>
+        </div>
+    </div>
+
+    {% include 'layout/campos-csrf.twig' %}
+</form>

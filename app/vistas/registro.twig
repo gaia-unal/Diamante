@@ -1,0 +1,89 @@
+{% extends 'layout/base.twig' %}
+
+{% block titulo %}Registro de Docentes - Diamante{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ constant('APP_URL') }}assets/css/registro.css">
+{% endblock %}
+
+{% block contenido %}
+    <div id="app">
+        <section class="hero is-fullheight fondo-azul">
+            <div class="hero-head">
+                <div class="logo">
+                    <a href="{{ path_for('inicio') }}">
+                    <figure class="image">
+                        <img src="{{ constant('APP_URL') }}assets/img/logo-claro.png" alt="Logo Diamante">
+                    </figure>
+                    </a>
+                </div>
+            </div>
+            <div class="hero-body">
+                <div class="container">
+                    <div class="column is-6 is-offset-3">
+                        <form-registro-docente inline-template>
+                            <div class="box">
+                                <form @submit.prevent="registrar" ref="formulario" data-url="{{ path_for('auth.registro') }}">
+                                    <h2 class="title has-text-dark has-text-centered">Registro de docente</h2>
+                                    <div class="columns">
+                                        <div class="column">
+                                            <b-field label="Nombres" :type="errores.nombres ? 'is-danger':''" :message="errores.nombres">
+                                                <b-input type="text" v-model="form.nombres"></b-input>
+                                            </b-field>
+                                        </div>
+                                        <div class="column">
+                                            <b-field label="Apellidos" :type="errores.apellidos ? 'is-danger':''" :message="errores.apellidos">
+                                                <b-input type="text" v-model="form.apellidos"></b-input>
+                                            </b-field>
+                                        </div>
+                                    </div>
+                                    <div class="columns">
+                                        <div class="column">
+                                            <b-field label="Institución" :type="errores.institucion ? 'is-danger':''" :message="errores.institucion">
+                                                <b-select v-model="form.institucion" expanded>
+                                                    <option value="-1" disabled>Selecciona una institución</option>
+                                                    {% for item in instituciones %}
+                                                    <option value="{{ item.id }}">{{ item.nombre }}</option>
+                                                    {% endfor %}
+                                                    <option value="99999">Otro</option>
+                                                </b-select>
+                                            </b-field>
+                                        </div>
+                                        <div class="column">
+                                            <b-field label="Email" :type="errores.email ? 'is-danger':''" :message="errores.email">
+                                                <b-input type="email" v-model="form.email" placeholder="correo@ejemplo.com"></b-input>
+                                            </b-field>
+                                        </div>
+                                    </div>
+                                    <div class="columns">
+                                        <div class="column">
+                                            <b-field label="Contraseña" :type="errores.password ? 'is-danger':''" :message="errores.password">
+                                                <b-input v-model="form.password" type="password"></b-input>
+                                            </b-field>
+                                        </div>
+                                        <div class="column">
+                                            <b-field label="Confirmar contraseña" :type="errores.passwordC ? 'is-danger':''" :message="errores.passwordC">
+                                                <b-input v-model="form.passwordC" type="password"></b-input>
+                                            </b-field>
+                                        </div>
+                                    </div>
+                                    <div class="buttons is-centered">
+                                        <button type="submit" class="button is-success" :class="{'is-loading': cargando}">Registrarse</button>
+                                        <a href="{{ path_for('auth.login') }}" class="button is-text" ref="linklogin">¿Ya tienes cuenta? Inicia sesión</a>
+                                    </div>
+                                    {% include 'layout/campos-csrf.twig' %}
+                                </form>
+                            </div>
+                        </form-registro-docente>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ constant('APP_URL') }}assets/js/registro.js"></script>
+{% endblock %}

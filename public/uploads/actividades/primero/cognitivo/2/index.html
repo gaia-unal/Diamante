@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<title>15_2</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="estilo.css">
+</head>
+<body>
+	<div class="contenedor">
+		<div class="imagen imagen1" id="imagen1"><img src="estrella.png" height="80" alt="imagen1" onclick="tachar(0)"></div>
+		<div class="raya imagen1" id="raya1" style="display:none"><img src="raya.png" height="80" alt="raya1" onclick="tachar(0, true)"></div>
+		<div class="imagen imagen2" id="imagen2"><img src="estrella.png" height="80" alt="imagen2" onclick="tachar(1)"></div>
+		<div class="raya imagen2" id="raya2" style="display:none"><img src="raya.png" height="80" alt="raya2" onclick="tachar(1, true)"></div>
+		<div class="imagen imagen3" id="imagen3"><img src="estrella.png" height="80" alt="imagen3" onclick="tachar(2)"></div>
+		<div class="raya imagen3" id="raya3" style="display:none"><img src="raya.png" height="80" alt="raya3" onclick="tachar(2, true)"></div>
+		<div class="imagen imagen4" id="imagen4"><img src="estrella.png" height="80" alt="imagen4" onclick="tachar(3)"></div>
+		<div class="raya imagen4" id="raya4" style="display:none"><img src="raya.png" height="80" alt="raya4" onclick="tachar(3, true)"></div>
+		<div class="igual">=</div>
+		<input id="respuesta" type="number" autofocus/>
+		<div id="continuar"><button id="btn-continuar">Continuar</button></div>
+		<div id="sonido"><a href="#" onclick="sonido()"><img src="botonAudio.png" alt="sonido" height="30"></a></div>
+	</div>
+	<script src="script.js"></script>
+</body>
+</html>

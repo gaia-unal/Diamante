@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html lang="es">
+	<head>
+		<title>5_5.html</title>
+		<meta charset="UTF-8"/>
+		<link rel="stylesheet" type="text/css" href="estilo.css">
+	</head>
+
+	<body>
+		<div class="contenedor">
+			<div class="fondo"><img src="fondo.png" id="fondo" alt="fondo"></div>
+
+			
+
+			<div id="marco1" style="display:none"><img src ="marco.png" height="130" width="210" alt="marco1"></div>
+			<div class="imagen exterior"><img src="bici.png" id="exterior" height="120" alt="bicicleta" onclick="seleccionar(0);"></div>
+
+            <div id="marco2" style="display:none"><img src ="marco.png" height="200" width="140" alt="marco2"></div>
+            <div class="imagen disperso"><img src="osos.png" id="disperso" height="170" alt="osos de peluche" onclick="seleccionar(1);"></div>
+
+			
+             
+
+			<div id="continuar"><button id="btn-continuar">Continuar</button></div>
+			<div id="sonido"><a href="#" onclick="sonido()"><img src="botonAudio.png" alt="sonido" height="30"></a></div>
+		</div>
+		<script src="script.js"></script>
+	</body>
+</html>

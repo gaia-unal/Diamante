@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<html lang="es">
+	<head>
+		<title>4_2.html</title>
+		<meta charset="UTF-8"/>
+		<link rel="stylesheet" type="text/css" href="estilo.css">
+	</head>
+
+	<body>
+		<div class="contenedor">
+			<div class="fondo"><img src="fondo1.jpg" id="fondo" alt="fondo"></div>
+
+           	<div id="marco1" style="display:none"><img src ="marco.png" height="40" alt="marco1"></div>
+            <div class="imagen lejos"><img src="lejos.png" id="lejos" height="30" alt="lejos" onclick="seleccionar(0);"></div>
+
+            <div id="marco2" style="display:none"><img src ="marco.png" height="85" alt="marco2"></div>
+            <div class="imagen imagen1"><img src="cuadro.jpg" id="imagen1" height="75" alt="imagen1" onclick="seleccionar(1);"></div>
+			
+            <div id="marco3" style="display:none"><img src ="marco2.png" height="80" alt="marco3"></div>
+            <div class="imagen imagen2"><img src="oso1.png" id="imagen2" height="60" alt="imagen2" onclick="seleccionar(2);"></div>
+
+           	<div id="marco4" style="display:none"><img src ="marco.png" height="80" alt="marco4"></div>
+            <div class="imagen imagen3"><img src="mono1.png" id="imagen3" height="70" alt="imagen3" onclick="seleccionar(3);"></div>
+			
+
+           	<div id="marco5" style="display:none"><img src ="marco.png" height="100" alt="marco5"></div>
+            <div class="imagen imagen4"><img src="sillon.png" id="imagen4" height="100" alt="imagen4" onclick="seleccionar(4);"></div>
+
+
+			<div id="marco6" style="display:none"><img src ="marco.png" height="50" alt="marco6"></div>
+            <div class="imagen imagen5"><img src="balon.png" id="imagen5" height="40" alt="imagen5" onclick="seleccionar(5);"></div>
+			
+
+
+			<div id="continuar"><button id="btn-continuar">Continuar</button></div>
+			<div id="sonido"><a href="#" onclick="sonido()"><img src="botonAudio.png" alt="sonido" height="30"></a></div>
+		</div>
+		<script src="script.js"></script>
+	</body>
+</html>

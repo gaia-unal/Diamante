@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<title>18.1</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="estilo.css">
+</head>
+<body>
+	<div class="contenedor">
+		<input type="button" class="btnSigno btnSigno1" id="btnSigno1" value="+" onclick="seleccionar(0)">
+		<input type="button" class="btnSigno btnSigno2" id="btnSigno2" value="&minus;" onclick="seleccionar(1)">
+		<input type="button" class="btnSigno btnSigno3" id="btnSigno3" value="&times;" onclick="seleccionar(2)">
+		<div class="num numero1"><span id="numero1"></span></div>
+		<div class="num numero2"><span id="numero2"></span></div>
+		<div class="raya"><span>________</span></div>
+		<div class="num resultado"><span id="resultado"></span></div>
+		<div class="num signo"><span id="signo">?</span></div>
+		<div id="continuar"><button id="btn-continuar">Continuar</button></div>
+		<div id="sonido"><a href="#" onclick="sonido()"><img src="botonAudio.png" alt="sonido" height="30"></a></div>
+	</div>
+	<script src="script.js"></script>
+</body>
+</html>

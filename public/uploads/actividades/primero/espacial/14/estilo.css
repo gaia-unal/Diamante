@@ -1,0 +1,55 @@
+.contenedor{
+	width: 630px;
+	max-width: 630px;
+	height: 430px;
+	max-height: 430px;
+	font-family: sans-serif;
+	text-align: center;
+}
+
+#continuar {
+	position: absolute;
+	left: 270px;
+	top: 392px;
+	display: none;
+}
+
+#btn-continuar {
+	width: 106px;
+	background-color:#3d94f6;
+	-moz-border-radius:13px;
+	-webkit-border-radius:13px;
+	border-radius:13px;
+	border:1px solid #337fed;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-size:17px;
+	padding:10px 15px;
+	text-decoration:none;
+}
+
+#btn-continuar:hover {
+	background-color:#1e62d0;
+}
+
+#sonido {
+	position: absolute;
+	left: 590px;
+	top: 397px;
+	display: none;
+}
+
+#pasto{position:absolute;top:230px;left:80px;}
+#casa{position:absolute;top:90px;left:130px;}
+#chico{position:absolute;top:180px;left:370px;}
+#imagen1{position:absolute;top:32px;left:192px;}
+#imagen2{position:absolute;top:42px;left:377px;}
+#imagen3{position:absolute;top:205px;left:190px;}
+#imagen4{position:absolute;top:255px;left:440px;}
+#imagen5{position:absolute;top:280px;left:110px;}
+#marco1{position:absolute;top:27px;left:183px;}
+#marco2{position:absolute;top:38px;left:374px;}
+#marco3{position:absolute;top:200px;left:180px;}
+#marco4{position:absolute;top:250px;left:432.5px;}
+#marco5{position:absolute;top:275px;left:100px;}

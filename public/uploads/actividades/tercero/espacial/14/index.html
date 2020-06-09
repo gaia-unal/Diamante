@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html lang="es">
+	<head>
+		<title>5_4.html</title>
+		<meta charset="UTF-8"/>
+		<link rel="stylesheet" type="text/css" href="estilo.css">
+	</head>
+
+	<body>
+		<div class="contenedor">
+			<div class="fondo"><img src="fondo.png" id="fondo" alt="fondo"></div>
+
+			
+
+			<div id="marco1" style="display:none"><img src ="marco.png" height="170" width="120" alt="marco1"></div>
+			<div class="imagen afuera"><img src="pablitoo.png" id="afuera" height="150" alt="niño" onclick="seleccionar(0);"></div>
+
+            <div id="marco2" style="display:none"><img src ="marco.png" height="70" width="70" alt="marco2"></div>
+            <div class="imagen oso"><img src="oso.png" id="abajo" height="60" alt="oso peluche" onclick="seleccionar(1);"></div>
+
+            <div id="marco3" style="display:none"><img src ="marco.png" height="40" width="80" alt="marco3"></div>
+            <div class="imagen libro"><img src="libro.png" id="debajo" height="35" alt="libro" onclick="seleccionar(2);"></div>
+			
+             
+
+			<div id="continuar"><button id="btn-continuar">Continuar</button></div>
+			<div id="sonido"><a href="#" onclick="sonido()"><img src="botonAudio.png" alt="sonido" height="30"></a></div>
+		</div>
+		<script src="script.js"></script>
+	</body>
+</html>

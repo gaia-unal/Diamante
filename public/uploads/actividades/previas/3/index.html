@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html lang="es">
+	<head>
+		<title>0.2</title>
+		<meta charset="UTF-8"/>
+		<link rel="stylesheet" type="text/css" href="estilo.css">
+	</head>
+
+	<body>
+		<div class="contenedor">
+			<div class="contenedor-audio">
+				<a href= "#" onclick="reproducirAudio(1)" class="btn-audio"><img src ="botonAudio.png" alt="instrucción 1" height="30"></a>
+				<a href= "#" onclick="reproducirAudio(2)" class="btn-audio"><img src ="botonAudio.png" alt="instrucción 2" height="30"></a>
+				<a href= "#" onclick="reproducirAudio(3)" class="btn-audio"><img src ="botonAudio.png" alt="instrucción 3" height="30"></a>
+			</div>
+			<div class="contenedor-respuesta">
+				<input type="number" class="input-respuesta" id="respuesta1">
+				<input type="number" class="input-respuesta" id="respuesta2">
+				<input type="number" class="input-respuesta" id="respuesta3">
+			</div>
+			</form>
+			<div id="continuar"><button id="btn-continuar">Continuar</button></div>
+			<div id="sonido"><a href= "#" onClick="sonido()"><img src ="botonAudio.png" alt="sonido" height="30"></a></div>
+		</div>
+		<script src="script.js"></script>
+	</body>
+</html>

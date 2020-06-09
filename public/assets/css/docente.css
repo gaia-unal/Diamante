@@ -1,0 +1,110 @@
+.seccion-vistas {
+    padding-top: 1em;
+}
+
+.item-lista {
+  cursor: pointer;
+}
+
+.item-lista:hover {
+    background-color: #f9f9f9;
+}
+
+.contenedor-imagen {
+    max-width: 260px;
+    border: 2px solid #CCC;
+    margin: 0 auto;
+    margin-bottom: 1em;
+}
+
+.contenedor-slider {
+    width: 80%;
+    margin: 1em auto;
+}
+
+/* Estilos para el slider de calificación, obtenido de http://danielstern.ca/range.css */
+input[type=range].slider-calificacion {
+    -webkit-appearance: none;
+    width: 100%;
+    margin: 13.8px 0;
+  }
+  input[type=range].slider-calificacion:focus {
+    outline: none;
+  }
+  input[type=range].slider-calificacion::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 8.4px;
+    cursor: pointer;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    background: #ffffff;
+    border-radius: 1.3px;
+    border: 0.2px solid #010101;
+  }
+  input[type=range].slider-calificacion::-webkit-slider-thumb {
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    border: 1px solid #000000;
+    height: 36px;
+    width: 25px;
+    border-radius: 3px;
+    background: #23be60;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -14px;
+  }
+  input[type=range].slider-calificacion:focus::-webkit-slider-runnable-track {
+    background: #ffffff;
+  }
+  input[type=range].slider-calificacion::-moz-range-track {
+    width: 100%;
+    height: 8.4px;
+    cursor: pointer;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    background: #ffffff;
+    border-radius: 1.3px;
+    border: 0.2px solid #010101;
+  }
+  input[type=range].slider-calificacion::-moz-range-thumb {
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    border: 1px solid #000000;
+    height: 36px;
+    width: 25px;
+    border-radius: 3px;
+    background: #23be60;
+    cursor: pointer;
+  }
+  input[type=range].slider-calificacion::-ms-track {
+    width: 100%;
+    height: 8.4px;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+  }
+  input[type=range].slider-calificacion::-ms-fill-lower {
+    background: #f2f2f2;
+    border: 0.2px solid #010101;
+    border-radius: 2.6px;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  }
+  input[type=range].slider-calificacion::-ms-fill-upper {
+    background: #ffffff;
+    border: 0.2px solid #010101;
+    border-radius: 2.6px;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  }
+  input[type=range].slider-calificacion::-ms-thumb {
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    border: 1px solid #000000;
+    height: 36px;
+    width: 25px;
+    border-radius: 3px;
+    background: #23be60;
+    cursor: pointer;
+    height: 8.4px;
+  }
+  input[type=range].slider-calificacion:focus::-ms-fill-lower {
+    background: #ffffff;
+  }
+  input[type=range].slider-calificacion:focus::-ms-fill-upper {
+    background: #ffffff;
+  }  
