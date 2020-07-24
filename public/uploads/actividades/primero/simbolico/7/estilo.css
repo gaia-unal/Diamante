@@ -1,0 +1,91 @@
+@font-face {
+    font-family: 'Berlin Sans';
+    src: url('../font/Berlin Sans FB Regular.ttf') format('truetype');
+}
+.contenedor{
+	font-family: 'Berlin Sans FB', sans-serif;
+	width: 630px;
+	max-width: 630px;
+	height: 560px;
+	max-height: 430px;
+	font-family: sans-serif;
+	text-align: center;
+}
+
+#continuar {
+	position: absolute;
+	left: 270px;
+	top: 360px;
+	display: none
+}
+
+#btn-continuar {
+	width: 106px;
+	background-color:#3d94f6;
+	-moz-border-radius:13px;
+	-webkit-border-radius:13px;
+	border-radius:13px;
+	border:1px solid #337fed;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-size:17px;
+	padding:10px 15px;
+	text-decoration:none;
+}
+
+#btn-continuar:hover {
+	background-color:#1e62d0;
+}
+
+#sonido {
+	position: absolute;
+	left: 590px;
+	top: 397px;
+	display: none;
+}
+#opcion1, #opcion2, #opcion3, #opcion4, #opcion5, #opcion6{
+	width:190px;
+	height:60px;
+	background-color:white;
+	color:black;
+	text-align:center;
+	vertical-align:middle;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	border:2px solid #DDD;
+	font-family: 'Berlin Sans FB', sans-serif;
+	cursor:pointer;
+	font-size: 40px;
+}
+#opcion1{
+	position: absolute;
+	top: 40px;
+	left: 90px;
+}
+#opcion2{
+	position: absolute;
+	top: 40px;
+	left: 350px;
+}
+#opcion3{
+	position: absolute;
+	top: 140px;
+	left: 90px;
+}
+#opcion4{
+	position: absolute;
+	top: 140px;
+	left: 350px;
+}
+#opcion5{
+	position: absolute;
+	top: 250px;
+	left: 90px;
+}
+#opcion6{
+	position: absolute;
+	top: 250px;
+	left: 350px;
+}
