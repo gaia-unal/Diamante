@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<!-- Actividad: Ordene las siguientes comidas de acuerdo al horario.-->
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>11</title>
+	<link rel="stylesheet" type="text/css" href="estilo.css">
+</head>
+<body>
+	<div class="contenedor">
+		<div class="horas">
+			<div class="hr">
+				En la mañana
+			</div>
+			<div class="hr">
+				Medio día
+			</div>
+			<div class="hr">
+				Noche
+			</div>
+		</div>
+		<div class="espacios">
+			<div class="espacio" id="espacio1" ondrop="drag_drop(event)" ondragover="return false">
+				
+			</div>
+			<div class="espacio" id="espacio2" ondrop="drag_drop(event)" ondragover="return false">
+				
+			</div>
+			<div class="espacio" id="espacio3" ondrop="drag_drop(event)" ondragover="return false">
+			</div>
+				
+		</div>
+		<div class="respuestas" id="respuestas">
+			<div class="respuesta" id="1" draggable="true" ondragstart="drag_start(event)" > 000</div>
+			<div  class="respuesta" id="2" draggable="true" ondragstart="drag_start(event)"> 111</div>
+			<div  class="respuesta" id="3" draggable="true" ondragstart="drag_start(event)"> 222</div>
+		</div>
+	</div>
+	<div id="continuar"><button id="btn-continuar">Continuar</button></div>
+	<div id="sonido">
+		<a href= "#" onClick="sonido()">
+			<img src ="botonAudio.png" alt="sonido" height="30">
+		</a>
+	</div>
+	<script src="script.js"></script>
+</body>
+</html>
