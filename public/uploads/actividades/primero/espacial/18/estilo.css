@@ -36,8 +36,7 @@
 #sonido {
 	position: absolute;
 	left: 590px;
-	top: 397px;
-	display: none;
+	top: 397px; 
 }
 
 #imagen1{position:absolute;top:100px;left:160px;}

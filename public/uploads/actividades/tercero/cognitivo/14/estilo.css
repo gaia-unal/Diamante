@@ -1,3 +1,8 @@
+#lienzo {
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
 #contenedor{
     width: 630px;
     max-width: 630px;
@@ -59,67 +64,4 @@
 
 #btn-reset:hover {
     background-color: #BBB;
-}
-
-#extramayor_con {
-    position: absolute;
-    width: 85px;
-    height: 85px;
-    margin: 30px;
-    padding: 10px;
-    border: 2px solid black;
-    top: 120px;
-}
-
-#mayor_con {
-    position: absolute;
-    width: 85px;
-    height: 85px;
-    margin: 30px;
-    padding: 10px;
-    border: 2px solid black;
-    top: 120px;
-    left: 120px;
-}
-
-#medio_con {
-    position: absolute;
-    width: 85px;
-    height: 85px;
-    margin: 30px;
-    padding: 10px;
-    border: 2px solid black;
-    top: 120px;
-    left: 240px;
-}
-
-#intermedio_con {
-    position: absolute;
-    width: 85px;
-    height: 85px;
-    margin: 30px;
-    padding: 10px;
-    border: 2px solid black;
-    top: 120px;
-    left: 360px;
-}
-
-#menor_con {
-    position: absolute;
-    width: 85px;
-    height: 85px;
-    margin: 30px;
-    padding: 10px;
-    border: 2px solid black;
-    top: 120px;
-    left: 480px;
-}
-
-.objeto {
-    position: sticky;
-    float: left;
-    width: 115px;
-    height: 115px;
-    left: 30px;
-    top: 30px;
 }

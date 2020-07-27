@@ -37,7 +37,7 @@ function Correcto(){
 
 function sonido(){
 	sound=document.createElement("embed");
-	sound.src="pCognitivo.2.mp3";
+	sound.src="pC2.mp3";
 	sound.style.visibility="hidden";
 	sound.style.position="absolute";
 	document.body.appendChild(sound);

@@ -24,6 +24,7 @@ $app->group('/docente', function(){
     $this->post('/registro-estudiante', ['App\Controladores\DocenteControlador', 'postRegistroEstudiante'])->setName('docente.registro.estudiante');
     $this->post('/calificar-actividad', ['App\Controladores\DocenteControlador', 'postCalificacionActividad'])->setName('docente.calificar.actividad');
     $this->get('/reporte-estudiante', ['App\Controladores\DocenteControlador', 'consultarReporteDePrueba'])->setName('docente.consultar.reporte');
+    $this->get('/descarga-reporte',['App\Controladores\DocenteControlador', 'descargarReporteDePrueba'])->setName('docente.descargar.reporte');
 })->add('App\Middlewares\Autenticacion\DenegarNoDocente');
 
 $app->group('/estudiante', function(){

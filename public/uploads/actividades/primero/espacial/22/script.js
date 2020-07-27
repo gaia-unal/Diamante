@@ -1,19 +1,19 @@
 // Iniciar el Canvas cuando se haya cargado la página
-window.addEventListener('load', function() {
+window.addEventListener('load', function () {
     iniciarCanvas();
-    document.getElementById('btn-continuar').onclick = function(){procesarPuntaje()};
+    document.getElementById('btn-continuar').onclick = function () { procesarPuntaje() };
 });
 
 var puntajes = [];
 
-function procesarPuntaje(){
+function procesarPuntaje() {
     var puntaje = 0;
-    for(var i=0; i < puntajes.length; i++){
-        if(isNaN(puntajes[i]) || puntajes[i] == null){
+    for (var i = 0; i < puntajes.length; i++) {
+        if (isNaN(puntajes[i]) || puntajes[i] == null) {
             alert("Por favor completa la actividad");
             ocultarContinuar();
             return false;
-        }else{
+        } else {
             puntaje += puntajes[i];
         }
     }
@@ -21,11 +21,11 @@ function procesarPuntaje(){
     parent.enviarPuntaje(puntaje);
 }
 
-function mostrarContinuar(){
+function mostrarContinuar() {
     document.getElementById('continuar').style.display = "block";
 }
 
-function ocultarContinuar(){
+function ocultarContinuar() {
     document.getElementById('continuar').style.display = "none";
 }
 
@@ -63,7 +63,7 @@ function iniciarCanvas() {
         ];
 
         objetos = [
-        	{
+            {
                 nombre: 'PERICO AZUL 1',
                 src: 'perico_azul.png',
                 largo: 50,
@@ -125,8 +125,8 @@ function iniciarCanvas() {
             },
         ];
 
-        objetos.forEach(function(obj){
-        	puntajes.push(0);
+        objetos.forEach(function (obj) {
+            puntajes.push(0);
         });
 
         cargarImagenes(dibujarCanvas);
@@ -138,19 +138,19 @@ function iniciarCanvas() {
     function cargarImagenes(callback) {
         var objetosCargados = 0;
         var contenedoresCargadas = 0;
-        objetos.forEach(function(actual) {
+        objetos.forEach(function (actual) {
             var img = new Image(actual.largo, actual.alto);
             img.src = actual.src;
 
-            img.onload = function() {
+            img.onload = function () {
                 actual.img = img;
                 objetosCargados++;
                 if (objetosCargados >= objetos.length) {
-                    contenedores.forEach(function(cont) {
+                    contenedores.forEach(function (cont) {
                         var imgJ = new Image(cont.largo, cont.alto);
                         imgJ.src = cont.src;
 
-                        imgJ.onload = function() {
+                        imgJ.onload = function () {
                             cont.img = imgJ;
                             contenedoresCargadas++;
                             if (contenedoresCargadas >= contenedores.length) {
@@ -173,10 +173,10 @@ function iniciarCanvas() {
 
     // Dibuja en el canvas todas las imagenes
     function dibujarImagenes() {
-        contenedores.forEach(function(cont) {
+        contenedores.forEach(function (cont) {
             ctx.drawImage(cont.img, cont.posX, cont.posY, cont.largo, cont.alto);
         });
-        objetos.forEach(function(obj) {
+        objetos.forEach(function (obj) {
             ctx.drawImage(obj.img, obj.posX, obj.posY, obj.largo, obj.alto);
         });
     }
@@ -281,10 +281,10 @@ function iniciarCanvas() {
         var objPosX1 = objeto.posX;
         var objPosX2 = objPosX1 + objeto.largo;
         var objPosY1 = objeto.posY;
-        var objPosY2 = objPosY1 + objeto.alto;        
-        
-        for(var i=0; i < contenedores.length; i++){
-        	var jauPosX1 = contenedores[i].posX;
+        var objPosY2 = objPosY1 + objeto.alto;
+
+        for (var i = 0; i < contenedores.length; i++) {
+            var jauPosX1 = contenedores[i].posX;
             var jauPosX2 = jauPosX1 + contenedores[i].largo;
             var jauPosY1 = contenedores[i].posY;
             var jauPosY2 = jauPosY1 + contenedores[i].alto;
@@ -293,32 +293,41 @@ function iniciarCanvas() {
                 objPosX2 <= jauPosX2 &&
                 objPosY1 >= jauPosY1 &&
                 objPosY2 <= jauPosY2
-            ){
+            ) {
                 if (objeto.tipo == contenedores[i].tipo) {
-                    puntajes[indiceObjetoSeleccionado] = 1/(objetos.length);
+                    puntajes[indiceObjetoSeleccionado] = 1 / (objetos.length);
                 } else {
                     puntajes[indiceObjetoSeleccionado] = 0;
                 }
                 break;
-            }else{
-            	puntajes[indiceObjetoSeleccionado] = 0;
+            } else {
+                puntajes[indiceObjetoSeleccionado] = 0;
             }
         }
     }
 
-    function verificarPuntajes(){
-    	var puntajesCorrectos = true;
-    	for(var i=0; i < puntajes.length; i++){
-    		if(puntajes[i] == null){
-    			puntajesCorrectos = false;
-    			break;
-    		}
-    	}
+    function verificarPuntajes() {
+        var puntajesCorrectos = true;
+        for (var i = 0; i < puntajes.length; i++) {
+            if (puntajes[i] == null) {
+                puntajesCorrectos = false;
+                break;
+            }
+        }
 
-    	if(puntajesCorrectos){
-    		mostrarContinuar();
-    	}else{
-    		ocultarContinuar();
-    	}
+        if (puntajesCorrectos) {
+            mostrarContinuar();
+        } else {
+            ocultarContinuar();
+        }
     }
+}
+
+
+function sonido() {
+    sound = document.createElement("embed");
+    sound.src = "pE22.mp3";
+    sound.style.visibility = "hidden";
+    sound.style.position = "absolute";
+    document.body.appendChild(sound);
 }

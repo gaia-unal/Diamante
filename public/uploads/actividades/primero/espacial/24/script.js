@@ -378,3 +378,12 @@ function iniciarCanvas() {
     	}
     }
 }
+
+
+function sonido() {
+	sound = document.createElement("embed");
+	sound.src = "pE24.mp3";
+	sound.style.visibility = "hidden";
+	sound.style.position = "absolute";
+	document.body.appendChild(sound);
+}

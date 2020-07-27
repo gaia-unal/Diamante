@@ -2,10 +2,13 @@
 
 namespace App\Dominio\Servicios;
 
+require 'vendor/pdf/fpdf.php';
+
 use App\Dominio\Repositorios\PruebaRepoInterface;
 use App\Dominio\Servicios\ActividadServicio;
 use App\Dominio\Servicios\EstudianteServicio;
 use App\Dominio\Servicios\AutenticacionServicio;
+use App\Dominio\Servicios\PDF;
 use App\Dominio\Modelos\Prueba;
 use App\Dominio\Modelos\Evidencia;
 use App\Dominio\Modelos\Estudiante;
@@ -27,12 +30,12 @@ class PruebaServicio{
         ActividadServicio $actividadServicio,
         EstudianteServicio $estudianteServicio,
         AutenticacionServicio $autenticacion
-    ){
-        $this->pruebaRepositorio = $pruebaRepo;
-        $this->actividadServicio = $actividadServicio;
-        $this->estudianteServicio = $estudianteServicio;
-        $this->autenticacion = $autenticacion;
-    }
+        ){
+            $this->pruebaRepositorio = $pruebaRepo;
+            $this->actividadServicio = $actividadServicio;
+            $this->estudianteServicio = $estudianteServicio;
+            $this->autenticacion = $autenticacion;
+        }
 
     /**
      * Retorna TRUE si el estudiante puede realizar la prueba. De lo contrario, FALSE.
@@ -396,5 +399,34 @@ class PruebaServicio{
         }
         return $reporte;
     }
+
+    public function descargarReporteDePrueba($pruebaId){
+        $resultado = $this->pruebaRepositorio->consultarPuntajesParaReporte($pruebaId);
+        $reporte = [];
+        foreach($resultado as $rslt){
+            $rep = [
+                'actividad_id' => (int) $res['actividad_id'],
+                'nivel_id' => (int) $res['nivel_id'],
+                'actividad' => $res['actividad'],
+                'categoria' => $res['categoria'],
+                'puntaje' => (float) $res['puntaje_porcentual'],
+                'tiempo' => (int) $res['tiempo_segundos']
+            ];
+            array_push($reporte, $rep);
+        }
+        /* $pdf = new PDF();
+        $pdf->AliasNbPages();//Generar los pie de página en cada reporte
+        $pdf->AddPage();
+        $pdf->SetFont('Time','',12);
+        foreach($reporte as $rep){
+            $pdf->Cell(0,10, utf8_decode($rep),0,1);
+        }
+        $pdf->OutPut(); */
+        $pdf = new FPDF();
+        $pdf->AddPage();
+        $pdf->SetFont('Arial','B',16);
+        $pdf->Cell(40,10,'¡Hola, Mundo!');
+        $pdf->Output();
+        return $pdf->OutPut();
+    }
 }
-    

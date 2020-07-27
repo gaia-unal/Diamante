@@ -32,7 +32,7 @@ function Correcto(){
 
 function sonido(){
 	sound=document.createElement("embed");
-	sound.src=" ";/*Falta el audio para vincularlo*/
+	sound.src="pC12.mp3";
 	sound.style.visibility="hidden";
 	sound.style.position="absolute";
 	document.body.appendChild(sound);

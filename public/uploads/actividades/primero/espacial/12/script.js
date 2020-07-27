@@ -1,36 +1,36 @@
 // Iniciar el Canvas cuando se haya cargado la página
-window.addEventListener('load', function() {
+window.addEventListener('load', function () {
     iniciarCanvas();
-    document.getElementById('continuar').onclick = function(){procesarPuntaje()};
+    document.getElementById('continuar').onclick = function () { procesarPuntaje() };
 });
 
 var puntajes = [];
 var realizado = false;
 
-function procesarPuntaje(){
-    if(realizado){
+function procesarPuntaje() {
+    if (realizado) {
         var puntaje = 0;
-        for(var i=0; i < puntajes.length; i++){
-            if(isNaN(puntajes[i]) || puntajes[i] == null){
+        for (var i = 0; i < puntajes.length; i++) {
+            if (isNaN(puntajes[i]) || puntajes[i] == null) {
                 alert("Por favor completa la actividad");
                 ocultarContinuar();
                 return false;
-            }else{
+            } else {
                 puntaje += puntajes[i];
             }
         }
 
         parent.enviarPuntaje(puntaje);
-    }else{
+    } else {
         alert('Por favor completa la actividad');
     }
 }
 
-function mostrarContinuar(){
+function mostrarContinuar() {
     document.getElementById('continuar').style.display = "block";
 }
 
-function ocultarContinuar(){
+function ocultarContinuar() {
     document.getElementById('continuar').style.display = "none";
 }
 
@@ -113,15 +113,15 @@ function iniciarCanvas() {
             },
         ];
 
-        for(var i = 0; i < objetos.length; i++){
+        for (var i = 0; i < objetos.length; i++) {
             objetos[i].posX1 = calcularPosicionXObjeto(i, objetos[i].tipo);
         }
 
-        objetos.forEach(function(obj){
+        objetos.forEach(function (obj) {
             puntajes.push(null);
         });
 
-        for(var i = 0; i < objetos.length; i++){
+        for (var i = 0; i < objetos.length; i++) {
             calificarObjeto(i);
         }
 
@@ -131,17 +131,17 @@ function iniciarCanvas() {
     }
 
     // Retorna un tipo aleatorio del arreglo de tipos
-    function seleccionarTipoAleatorio(){
-        var aleatorio = Math.floor(Math.random()*tipos.length);
+    function seleccionarTipoAleatorio() {
+        var aleatorio = Math.floor(Math.random() * tipos.length);
         return tipos[aleatorio];
     }
 
     // Calcula la posición X de un objeto según su indice y tipo
-    function calcularPosicionXObjeto(indice, tipo){
+    function calcularPosicionXObjeto(indice, tipo) {
         var respuesta;
-        if(tipo == tipos[0]){
+        if (tipo == tipos[0]) {
             respuesta = posXInicialObjetos + (indice * posXDeltaObjetos);
-        }else{
+        } else {
             respuesta = posXInicialObjetos + posDeltaObjetos + (indice * posXDeltaObjetos);
         }
 
@@ -151,11 +151,11 @@ function iniciarCanvas() {
     // Carga inicial de las imagenes, cuando se han cargado todas, las dibuja en el canvas
     function cargarImagenes(callback) {
         var objetosCargados = 0;
-        imagenes.forEach(function(actual) {
+        imagenes.forEach(function (actual) {
             var img = new Image(actual.largo, actual.alto);
             img.src = actual.src;
 
-            img.onload = function() {
+            img.onload = function () {
                 actual.img = img;
                 objetosCargados++;
                 if (objetosCargados >= imagenes.length) {
@@ -179,9 +179,9 @@ function iniciarCanvas() {
         ctx.fillRect(50, 237, 500, 15);
 
         var i;
-        objetos.forEach(function(objeto) {
-            for(i=0; i < imagenes.length; i++){
-                if(objeto.tipo == imagenes[i].tipo){
+        objetos.forEach(function (objeto) {
+            for (i = 0; i < imagenes.length; i++) {
+                if (objeto.tipo == imagenes[i].tipo) {
                     ctx.drawImage(imagenes[i].img, objeto.posX1, objeto.posY1, imagenes[i].largo, imagenes[i].alto);
                     objeto.posX2 = objeto.posX1 + imagenes[i].largo;
                     objeto.posY2 = objeto.posY1 + imagenes[i].alto;
@@ -254,16 +254,16 @@ function iniciarCanvas() {
     }
 
     // Cambia la dirección del objeto indicado por el indice
-    function cambiarDireccionObjeto(indice){
+    function cambiarDireccionObjeto(indice) {
         objetos[indice].tipo = (objetos[indice].tipo == tipos[0]) ? tipos[1] : tipos[0];
         objetos[indice].posX1 = calcularPosicionXObjeto(indice, objetos[indice].tipo);
     }
 
     // Califica el objeto indicado por el indice
-    function calificarObjeto(indice){
-        var puntaje = 1/(objetos.length);
+    function calificarObjeto(indice) {
+        var puntaje = 1 / (objetos.length);
         var tipo = objetos[indice].tipo;
-        switch(indice){
+        switch (indice) {
             case 0:
                 puntajes[indice] = (tipo == tipos[1]) ? puntaje : 0;
                 break;
@@ -278,19 +278,27 @@ function iniciarCanvas() {
         }
     }
 
-    function verificarPuntajes(){
+    function verificarPuntajes() {
         var puntajesCorrectos = true;
-        for(var i=0; i < puntajes.length; i++){
-            if(puntajes[i] == null){
+        for (var i = 0; i < puntajes.length; i++) {
+            if (puntajes[i] == null) {
                 puntajesCorrectos = false;
                 break;
             }
         }
 
-        if(puntajesCorrectos){
+        if (puntajesCorrectos) {
             mostrarContinuar();
-        }else{
+        } else {
             ocultarContinuar();
         }
     }
+}
+
+function sonido() {
+    sound = document.createElement("embed");
+    sound.src = "pE12.mp3";
+    sound.style.visibility = "hidden";
+    sound.style.position = "absolute";
+    document.body.appendChild(sound);
 }

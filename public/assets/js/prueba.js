@@ -104,7 +104,7 @@ var vm = new Vue({
                     swal({
                         type: 'info',
                         title: 'Comienza la prueba',
-                        text: 'Las proximas actividades hacen parte de la prueba, presta atención y resuelve lo que se te pide.'
+                        text: 'Las próximas actividades hacen parte de la prueba, presta atención y resuelve lo que se te pide.'
                     }).then(function(){
                         Cronometro.detener();
                         v.iniciarActividades(0, v.actividades.length);

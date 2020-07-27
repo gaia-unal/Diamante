@@ -1,6 +1,7 @@
 Vue.use(Buefy.default);
 
 var bn = [];
+var infoGeneral;
 var tot = 0;
 
 /* Store global para almacenar datos que se utilizan en diferentes componentes de la aplicación */
@@ -28,7 +29,8 @@ var Store = {
             estudiantes: '',
             registrarEstudiante: '',
             calificarActividad: '',
-            consultarReporte: ''
+            consultarReporte: '',
+            descargarReporte:''
         }
     },
     setGrados: function (grados) {
@@ -112,6 +114,7 @@ var Store = {
         this.state.urls.registrarEstudiante = urls.registrarEstudiante;
         this.state.urls.calificarActividad = urls.calificarActividad;
         this.state.urls.consultarReporte = urls.consultarReporte;
+        this.state.urls.descargarReporte = urls.descargarReporte;
     },
     setCamposCsrf: function (nameEl, valueEl) {
         this.state.csrf.name.name = nameEl.name;
@@ -583,7 +586,8 @@ var DetalleCalificacion = {
                                         res.data.respuesta.pruebaTerminada)) {
                                         swal({
                                             type: 'info',
-                                            text: 'La prueba del estudiante está completa, ya puedes revisar sus resultados en la pestaña de Reportes'
+                                            text: 'La prueba del estudiante está completa, ya puedes revisar sus resultados en la pestaña de Reportes' +
+                                                ' Te recomendamos recargar la página para ver los cambios efectuados'
                                         }).then(function () {
                                             v.regresar();
                                         });
@@ -744,8 +748,10 @@ var GraficaReporteGeneral = {
                 color = "#4caf50";
             } else if (this.datos > 0.496) {
                 color = "#2196f3";
+                infoGeneral = 'Tiene algunas dificultades en matemáticas pero no hay tendencia a la discalculia.'
             } else {
                 color = "#ff9800";
+                infoGeneral = 'Tiene muchas dificultades con la matemática y tendencia a la discalculia. Se recomienda reforzar.'
             }
             return color;
         }
@@ -810,22 +816,27 @@ var DetalleReporte = {
     methods: {
         /* TODO, cambiar vista y mostrar las actividades/categorias */
         seleccionarNivel: function (nivel) {
+            var rec = '';
+            if (nivel.porcentaje <= 0.5)
+                rec = 'Se recomienda reforzar el nivel porque presenta grandes dificultades y tendencia a la discalculia';
+            else if (nivel.porcentaje <= 0.8)
+                rec = 'No hay tendencia a la discalculia, pero se presentan dificultades en el nivel, se recomienda reforzar';
             switch (nivel.nombre) {
                 case "Nivel Espacial":
-                    swal(nivel.nombre, "Ayuda identificar la ubicación entre su cuerpo y los objetos. \n" +
-                        "Puntaje: " + bn[0] + ". Total actividades: 5", "info");
+                    swal(nivel.nombre, `<b>Descripción:</b> Ayuda a identificar la ubicación entre su cuerpo y los objetos. <br>
+                        <b>Correctas:</b> ` + bn[0] + "/5. <br>" + rec, "info");
                     break;
                 case "Nivel Temporal":
-                    swal(nivel.nombre, "Sitúa sucesos en el pasado o en el futuro, proporcionándole así un horizonte temporal. \n" +
-                        "Puntaje: " + bn[1] + ". Total actividades: 5", "info");
+                    swal(nivel.nombre, `<b>Descripción:</b> Sitúa sucesos en el pasado o en el futuro, proporcionándole así un 
+                        horizonte temporal.<br> <b>Correctas:</b> ` + bn[1] + "/5. <br>" + rec, "info");
                     break;
                 case "Nivel Simbolico":
-                    swal(nivel.nombre, "Representación de operaciones o relaciones entre números o valores por medio de imágenes. \n" +
-                        "Puntaje: " + bn[2] + ". Total actividades: 5", "info");;
+                    swal(nivel.nombre, `<b>Descripción:</b> Representación de operaciones o relaciones entre números o valores 
+                        por medio de imágenes. <br> <b>Correctas:</b> ` + bn[2] + "/5. <br>" + rec, "info");
                     break;
                 case "Nivel Cognitivo":
-                    swal(nivel.nombre, "Permite captar, codificar, almacenar y trabajar la información con el fin de obtener algún producto mental. \n" +
-                        "Puntaje: " + bn[3] + ". Total actividades: 5", "info");
+                    swal(nivel.nombre, `<b>Descripción:</b> Permite captar, codificar, almacenar y trabajar la información con 
+                        el fin de obtener algún producto mental. <br> <b>Correctas:</b> ` + bn[3] + "/5. <br>" + rec, "info");
                     break;
                 default:
                     swal("Ups", "Ocurrió un error", "error");
@@ -833,7 +844,7 @@ var DetalleReporte = {
             }
         },
         detalleTotal: function () {
-            swal("Desempeño General", "Puntaje: " + tot + ". Para un total de 20 actividades.", "info")
+            swal("Desempeño General", "Puntaje: " + tot.toFixed(2) + ". Para un total de 20 actividades. <br>" + infoGeneral, "info");
         }
     },
     components: {
@@ -845,28 +856,40 @@ var DetalleReporte = {
 /* Componente que muestra los reportes asociados a un estudiante específico */
 var ReportesEstudiante = {
     template:
-        '<div>\
-            <p class="title is-4">Reportes de {{ estudiante.nombre }}</p>\
-            <div class="columns">\
-                <div class="column is-one-third">\
-                    <div class="box item-lista" v-for="(pr, index) in estudiante.pruebas" :key="pr.id" @click="generarReporte(pr)">\
-                        <p><strong>{{ index + 1 }}. Prueba finalizada en {{ pr.fechaFin }}</strong></p>\
-                    </div>\
-                    <button class="button is-info" @click="$emit(\'regresar\')">\
-                        <b-icon icon="arrow-left-thick"></b-icon><span>Regresar</span>\
-                    </button>\
-                </div>\
-                <div class="column">\
-                    <detalle-reporte v-if="reporte" :reporte="reporte"></detalle-reporte>\
-                    <section class="section" v-show="!reporte">\
-                        <div class="content has-text-grey has-text-centered">\
-                            <p><b-icon icon="information" size="is-large"></b-icon></p>\
-                            <p class="subtitle">Selecciona una prueba para ver su reporte asociado</p>\
-                        </div>\
-                    </section>\
-                </div>\
-            </div>\
-        </div>',
+        `<div>
+        <p class="title is-4">Reportes de {{ estudiante.nombre }}</p>
+        <div class="columns">
+            <div class="column is-one-third">
+                <div class="box item-lista" v-for="(pr, index) in estudiante.pruebas" :key="pr.id" @click="generarReporte(pr)">
+                    <p><strong>{{ index + 1 }}. Prueba finalizada en {{ pr.fechaFin }}</strong></p>
+                </div>
+                <button class="button is-info" @click="$emit(\'regresar\')">
+                    <b-icon icon="arrow-left-thick"></b-icon><span>Regresar</span>
+                </button>
+                <p id="guiaResultados"><br>
+                    <button class="button is-info" @click="descargarReporte()">
+                        <b-icon icon="arrow-down-thick"></b-icon><span>Descargar</span>
+                    </button>
+                <br><b style="center">Guia de Resultados</b><br>
+                    Puedes hacer clic en cada nivel para conocer el detalle de cuantas respuestas fueron correctas.
+                    <ul>
+                        <li><b>- Naranja:</b> Indica que tiene discalculia o tiende a tenerla</li>
+                        <li><b>- Azul:</b> Tiene algunas dificultades pero no es propenso a tener discalculia</li>
+                        <li><b>- Verde:</b> No tienen ninguna dificultad con las matemáticas.</li>
+                    </ul>
+                </p>
+            </div>
+            <div class="column">
+                <detalle-reporte v-if="reporte" :reporte="reporte"></detalle-reporte>
+                <section class="section" v-show="!reporte">
+                    <div class="content has-text-grey has-text-centered">
+                        <p><b-icon icon="information" size="is-large"></b-icon></p>
+                        <p class="subtitle">Selecciona una prueba para ver su reporte asociado</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>`,
     data: function () {
         return {
             state: Store.state,
@@ -890,6 +913,8 @@ var ReportesEstudiante = {
                 }).finally(function () {
                     v.$emit('cargando', false);
                 });
+            var gr = document.getElementById('guiaResultados');
+            gr.style.display = (gr.style.display == 'none') ? 'block' : 'block';
         },
         procesarReporte: function (puntajes) {
             var reporte = {
@@ -950,6 +975,11 @@ var ReportesEstudiante = {
                 });
             }
             return reporte;
+        },
+        descargarReporte: function(){
+            this.$emit('cargando', true);
+            var url = this.state.urls.descargarReporte;
+            return url;
         }
     },
     components: {

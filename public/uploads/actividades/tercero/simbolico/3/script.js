@@ -65,7 +65,7 @@ function iniciarCanvas() {
                 alto: 170,
                 img: null,
                 posX: 5,
-                posY: 0,
+                posY: posContenedoresY,
                 tipo: 'A',
                 puntaje: ["True", "True", "True"],
                 existe: [0, 1, 2]
@@ -77,7 +77,7 @@ function iniciarCanvas() {
                 alto: 170,
                 img: null,
                 posX: 300,
-                posY: 0,
+                posY: posContenedoresY,
                 tipo: 'A',
                 existe: [],
                 puntaje: []
