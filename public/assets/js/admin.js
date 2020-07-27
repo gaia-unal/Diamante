@@ -5,6 +5,7 @@ var Store = {
     state: {
         grados: [],
         niveles: [],
+        institucion: [],
         categorias: [],
         habilidades: [],
         cantidad: {
@@ -33,72 +34,81 @@ var Store = {
             editarActividadPrevia: '',
             categoriasHabilidades: '',
             crearCategoria: '',
-            crearHabilidad: ''
-            
+            crearHabilidad: '',
+            instituciones: ''
         }
     },
-    setGrados: function(grados){
-        for(i in grados){
+    setGrados: function (grados) {
+        for (i in grados) {
             this.state.grados.push(grados[i]);
         }
     },
-    setNiveles: function(niveles){
-        for(i in niveles){
+    setNiveles: function (niveles) {
+        for (i in niveles) {
             this.state.niveles.push(niveles[i]);
         }
     },
-    setCategorias: function(categorias){
+    setCategorias: function (categorias) {
         this.state.categorias = [];
-        if(categorias.length > 0){
-            for(i in categorias){
+        if (categorias.length > 0) {
+            for (i in categorias) {
                 this.state.categorias.push(categorias[i]);
             }
         }
     },
-    getCategorias: function(nivel = null){
-        if(nivel){
-            return this.state.categorias.filter(function(categoria){
+    getCategorias: function (nivel = null) {
+        if (nivel) {
+            return this.state.categorias.filter(function (categoria) {
                 return categoria.nivelId == nivel
             });
-        }else{
+        } else {
             return this.state.categorias;
         }
     },
-    addCategoria: function(categoria){
+    addCategoria: function (categoria) {
         this.state.categorias.push(categoria);
     },
-    setHabilidades: function(habilidades){
+    setHabilidades: function (habilidades) {
         this.state.habilidades = [];
-        if(habilidades.length > 0){
-            for(i in habilidades){
+        if (habilidades.length > 0) {
+            for (i in habilidades) {
                 habilidades[i].esFuncion = (habilidades[i].esFuncion == "0") ? false : true;
                 this.state.habilidades.push(habilidades[i]);
             }
         }
     },
-    addHabilidad: function(habilidad){
+    addHabilidad: function (habilidad) {
         this.state.habilidades.push(habilidad);
     },
-    setCantidades: function(cantidades){
+    setInstituciones: function (institucion) {
+        this.state.institucion = [];
+        if (institucion.length > 0) {
+            for (i in institucion) {
+                this.state.institucion.push(institucion[i]);
+            }
+        }
+    },
+    setCantidades: function (cantidades) {
         this.state.cantidad.actividades = cantidades.actividades;
         this.state.cantidad.actividadesPrevias = cantidades.actividadesPrevias;
         this.state.cantidad.estudiantes = cantidades.estudiantes;
         this.state.cantidad.docentes = cantidades.docentes;
         this.state.cantidad.instituciones = cantidades.instituciones;
     },
-    addCantidadActividades: function(){
+    addCantidadActividades: function () {
         this.state.cantidad.actividades++;
     },
-    addCantidadActividadesPrevias: function(){
+    addCantidadActividadesPrevias: function () {
         this.state.cantidad.actividadesPrevias++;
     },
-    setCamposCsrf: function(nameEl, valueEl){
+
+    setCamposCsrf: function (nameEl, valueEl) {
         this.state.csrf.name.name = nameEl.name;
         this.state.csrf.name.value = nameEl.value;
         this.state.csrf.value.name = valueEl.name;
         this.state.csrf.value.value = valueEl.value;
     },
-    setUrls: function(urls){
+    setUrls: function (urls) {
         this.state.urls.actividades = urls.actividades;
         this.state.urls.actividadesPrevias = urls.actividadesPrevias;
         this.state.urls.cargarActividad = urls.cargarActividad;
@@ -109,24 +119,24 @@ var Store = {
         this.state.urls.crearCategoria = urls.crearCategoria;
         this.state.urls.crearHabilidad = urls.crearHabilidad;
     },
-    crearObjetoGrado: function(gradoId){
-        return this.state.grados.find(function(gr){
+    crearObjetoGrado: function (gradoId) {
+        return this.state.grados.find(function (gr) {
             return gr.id == gradoId
         });
     },
-    crearObjetoNivel: function(nivelId){
-        return this.state.niveles.find(function(nv){
+    crearObjetoNivel: function (nivelId) {
+        return this.state.niveles.find(function (nv) {
             return nv.id == nivelId
         });
     },
-    crearObjetoTipo: function(tipo){
+    crearObjetoTipo: function (tipo) {
         obj = {
             codigo: tipo,
             texto: '',
             clase: '',
             valor: 0
         };
-        switch(tipo){
+        switch (tipo) {
             case Utilidades.actividades.tipos.AUTOMATICA.codigo:
                 obj.clase = 'is-info';
                 obj.texto = Utilidades.actividades.tipos.AUTOMATICA.texto;
@@ -139,14 +149,14 @@ var Store = {
         }
         return obj;
     },
-    crearObjetoEstado: function(estado){
+    crearObjetoEstado: function (estado) {
         obj = {
             codigo: estado,
             texto: '',
             clase: '',
             valor: 0
         };
-        switch(estado){
+        switch (estado) {
             case Utilidades.actividades.estados.ACTIVA.codigo:
                 obj.clase = 'is-success';
                 obj.texto = Utilidades.actividades.estados.ACTIVA.texto;
@@ -163,7 +173,7 @@ var Store = {
 
 /* Componente de la vista de inicio */
 Vue.component('vista-inicio', {
-    template: 
+    template:
         '<div>\
             <div class="columns is-multiline">\
                 <div class="column is-12-tablet is-6-desktop is-3-widescreen">\
@@ -194,9 +204,16 @@ Vue.component('vista-inicio', {
                         <p class="subtitle is-4">Actividades</p>\
                     </div>\
                 </div>\
+                <div class="column is-12-tablet is-6-desktop is-3-widescreen">\
+                    <div class="notification is-success has-text-centered">\
+                        <p class="title is-1">{{ state.institucion }}</p>\
+                        <b-icon icon="shape-plus" custom-size="mdi-48px"></b-icon>\
+                        <p class="subtitle is-4">Actividades</p>\
+                    </div>\
+                </div>\
             </div>\
         </div>',
-    data: function() {
+    data: function () {
         return {
             state: Store.state
         }
@@ -300,7 +317,7 @@ var FormCargarActividad = {
                 </form>\
             </section>\
         </div>',
-    data: function() {
+    data: function () {
         return {
             state: Store.state,
             categorias: [],
@@ -330,8 +347,8 @@ var FormCargarActividad = {
         }
     },
     methods: {
-        cargar: function() {
-            if(this.validarCampos()){
+        cargar: function () {
+            if (this.validarCampos()) {
                 this.cargando = true;
                 var url = this.state.urls.cargarActividad;
                 var datos = new FormData();
@@ -347,11 +364,11 @@ var FormCargarActividad = {
                 datos.append(this.state.csrf.name.name, this.state.csrf.name.value);
                 datos.append(this.state.csrf.value.name, this.state.csrf.value.value);
                 var v = this;
-                axios.post(url, datos, {headers: {'Content-Type': 'multipart/form-data'}})
-                    .then(function(res){
-                        if(res.data.respuesta){
+                axios.post(url, datos, { headers: { 'Content-Type': 'multipart/form-data' } })
+                    .then(function (res) {
+                        if (res.data.respuesta) {
                             var respuesta = res.data.respuesta;
-                            if(respuesta.actividad){
+                            if (respuesta.actividad) {
                                 var nueva = {
                                     id: respuesta.actividad.id,
                                     nombre: v.form.nombre,
@@ -374,10 +391,10 @@ var FormCargarActividad = {
                                     position: 'is-top',
                                     type: 'is-dark'
                                 });
-                            }else if(respuesta.errores){
-                                if(respuesta.errores.grado) v.errores.grado = respuesta.errores.grado;
-                                if(respuesta.errores.nivel) v.errores.nivel = respuesta.errores.nivel;
-                                if(respuesta.errores.archivo){
+                            } else if (respuesta.errores) {
+                                if (respuesta.errores.grado) v.errores.grado = respuesta.errores.grado;
+                                if (respuesta.errores.nivel) v.errores.nivel = respuesta.errores.nivel;
+                                if (respuesta.errores.archivo) {
                                     swal({
                                         type: 'warning',
                                         title: 'Advertencia',
@@ -385,71 +402,71 @@ var FormCargarActividad = {
                                     });
                                 }
                             }
-                        }else if(res.data.errores){
+                        } else if (res.data.errores) {
                             var errores = res.data.errores;
-                            if(errores.nombre) v.errores.nombre = errores.nombre[0];
-                            if(errores.descripcion) v.errores.descripcion = errores.descripcion[0];
-                            if(errores.instruccion) v.errores.instruccion = errores.instruccion[0];
-                            if(errores.grado) v.errores.grado = errores.grado[0];
-                            if(errores.nivel) v.errores.nivel = errores.nivel[0];
-                            if(errores.categoria) v.errores.categoria = errores.categoria[0];
-                            if(errores.habilidades) v.errores.habilidades = errores.habilidades[0];
-                            if(errores.archivo) v.errores.archivo = errores.archivo[0];
-                            if(errores.revision) v.errores.revision = errores.revision[0];
+                            if (errores.nombre) v.errores.nombre = errores.nombre[0];
+                            if (errores.descripcion) v.errores.descripcion = errores.descripcion[0];
+                            if (errores.instruccion) v.errores.instruccion = errores.instruccion[0];
+                            if (errores.grado) v.errores.grado = errores.grado[0];
+                            if (errores.nivel) v.errores.nivel = errores.nivel[0];
+                            if (errores.categoria) v.errores.categoria = errores.categoria[0];
+                            if (errores.habilidades) v.errores.habilidades = errores.habilidades[0];
+                            if (errores.archivo) v.errores.archivo = errores.archivo[0];
+                            if (errores.revision) v.errores.revision = errores.revision[0];
                         }
-                    }).catch(function(err){
+                    }).catch(function (err) {
                         Utilidades.mostrarMensajeErrorAjax();
-                    }).finally(function(){
+                    }).finally(function () {
                         v.cargando = false;
                     });
             }
         },
-        obtenerCategorias: function(){
+        obtenerCategorias: function () {
             this.categorias = Store.getCategorias(this.form.nivel);
             this.form.categoria = -1;
         },
-        validarArchivoActividad: function(archivo){
-            if(!Utilidades.validarArchivoActividad(archivo[0].type)){
+        validarArchivoActividad: function (archivo) {
+            if (!Utilidades.validarArchivoActividad(archivo[0].type)) {
                 this.form.archivo = [];
             }
         },
-        validarCampos: function() {
+        validarCampos: function () {
             this.reiniciarErrores();
             var vacio = 'Este campo es obligatorio';
-            if(!this.form.nombre){
+            if (!this.form.nombre) {
                 this.errores.nombre = vacio;
             }
-            if(!this.form.descripcion){
+            if (!this.form.descripcion) {
                 this.errores.descripcion = vacio;
             }
-            if(!this.form.instruccion){
+            if (!this.form.instruccion) {
                 this.errores.instruccion = vacio;
             }
-            if(!this.form.grado || this.form.grado == -1){
+            if (!this.form.grado || this.form.grado == -1) {
                 this.errores.grado = vacio;
             }
-            if(!this.form.nivel || this.form.nivel == -1){
+            if (!this.form.nivel || this.form.nivel == -1) {
                 this.errores.nivel = vacio;
             }
-            if(!this.form.categoria || this.form.categoria == -1){
+            if (!this.form.categoria || this.form.categoria == -1) {
                 this.errores.categoria = vacio;
             }
-            if(!this.form.habilidades || this.form.habilidades.length == 0){
+            if (!this.form.habilidades || this.form.habilidades.length == 0) {
                 this.errores.habilidades = vacio;
             }
-            if(!this.form.archivo || this.form.archivo.length == 0){
+            if (!this.form.archivo || this.form.archivo.length == 0) {
                 this.errores.archivo = 'Por favor selecciona un archivo';
             }
-            if(!this.form.tipoRevision){
+            if (!this.form.tipoRevision) {
                 this.errores.tipoRevision = vacio;
             }
 
-            if(Utilidades.objetoTienePropiedadValida(this.errores)){
+            if (Utilidades.objetoTienePropiedadValida(this.errores)) {
                 return false;
             }
             return true;
         },
-        reiniciarCampos: function() {
+        reiniciarCampos: function () {
             this.categorias = [];
             this.form = {
                 nombre: '',
@@ -463,7 +480,7 @@ var FormCargarActividad = {
                 tipoRevision: 1
             };
         },
-        reiniciarErrores: function() {
+        reiniciarErrores: function () {
             this.errores = {
                 nombre: '',
                 descripcion: '',
@@ -533,7 +550,7 @@ var FormCargarActividadPrevia = {
                 </form>\
             </section>\
         </div>',
-    data: function() {
+    data: function () {
         return {
             state: Store.state,
             form: {
@@ -552,8 +569,8 @@ var FormCargarActividadPrevia = {
         }
     },
     methods: {
-        cargar: function() {
-            if(this.validarCampos()){
+        cargar: function () {
+            if (this.validarCampos()) {
                 this.cargando = true;
                 var url = this.state.urls.cargarActividadPrevia;
                 var datos = new FormData();
@@ -564,11 +581,11 @@ var FormCargarActividadPrevia = {
                 datos.append(this.state.csrf.name.name, this.state.csrf.name.value);
                 datos.append(this.state.csrf.value.name, this.state.csrf.value.value);
                 var v = this;
-                axios.post(url, datos, {headers: {'Content-Type': 'multipart/form-data'}})
-                    .then(function(res){
-                        if(res.data.respuesta){
+                axios.post(url, datos, { headers: { 'Content-Type': 'multipart/form-data' } })
+                    .then(function (res) {
+                        if (res.data.respuesta) {
                             var respuesta = res.data.respuesta;
-                            if(respuesta.actividad){
+                            if (respuesta.actividad) {
                                 var nueva = {
                                     id: respuesta.actividad.id,
                                     nombre: v.form.nombre,
@@ -586,54 +603,54 @@ var FormCargarActividadPrevia = {
                                     position: 'is-top',
                                     type: 'is-dark'
                                 });
-                            }else if(respuesta.errores.archivo){
+                            } else if (respuesta.errores.archivo) {
                                 swal({
                                     type: 'warning',
                                     title: 'Advertencia',
                                     text: respuesta.errores.archivo
                                 });
                             }
-                        }else if(res.data.errores){
+                        } else if (res.data.errores) {
                             var errores = res.data.errores;
-                            if(errores.nombre) v.errores.nombre = errores.nombre[0];
-                            if(errores.descripcion) v.errores.descripcion = errores.descripcion[0];
-                            if(errores.instruccion) v.errores.instruccion = errores.instruccion[0];
-                            if(errores.archivo) v.errores.archivo = errores.archivo[0];
+                            if (errores.nombre) v.errores.nombre = errores.nombre[0];
+                            if (errores.descripcion) v.errores.descripcion = errores.descripcion[0];
+                            if (errores.instruccion) v.errores.instruccion = errores.instruccion[0];
+                            if (errores.archivo) v.errores.archivo = errores.archivo[0];
                         }
-                    }).catch(function(err){
+                    }).catch(function (err) {
                         Utilidades.mostrarMensajeErrorAjax();
-                    }).finally(function(){
+                    }).finally(function () {
                         v.cargando = false;
                     });
             }
         },
-        validarArchivoActividad: function(archivo){
-            if(!Utilidades.validarArchivoActividad(archivo[0].type)){
+        validarArchivoActividad: function (archivo) {
+            if (!Utilidades.validarArchivoActividad(archivo[0].type)) {
                 this.form.archivo = [];
             }
         },
-        validarCampos: function() {
+        validarCampos: function () {
             this.reiniciarErrores();
             var vacio = 'Este campo es obligatorio';
-            if(!this.form.nombre){
+            if (!this.form.nombre) {
                 this.errores.nombre = vacio;
             }
-            if(!this.form.descripcion){
+            if (!this.form.descripcion) {
                 this.errores.descripcion = vacio;
             }
-            if(!this.form.instruccion){
+            if (!this.form.instruccion) {
                 this.errores.instruccion = vacio;
             }
-            if(!this.form.archivo || this.form.archivo.length == 0){
+            if (!this.form.archivo || this.form.archivo.length == 0) {
                 this.errores.archivo = 'Por favor selecciona un archivo';
             }
 
-            if(Utilidades.objetoTienePropiedadValida(this.errores)){
+            if (Utilidades.objetoTienePropiedadValida(this.errores)) {
                 return false;
             }
             return true;
         },
-        reiniciarCampos: function() {
+        reiniciarCampos: function () {
             this.categorias = [];
             this.form = {
                 nombre: '',
@@ -642,7 +659,7 @@ var FormCargarActividadPrevia = {
                 archivo: []
             };
         },
-        reiniciarErrores: function() {
+        reiniciarErrores: function () {
             this.errores = {
                 nombre: '',
                 descripcion: '',
@@ -689,21 +706,21 @@ Vue.component('paginacion-tabla', {
             </div>\
         </div>',
     props: ['pagina', 'total'],
-    data: function() {
+    data: function () {
         return {
             inicial: 1
         }
     },
     computed: {
-        anterior: function() {
+        anterior: function () {
             return this.pagina - 1;
         },
-        siguiente: function() {
+        siguiente: function () {
             return this.pagina + 1;
         }
     },
     methods: {
-        cambiarPagina: function(pagina) {
+        cambiarPagina: function (pagina) {
             this.$emit('cambiar', pagina);
         }
     }
@@ -810,7 +827,7 @@ var FormEditarActividad = {
                         </button>\
                     </div>\
                 </form>',
-    data: function() {
+    data: function () {
         return {
             state: Store.state,
             categorias: [],
@@ -837,15 +854,15 @@ var FormEditarActividad = {
     props: ['actividad'],
     watch: {
         nueva: {
-            handler: function(newVal, oldVal) {
+            handler: function (newVal, oldVal) {
                 this.editado = true;
             },
             deep: true
         }
     },
     methods: {
-        actualizar: function() {
-            if(this.validarCampos()){
+        actualizar: function () {
+            if (this.validarCampos()) {
                 this.cargando = true;
                 var url = this.state.urls.editarActividad;
                 var datos = new FormData();
@@ -863,10 +880,10 @@ var FormEditarActividad = {
                 datos.append(this.state.csrf.name.name, this.state.csrf.name.value);
                 datos.append(this.state.csrf.value.name, this.state.csrf.value.value);
                 var v = this;
-                axios.post(url, datos, {headers: {'Content-Type': 'multipart/form-data'}})
-                    .then(function(res){
-                        if(res.data.respuesta){
-                            if(res.data.respuesta.actualizado){
+                axios.post(url, datos, { headers: { 'Content-Type': 'multipart/form-data' } })
+                    .then(function (res) {
+                        if (res.data.respuesta) {
+                            if (res.data.respuesta.actualizado) {
                                 v.$toast.open({
                                     duration: 3000,
                                     message: 'La actividad se ha actualizado con éxito',
@@ -877,34 +894,34 @@ var FormEditarActividad = {
                                     res.data.respuesta.actividad.tipoRevision,
                                     res.data.respuesta.actividad.estado
                                 );
-                            }else{
+                            } else {
                                 swal({
                                     type: 'warning',
                                     title: 'Advertencia',
                                     text: 'No se pudo actualizar la actividad. Por favor vuelve a intentarlo'
                                 });
                             }
-                        }else if(res.data.errores){
+                        } else if (res.data.errores) {
                             var errores = res.data.errores;
-                            if(errores.nombre) v.errores.nombre = errores.nombre[0];
-                            if(errores.descripcion) v.errores.descripcion = errores.descripcion[0];
-                            if(errores.instruccion) v.errores.instruccion = errores.instruccion[0];
-                            if(errores.grado) v.errores.grado = errores.grado[0];
-                            if(errores.nivel) v.errores.nivel = errores.nivel[0];
-                            if(errores.categoria) v.errores.categoria = errores.categoria[0];
-                            if(errores.habilidades) v.errores.habilidades = errores.habilidades[0];
-                            if(errores.archivo) v.errores.archivo = errores.archivo[0];
-                            if(errores.revision) v.errores.revision = errores.revision[0];
-                            if(errores.estado) v.errores.estado = errores.estado[0];
+                            if (errores.nombre) v.errores.nombre = errores.nombre[0];
+                            if (errores.descripcion) v.errores.descripcion = errores.descripcion[0];
+                            if (errores.instruccion) v.errores.instruccion = errores.instruccion[0];
+                            if (errores.grado) v.errores.grado = errores.grado[0];
+                            if (errores.nivel) v.errores.nivel = errores.nivel[0];
+                            if (errores.categoria) v.errores.categoria = errores.categoria[0];
+                            if (errores.habilidades) v.errores.habilidades = errores.habilidades[0];
+                            if (errores.archivo) v.errores.archivo = errores.archivo[0];
+                            if (errores.revision) v.errores.revision = errores.revision[0];
+                            if (errores.estado) v.errores.estado = errores.estado[0];
                         }
-                    }).catch(function(err){
+                    }).catch(function (err) {
                         Utilidades.mostrarMensajeErrorAjax();
-                    }).finally(function(){
+                    }).finally(function () {
                         v.cargando = false;
                     });
             }
         },
-        actualizarEstadoActividad: function(tipoRevision, estado) {
+        actualizarEstadoActividad: function (tipoRevision, estado) {
             this.actividad.nombre = this.nueva.nombre;
             this.actividad.descripcion = this.nueva.descripcion;
             this.actividad.instruccion = this.nueva.instruccion;
@@ -913,55 +930,55 @@ var FormEditarActividad = {
             this.actividad.tipo = Store.crearObjetoTipo(tipoRevision);
             this.actividad.estado = Store.crearObjetoEstado(estado);
         },
-        obtenerCategorias: function(nivel, previo = false){
+        obtenerCategorias: function (nivel, previo = false) {
             this.categorias = Store.getCategorias(this.nueva.nivel.id);
-            if(!previo) this.nueva.categoriaId = -1;
+            if (!previo) this.nueva.categoriaId = -1;
         },
-        validarArchivoActividad: function(archivo){
-            if(!Utilidades.validarArchivoActividad(archivo[0].type)){
+        validarArchivoActividad: function (archivo) {
+            if (!Utilidades.validarArchivoActividad(archivo[0].type)) {
                 this.form.archivo = [];
             }
         },
-        validarCampos: function() {
+        validarCampos: function () {
             this.reiniciarErrores();
             var vacio = 'Este campo es obligatorio';
-            if(!this.nueva.nombre){
+            if (!this.nueva.nombre) {
                 this.errores.nombre = vacio;
             }
-            if(!this.nueva.descripcion){
+            if (!this.nueva.descripcion) {
                 this.errores.descripcion = vacio;
             }
-            if(!this.nueva.instruccion){
+            if (!this.nueva.instruccion) {
                 this.errores.instruccion = vacio;
             }
-            if(!this.nueva.gradoId || this.nueva.gradoId == -1){
+            if (!this.nueva.gradoId || this.nueva.gradoId == -1) {
                 this.errores.grado = vacio;
             }
-            if(!this.nueva.nivelId || this.nueva.nivelId == -1){
+            if (!this.nueva.nivelId || this.nueva.nivelId == -1) {
                 this.errores.nivel = vacio;
             }
-            if(!this.nueva.categoriaId || this.nueva.categoriaId == -1){
+            if (!this.nueva.categoriaId || this.nueva.categoriaId == -1) {
                 this.errores.categoria = vacio;
             }
-            if(!this.nueva.habilidades || this.nueva.habilidades.length == 0){
+            if (!this.nueva.habilidades || this.nueva.habilidades.length == 0) {
                 this.errores.habilidades = vacio;
             }
             /*if(!this.form.archivo || this.form.archivo.length == 0){
                 this.errores.archivo = 'Por favor selecciona un archivo';
             }*/
-            if(!this.nueva.tipo.valor){
+            if (!this.nueva.tipo.valor) {
                 this.errores.tipoRevision = vacio;
             }
-            if(!this.nueva.estado.valor){
+            if (!this.nueva.estado.valor) {
                 this.errores.estado = vacio;
             }
 
-            if(Utilidades.objetoTienePropiedadValida(this.errores)){
+            if (Utilidades.objetoTienePropiedadValida(this.errores)) {
                 return false;
             }
             return true;
         },
-        reiniciarErrores: function() {
+        reiniciarErrores: function () {
             this.errores = {
                 nombre: '',
                 descripcion: '',
@@ -976,15 +993,15 @@ var FormEditarActividad = {
             };
         }
     },
-    created: function() {
-        if(this.nueva.nivel.id) this.obtenerCategorias(this.nueva.nivel.id, true);
+    created: function () {
+        if (this.nueva.nivel.id) this.obtenerCategorias(this.nueva.nivel.id, true);
     }
 
 };
 
 /* Componente que muestra el detalle de la actividad seleccionada */
 var DetalleActividad = {
-    template: 
+    template:
         '<div>\
             <div class="columns">\
                 <div class="column">\
@@ -1020,8 +1037,8 @@ var DetalleActividad = {
     components: {
         'form-editar-actividad': FormEditarActividad
     },
-    mounted: function() {
-        this.$el.scrollIntoView({block: 'start', behavior: 'smooth'});
+    mounted: function () {
+        this.$el.scrollIntoView({ block: 'start', behavior: 'smooth' });
     }
 };
 
@@ -1123,129 +1140,129 @@ var ActividadesNormales = {
                 <detalle-actividad :actividad="seleccion" @regresar="deseleccionar"></detalle-actividad>\
             </div>\
         </div>',
-        data: function() {
-            return {
-                state: Store.state,                
-                actividades: [],
-                actividadesNuevas: [],
-                tabla: {
-                    pagina: 1,
-                    porPagina: 15,
-                    paginas: 0,
-                    busqueda: '',
-                    grado: -1,
-                    nivel: -1,
-                    cargando: false
-                },
-                seleccion: null,
-                cargado: false
-            }
-        },
-        props: ['vsindice', 'vsnombre'],
-        components: {
-            'detalle-actividad': DetalleActividad
-        },
-        watch: {
-            'tabla.busqueda': Utilidades.debounce(function(){
-                this.cambiarPagina(1);
-            }, 2000)
-        },
-        methods: {
-            cargaInicial: function() {
-                EventBus.$emit('cargando', true);
-                var url = this.state.urls.categoriasHabilidades;
-                var v = this;
-                axios.get(url)
-                    .then(function(res){
-                        v.setActividades(res.data.actividades.actividades);
-                        v.setDatosPaginacion(
-                            1,
-                            res.data.actividades.porPagina,
-                            res.data.actividades.paginas
-                        );
-                        Store.setCategorias(res.data.categorias);
-                        Store.setHabilidades(res.data.habilidades);
-                    }).catch(function(err){
-                        Utilidades.mostrarMensajeErrorAjax('Ha ocurrido un error al cargar las actividades, por favor recarga la página');
-                    }).finally(function(){
-                        v.cargado = true;
-                        EventBus.$emit('cargando', false);
-                    });
+    data: function () {
+        return {
+            state: Store.state,
+            actividades: [],
+            actividadesNuevas: [],
+            tabla: {
+                pagina: 1,
+                porPagina: 15,
+                paginas: 0,
+                busqueda: '',
+                grado: -1,
+                nivel: -1,
+                cargando: false
             },
-            abrirModalCargar: function() {
-                this.$modal.open({
-                    parent: this,
-                    component: FormCargarActividad,
-                    events: {
-                        'actividadCargada': this.addActividadNueva
-                    },
-                    hasModalCard: true
+            seleccion: null,
+            cargado: false
+        }
+    },
+    props: ['vsindice', 'vsnombre'],
+    components: {
+        'detalle-actividad': DetalleActividad
+    },
+    watch: {
+        'tabla.busqueda': Utilidades.debounce(function () {
+            this.cambiarPagina(1);
+        }, 2000)
+    },
+    methods: {
+        cargaInicial: function () {
+            EventBus.$emit('cargando', true);
+            var url = this.state.urls.categoriasHabilidades;
+            var v = this;
+            axios.get(url)
+                .then(function (res) {
+                    v.setActividades(res.data.actividades.actividades);
+                    v.setDatosPaginacion(
+                        1,
+                        res.data.actividades.porPagina,
+                        res.data.actividades.paginas
+                    );
+                    Store.setCategorias(res.data.categorias);
+                    Store.setHabilidades(res.data.habilidades);
+                }).catch(function (err) {
+                    Utilidades.mostrarMensajeErrorAjax('Ha ocurrido un error al cargar las actividades, por favor recarga la página');
+                }).finally(function () {
+                    v.cargado = true;
+                    EventBus.$emit('cargando', false);
                 });
-            },
-            seleccionar: function(actividad) {
-                this.seleccion = actividad;
-                console.log(actividad.rutaArchivo);
-            },
-            deseleccionar: function() {
-                this.seleccion = null;
-            },
-            filtrarTabla: function() {
-                this.cambiarPagina(1);
-            },
-            setActividades: function(actividades){
-                this.actividades = [];
-                if(actividades.length > 0){
-                    for(i in actividades){
-                        actividades[i].grado = Store.crearObjetoGrado(actividades[i].gradoId);
-                        actividades[i].nivel = Store.crearObjetoNivel(actividades[i].nivelId);
-                        actividades[i].tipo = Store.crearObjetoTipo(actividades[i].tipoRevision);
-                        actividades[i].estado = Store.crearObjetoEstado(actividades[i].estado);
-                        this.actividades.push(actividades[i]);
-                    }
+        },
+        abrirModalCargar: function () {
+            this.$modal.open({
+                parent: this,
+                component: FormCargarActividad,
+                events: {
+                    'actividadCargada': this.addActividadNueva
+                },
+                hasModalCard: true
+            });
+        },
+        seleccionar: function (actividad) {
+            this.seleccion = actividad;
+            console.log(actividad.rutaArchivo);
+        },
+        deseleccionar: function () {
+            this.seleccion = null;
+        },
+        filtrarTabla: function () {
+            this.cambiarPagina(1);
+        },
+        setActividades: function (actividades) {
+            this.actividades = [];
+            if (actividades.length > 0) {
+                for (i in actividades) {
+                    actividades[i].grado = Store.crearObjetoGrado(actividades[i].gradoId);
+                    actividades[i].nivel = Store.crearObjetoNivel(actividades[i].nivelId);
+                    actividades[i].tipo = Store.crearObjetoTipo(actividades[i].tipoRevision);
+                    actividades[i].estado = Store.crearObjetoEstado(actividades[i].estado);
+                    this.actividades.push(actividades[i]);
                 }
-            },
-            addActividadNueva: function(actividad){
-                actividad.grado = Store.crearObjetoGrado(actividad.gradoId);
-                actividad.nivel = Store.crearObjetoNivel(actividad.nivelId);
-                actividad.tipo = Store.crearObjetoTipo(actividad.tipoRevision);
-                actividad.estado = Store.crearObjetoEstado(actividad.estado);
-                this.actividadesNuevas.push(actividad);
-                Store.addCantidadActividades();
-            },
-            cambiarPagina: function(pagina) {
-                this.tabla.cargando = true;
-                var url = this.state.urls.actividades;
-                var params = {
-                    pagina: pagina
-                };
-                if(this.tabla.busqueda.length > 0) params.buscar = this.tabla.busqueda;
-                if(this.tabla.grado > 0) params.grado = this.tabla.grado;
-                if(this.tabla.nivel > 0) params.nivel = this.tabla.nivel;
-                var v = this;
-                axios.get(url, {params: params})
-                    .then(function(res){
-                        v.setActividades(res.data.actividades);
-                        v.setDatosPaginacion(
-                            pagina,
-                            res.data.porPagina,
-                            res.data.paginas
-                        );
-                        v.$el.scrollIntoView({block: 'start', behavior: 'smooth'});
-                    }).catch(function(err){
-                        Utilidades.mostrarMensajeErrorAjax('Ha ocurrido un error al consultar las actividades. Por favor, prueba con otro término de búsqueda');
-                    }).finally(function(){
-                        v.tabla.cargando = false;
-                    });
-            },
-            setDatosPaginacion: function(pagina, porPagina, paginas){
-                this.tabla.pagina = pagina;
-                this.tabla.porPagina = porPagina;
-                this.tabla.paginas = paginas;
             }
         },
-        created: function(){
-            this.cargaInicial();
+        addActividadNueva: function (actividad) {
+            actividad.grado = Store.crearObjetoGrado(actividad.gradoId);
+            actividad.nivel = Store.crearObjetoNivel(actividad.nivelId);
+            actividad.tipo = Store.crearObjetoTipo(actividad.tipoRevision);
+            actividad.estado = Store.crearObjetoEstado(actividad.estado);
+            this.actividadesNuevas.push(actividad);
+            Store.addCantidadActividades();
         },
+        cambiarPagina: function (pagina) {
+            this.tabla.cargando = true;
+            var url = this.state.urls.actividades;
+            var params = {
+                pagina: pagina
+            };
+            if (this.tabla.busqueda.length > 0) params.buscar = this.tabla.busqueda;
+            if (this.tabla.grado > 0) params.grado = this.tabla.grado;
+            if (this.tabla.nivel > 0) params.nivel = this.tabla.nivel;
+            var v = this;
+            axios.get(url, { params: params })
+                .then(function (res) {
+                    v.setActividades(res.data.actividades);
+                    v.setDatosPaginacion(
+                        pagina,
+                        res.data.porPagina,
+                        res.data.paginas
+                    );
+                    v.$el.scrollIntoView({ block: 'start', behavior: 'smooth' });
+                }).catch(function (err) {
+                    Utilidades.mostrarMensajeErrorAjax('Ha ocurrido un error al consultar las actividades. Por favor, prueba con otro término de búsqueda');
+                }).finally(function () {
+                    v.tabla.cargando = false;
+                });
+        },
+        setDatosPaginacion: function (pagina, porPagina, paginas) {
+            this.tabla.pagina = pagina;
+            this.tabla.porPagina = porPagina;
+            this.tabla.paginas = paginas;
+        }
+    },
+    created: function () {
+        this.cargaInicial();
+    },
 };
 
 /* Componente del formulario para editar actividades previas */
@@ -1305,7 +1322,7 @@ var FormEditarActividadPrevia = {
                         </button>\
                     </div>\
                 </form>',
-    data: function() {
+    data: function () {
         return {
             state: Store.state,
             nueva: JSON.parse(JSON.stringify(this.actividad)),
@@ -1326,15 +1343,15 @@ var FormEditarActividadPrevia = {
     props: ['actividad'],
     watch: {
         nueva: {
-            handler: function(newVal, oldVal) {
+            handler: function (newVal, oldVal) {
                 this.editado = true;
             },
             deep: true
         }
     },
     methods: {
-        actualizar: function() {
-            if(this.validarCampos()){
+        actualizar: function () {
+            if (this.validarCampos()) {
                 this.cargando = true;
                 var url = this.state.urls.editarActividadPrevia;
                 var datos = new FormData();
@@ -1349,10 +1366,10 @@ var FormEditarActividadPrevia = {
                 datos.append(this.state.csrf.name.name, this.state.csrf.name.value);
                 datos.append(this.state.csrf.value.name, this.state.csrf.value.value);
                 var v = this;
-                axios.post(url, datos, {headers: {'Content-Type': 'multipart/form-data'}})
-                    .then(function(res){
-                        if(res.data.respuesta){
-                            if(res.data.respuesta.actualizado){
+                axios.post(url, datos, { headers: { 'Content-Type': 'multipart/form-data' } })
+                    .then(function (res) {
+                        if (res.data.respuesta) {
+                            if (res.data.respuesta.actualizado) {
                                 v.$toast.open({
                                     duration: 3000,
                                     message: 'La actividad se ha actualizado con éxito',
@@ -1360,64 +1377,64 @@ var FormEditarActividadPrevia = {
                                     type: 'is-dark'
                                 });
                                 v.actualizarEstadoActividadPrevia(res.data.respuesta.actividad.estado);
-                            }else{
+                            } else {
                                 swal({
                                     type: 'warning',
                                     title: 'Advertencia',
                                     text: 'No se pudo actualizar la actividad. Por favor vuelve a intentarlo'
                                 });
                             }
-                        }else if(res.data.errores){
+                        } else if (res.data.errores) {
                             var errores = res.data.errores;
-                            if(errores.nombre) v.errores.nombre = errores.nombre[0];
-                            if(errores.descripcion) v.errores.descripcion = errores.descripcion[0];
-                            if(errores.instruccion) v.errores.instruccion = errores.instruccion[0];
-                            if(errores.archivo) v.errores.archivo = errores.archivo[0];
-                            if(errores.estado) v.errores.estado = errores.estado[0];
+                            if (errores.nombre) v.errores.nombre = errores.nombre[0];
+                            if (errores.descripcion) v.errores.descripcion = errores.descripcion[0];
+                            if (errores.instruccion) v.errores.instruccion = errores.instruccion[0];
+                            if (errores.archivo) v.errores.archivo = errores.archivo[0];
+                            if (errores.estado) v.errores.estado = errores.estado[0];
                         }
-                    }).catch(function(err){
+                    }).catch(function (err) {
                         Utilidades.mostrarMensajeErrorAjax();
-                    }).finally(function(){
+                    }).finally(function () {
                         v.cargando = false;
                     });
             }
         },
-        actualizarEstadoActividadPrevia: function(estado) {
+        actualizarEstadoActividadPrevia: function (estado) {
             this.actividad.nombre = this.nueva.nombre;
             this.actividad.descripcion = this.nueva.descripcion;
             this.actividad.instruccion = this.nueva.instruccion;
             this.actividad.estado = Store.crearObjetoEstado(estado);
         },
-        validarArchivoActividad: function(archivo){
-            if(!Utilidades.validarArchivoActividad(archivo[0].type)){
+        validarArchivoActividad: function (archivo) {
+            if (!Utilidades.validarArchivoActividad(archivo[0].type)) {
                 this.form.archivo = [];
             }
         },
-        validarCampos: function() {
+        validarCampos: function () {
             this.reiniciarErrores();
             var vacio = 'Este campo es obligatorio';
-            if(!this.nueva.nombre){
+            if (!this.nueva.nombre) {
                 this.errores.nombre = vacio;
             }
-            if(!this.nueva.descripcion){
+            if (!this.nueva.descripcion) {
                 this.errores.descripcion = vacio;
             }
-            if(!this.nueva.instruccion){
+            if (!this.nueva.instruccion) {
                 this.errores.instruccion = vacio;
             }
             /*if(!this.form.archivo || this.form.archivo.length == 0){
                 this.errores.archivo = 'Por favor selecciona un archivo';
             }*/
-            if(!this.nueva.estado.valor){
+            if (!this.nueva.estado.valor) {
                 this.errores.estado = vacio;
             }
 
-            if(Utilidades.objetoTienePropiedadValida(this.errores)){
+            if (Utilidades.objetoTienePropiedadValida(this.errores)) {
                 return false;
             }
             return true;
         },
-        reiniciarErrores: function() {
+        reiniciarErrores: function () {
             this.errores = {
                 nombre: '',
                 descripcion: '',
@@ -1431,7 +1448,7 @@ var FormEditarActividadPrevia = {
 
 /* Componente que muestra el detalle de la actividad previa seleccionada */
 var DetalleActividadPrevia = {
-    template: 
+    template:
         '<div>\
             <div class="columns">\
                 <div class="column">\
@@ -1467,8 +1484,8 @@ var DetalleActividadPrevia = {
     components: {
         'form-editar-actividad-previa': FormEditarActividadPrevia
     },
-    mounted: function() {
-        this.$el.scrollIntoView({block: 'start', behavior: 'smooth'});
+    mounted: function () {
+        this.$el.scrollIntoView({ block: 'start', behavior: 'smooth' });
     }
 };
 
@@ -1552,155 +1569,155 @@ var ActividadesPrevias = {
                 <detalle-actividad-previa :actividad="seleccion" @regresar="deseleccionar"></detalle-actividad-previa>\
             </div>\
         </div>',
-        data: function() {
-            return {
-                state: Store.state,
-                actividades: [],
-                actividadesNuevas: [],
-                tabla: {
-                    pagina: 1,
-                    porPagina: 15,
-                    paginas: 0,
-                    busqueda: '',
-                    cargando: false
-                },
-                seleccion: null,
-                cargado: false
-            }
-        },
-        props: ['vsindice', 'vsnombre'],
-        components: {
-            'detalle-actividad-previa': DetalleActividadPrevia
-        },
-        watch: {
-            'tabla.busqueda': Utilidades.debounce(function(){
-                this.cambiarPagina(1);
-            }, 2000)
-        },
-        computed: {
-            titulo: function () {
-                var texto1 = this.state.cantidad.actividadesPrevias + ' ' + 'actividad';
-                var texto2 = ' previa';
-                if(this.state.cantidad.actividadesPrevias > 1){
-                    return texto1 + 'es' + texto2 + 's';
-                }
-                return texto1 + texto2;
-            }
-        },
-        methods: {
-            cargaInicial: function() {
-                EventBus.$emit('cargando', true);
-                var url = this.state.urls.actividadesPrevias;
-                var v = this;
-                axios.get(url)
-                    .then(function(res){
-                        v.setActividadesPrevias(res.data.actividades);
-                        v.setDatosPaginacion(
-                            1,
-                            res.data.actividades.porPagina,
-                            res.data.actividades.paginas
-                        );
-                    }).catch(function(err){
-                        Utilidades.mostrarMensajeErrorAjax('Ha ocurrido un error al cargar las actividades previas, por favor recarga la página');
-                    }).finally(function(){
-                        v.cargado = true;
-                        EventBus.$emit('cargando', false);
-                    });
+    data: function () {
+        return {
+            state: Store.state,
+            actividades: [],
+            actividadesNuevas: [],
+            tabla: {
+                pagina: 1,
+                porPagina: 15,
+                paginas: 0,
+                busqueda: '',
+                cargando: false
             },
-            abrirModalCargar: function() {
-                this.$modal.open({
-                    parent: this,
-                    component: FormCargarActividadPrevia,
-                    events: {
-                        'actividadCargada': this.addActividadPrevia
-                    },
-                    hasModalCard: true
+            seleccion: null,
+            cargado: false
+        }
+    },
+    props: ['vsindice', 'vsnombre'],
+    components: {
+        'detalle-actividad-previa': DetalleActividadPrevia
+    },
+    watch: {
+        'tabla.busqueda': Utilidades.debounce(function () {
+            this.cambiarPagina(1);
+        }, 2000)
+    },
+    computed: {
+        titulo: function () {
+            var texto1 = this.state.cantidad.actividadesPrevias + ' ' + 'actividad';
+            var texto2 = ' previa';
+            if (this.state.cantidad.actividadesPrevias > 1) {
+                return texto1 + 'es' + texto2 + 's';
+            }
+            return texto1 + texto2;
+        }
+    },
+    methods: {
+        cargaInicial: function () {
+            EventBus.$emit('cargando', true);
+            var url = this.state.urls.actividadesPrevias;
+            var v = this;
+            axios.get(url)
+                .then(function (res) {
+                    v.setActividadesPrevias(res.data.actividades);
+                    v.setDatosPaginacion(
+                        1,
+                        res.data.actividades.porPagina,
+                        res.data.actividades.paginas
+                    );
+                }).catch(function (err) {
+                    Utilidades.mostrarMensajeErrorAjax('Ha ocurrido un error al cargar las actividades previas, por favor recarga la página');
+                }).finally(function () {
+                    v.cargado = true;
+                    EventBus.$emit('cargando', false);
                 });
-            },
-            seleccionar: function(actividad) {
-                this.seleccion = actividad;
-            },
-            deseleccionar: function() {
-                this.seleccion = null;
-            },
-            cambiarPagina: function(pagina) {
-                this.tabla.cargando = true;
-                var url = this.state.urls.actividadesPrevias;
-                var params = {
-                    pagina: pagina
-                };
-                if(this.tabla.busqueda.length > 0) params.buscar = this.tabla.busqueda;
-                var v = this;
-                axios.get(url, {params: params})
-                    .then(function(res){
-                        v.setActividadesPrevias(res.data.actividades);
-                        v.setDatosPaginacion(
-                            pagina,
-                            res.data.porPagina,
-                            res.data.paginas
-                        );
-                        v.$el.scrollIntoView({block: 'start', behavior: 'smooth'});
-                    }).catch(function(err){
-                        Utilidades.mostrarMensajeErrorAjax('Ha ocurrido un error al consultar las actividades. Por favor, prueba con otro término de búsqueda');
-                    }).finally(function(){
-                        v.tabla.cargando = false;
-                    });
-            },
-            setActividadesPrevias: function(actividades){
-                this.actividades = [];
-                if(actividades.length > 0){
-                    for(i in actividades){
-                        actividades[i].estado = Store.crearObjetoEstado(actividades[i].estado);
-                        this.actividades.push(actividades[i]);
-                    }
+        },
+        abrirModalCargar: function () {
+            this.$modal.open({
+                parent: this,
+                component: FormCargarActividadPrevia,
+                events: {
+                    'actividadCargada': this.addActividadPrevia
+                },
+                hasModalCard: true
+            });
+        },
+        seleccionar: function (actividad) {
+            this.seleccion = actividad;
+        },
+        deseleccionar: function () {
+            this.seleccion = null;
+        },
+        cambiarPagina: function (pagina) {
+            this.tabla.cargando = true;
+            var url = this.state.urls.actividadesPrevias;
+            var params = {
+                pagina: pagina
+            };
+            if (this.tabla.busqueda.length > 0) params.buscar = this.tabla.busqueda;
+            var v = this;
+            axios.get(url, { params: params })
+                .then(function (res) {
+                    v.setActividadesPrevias(res.data.actividades);
+                    v.setDatosPaginacion(
+                        pagina,
+                        res.data.porPagina,
+                        res.data.paginas
+                    );
+                    v.$el.scrollIntoView({ block: 'start', behavior: 'smooth' });
+                }).catch(function (err) {
+                    Utilidades.mostrarMensajeErrorAjax('Ha ocurrido un error al consultar las actividades. Por favor, prueba con otro término de búsqueda');
+                }).finally(function () {
+                    v.tabla.cargando = false;
+                });
+        },
+        setActividadesPrevias: function (actividades) {
+            this.actividades = [];
+            if (actividades.length > 0) {
+                for (i in actividades) {
+                    actividades[i].estado = Store.crearObjetoEstado(actividades[i].estado);
+                    this.actividades.push(actividades[i]);
                 }
-            },
-            addActividadPrevia: function(actividad){
-                actividad.estado = Store.crearObjetoEstado(actividad.estado);
-                this.actividadesNuevas.push(actividad);
-                Store.addCantidadActividadesPrevias();
-            },
-            setDatosPaginacion: function(pagina, porPagina, paginas){
-                this.tabla.pagina = pagina;
-                this.tabla.porPagina = porPagina;
-                this.tabla.paginas = paginas;
             }
         },
-        created: function(){
-            this.cargaInicial();
+        addActividadPrevia: function (actividad) {
+            actividad.estado = Store.crearObjetoEstado(actividad.estado);
+            this.actividadesNuevas.push(actividad);
+            Store.addCantidadActividadesPrevias();
         },
+        setDatosPaginacion: function (pagina, porPagina, paginas) {
+            this.tabla.pagina = pagina;
+            this.tabla.porPagina = porPagina;
+            this.tabla.paginas = paginas;
+        }
+    },
+    created: function () {
+        this.cargaInicial();
+    },
 };
 
 /* Componente del menú de actividades */
 var MenuActividades = {
-    template: 
+    template:
         '<div>\
             <component :is="vistas[vistaActual].componente" v-bind="propiedadesComponente" @cambiar="cambiarVista"></component>\
         </div>\
         ',
-    data: function() {
+    data: function () {
         return {
             state: Store.state,
             cargado: false,
             vistaActual: 0,
             vistaSiguiente: 1,
             vistas: [
-                {nombre: 'Actividades normales', componente: 'actividades-normales'},
-                {nombre: 'Actividades previas', componente: 'actividades-previas'}
+                { nombre: 'Actividades normales', componente: 'actividades-normales' },
+                { nombre: 'Actividades previas', componente: 'actividades-previas' }
             ]
         };
     },
     computed: {
-        propiedadesComponente: function() {
+        propiedadesComponente: function () {
             return { vsindice: this.vistaSiguiente, vsnombre: this.vistas[this.vistaSiguiente].nombre }
         }
     },
     methods: {
-        cambiarVista: function() {
-            if(this.vistaActual == 0) {
+        cambiarVista: function () {
+            if (this.vistaActual == 0) {
                 this.vistaActual = 1;
                 this.vistaSiguiente = 0;
-            }else{
+            } else {
                 this.vistaActual = 0;
                 this.vistaSiguiente = 1;
             }
@@ -1734,7 +1751,7 @@ var FormCrearCategoria = {
                 </footer>\
             </div>\
         </form>',
-    data: function() {
+    data: function () {
         return {
             state: Store.state,
             form: {
@@ -1749,9 +1766,9 @@ var FormCrearCategoria = {
     },
     props: ['nivel'],
     methods: {
-        crear: function() {
+        crear: function () {
             this.errores.nombre = '';
-            if(!this.form.nombre){
+            if (!this.form.nombre) {
                 this.errores.nombre = 'Este campo es obligatorio';
                 return false;
             }
@@ -1765,8 +1782,8 @@ var FormCrearCategoria = {
             datos[this.state.csrf.value.name] = this.state.csrf.value.value;
             var v = this;
             axios.post(url, datos)
-                .then(function(res){
-                    if(res.data.respuesta){
+                .then(function (res) {
+                    if (res.data.respuesta) {
                         Store.addCategoria({
                             id: res.data.respuesta.categoria.id,
                             nivelId: datos.nivel,
@@ -1780,19 +1797,19 @@ var FormCrearCategoria = {
                             position: 'is-top',
                             type: 'is-dark'
                         });
-                    }else if(res.data.errores){
+                    } else if (res.data.errores) {
                         var errores = res.data.errores;
-                        if(errores.nivel) v.errores.nivel = errores.nivel[0];
-                        if(errores.nombre) v.errores.nombre = errores.nombre[0];
+                        if (errores.nivel) v.errores.nivel = errores.nivel[0];
+                        if (errores.nombre) v.errores.nombre = errores.nombre[0];
                     }
-                }).catch(function(err){
+                }).catch(function (err) {
                     Utilidades.mostrarMensajeErrorAjax();
-                }).finally(function(){
+                }).finally(function () {
                     v.cargando = false;
                 });
         }
     },
-    mounted: function() {
+    mounted: function () {
         this.form.nivel = 'Nivel ' + this.nivel.nombre;
     }
 };
@@ -1819,7 +1836,7 @@ var FormCrearHabilidad = {
                 </footer>\
             </div>\
         </form>',
-    data: function() {
+    data: function () {
         return {
             state: Store.state,
             form: {
@@ -1834,8 +1851,8 @@ var FormCrearHabilidad = {
         }
     },
     methods: {
-        crear: function() {
-            if(!this.validarCampos()){
+        crear: function () {
+            if (!this.validarCampos()) {
                 return false;
             }
             this.cargando = true;
@@ -1848,8 +1865,8 @@ var FormCrearHabilidad = {
             datos[this.state.csrf.value.name] = this.state.csrf.value.value;
             var v = this;
             axios.post(url, datos)
-                .then(function(res){
-                    if(res.data.respuesta){
+                .then(function (res) {
+                    if (res.data.respuesta) {
                         Store.addHabilidad({
                             id: res.data.respuesta.habilidad.id,
                             nombre: datos.nombre,
@@ -1862,38 +1879,38 @@ var FormCrearHabilidad = {
                             position: 'is-top',
                             type: 'is-dark'
                         });
-                    }else if(res.data.errores){
+                    } else if (res.data.errores) {
                         var errores = res.data.errores;
-                        if(errores.nombre) v.errores.nombre = errores.nombre[0];
-                        if(errores.funcion) v.errores.funcion = errores.funcion[0];
+                        if (errores.nombre) v.errores.nombre = errores.nombre[0];
+                        if (errores.funcion) v.errores.funcion = errores.funcion[0];
                     }
-                }).catch(function(err){
+                }).catch(function (err) {
                     Utilidades.mostrarMensajeErrorAjax();
-                }).finally(function(){
+                }).finally(function () {
                     v.cargando = false;
                 });
         },
-        validarCampos: function() {
+        validarCampos: function () {
             this.reiniciarErrores();
-            if(!this.form.nombre){
+            if (!this.form.nombre) {
                 this.errores.nombre = 'Este campo es obligatorio';
             }
-            if(this.form.funcion != 1 && this.form.funcion != -1){
+            if (this.form.funcion != 1 && this.form.funcion != -1) {
                 this.errores.funcion = 'Este campo tiene un valor inválido'
             }
 
-            if(Utilidades.objetoTienePropiedadValida(this.errores)){
+            if (Utilidades.objetoTienePropiedadValida(this.errores)) {
                 return false;
             }
             return true;
         },
-        reiniciarCampos: function() {
+        reiniciarCampos: function () {
             this.form = {
                 nombre: '',
                 funcion: -1
             };
         },
-        reiniciarErrores: function() {
+        reiniciarErrores: function () {
             this.errores = {
                 nombre: '',
                 funcion: ''
@@ -1975,7 +1992,7 @@ var MenuNiveles = {
                 </div>\
             </div>\
         </div>',
-    data: function(){
+    data: function () {
         return {
             state: Store.state,
             seleccionado: -1,
@@ -1984,14 +2001,14 @@ var MenuNiveles = {
         }
     },
     methods: {
-        seleccionarNivel: function(){
+        seleccionarNivel: function () {
             this.nivel = Store.state.niveles[this.seleccionado];
             this.obtenerCategorias();
         },
-        obtenerCategorias: function(){
+        obtenerCategorias: function () {
             this.categorias = Store.getCategorias(this.nivel.id);
         },
-        abrirModalCrearCategoria: function(){
+        abrirModalCrearCategoria: function () {
             this.$modal.open({
                 parent: this,
                 component: FormCrearCategoria,
@@ -2004,42 +2021,206 @@ var MenuNiveles = {
                 hasModalCard: true
             });
         },
-        abrirModalCrearHabilidad: function(){
+        abrirModalCrearHabilidad: function () {
             this.$modal.open({
                 parent: this,
                 component: FormCrearHabilidad,
                 hasModalCard: true
             });
         },
-        editarCategoria: function(categoria){
+        editarCategoria: function (categoria) {
             alert('editando: ' + categoria.nombre)
         },
-        editarHabilidad: function(habilidad){
+        editarHabilidad: function (habilidad) {
             alert('editando: ' + habilidad.nombre)
         }
     }
 };
 
+/* Componente del formulario para ingresar nuevas instituciones */
+/* var FormingresarInstitucion = {
+    template:
+        '<form>\
+            <div class="modal-card">\
+                <header class="modal-card-head has-text-centered">\
+                    <p class="modal-card-title">Ingresar Institución</p>\
+                </header>\
+                <section class="modal-card-body">\
+                    <b-field :type="errores.nombre ? \'is-danger\':\'\'" :message="errores.nombre">\
+                        <b-input type="text" v-model="form.nombre" placeholder="Nombre de la institucion" icon="format-color-text" maxlength="50"></b-input>\
+                    </b-field>\
+                    <b-field :type="errores.departamento ? \'is-danger\':\'\'" :message="errores.departamento">\
+                        <b-input type="text" v-model="form.departamento" placeholder="Departamento" icon="format-color-text" maxlength="50"></b-input>\
+                    </b-field>\
+                    <b-field :type="errores.ciudad ? \'is-danger\':\'\'" :message="errores.ciudad">\
+                        <b-input type="text" v-model="form.ciudad" placeholder="Ciudad" icon="format-color-text" maxlength="50"></b-input>\
+                    </b-field>\
+                </section>\
+                <footer class="modal-card-foot">\
+                    <button class="button" type="button" @click="$parent.close()">Cerrar</button>\
+                    <button class="button is-success" :class="{\'is-loading\': cargando}" @click.prevent="crear">Crear</button>\
+                </footer>\
+            </div>\
+        </form>',
+    data: function () {
+        return {
+            state: Store.state,
+            form: {
+                nombre: '',
+                funcion: -1
+            },
+            errores: {
+                nombre: '',
+                funcion: ''
+            },
+            cargando: false
+        }
+    },
+    methods: {
+        crear: function () {
+            if (!this.validarCampos()) {
+                return false;
+            }
+            this.cargando = true;
+            var url = this.state.urls.ingresarInstitucion;
+            var datos = {
+                'nombre': this.form.nombre,
+                'departamento': this.form.departamento,
+                'ciudad': this.form.ciudad
+            };
+            datos[this.state.csrf.name.name] = this.state.csrf.name.value;
+            datos[this.state.csrf.value.name] = this.state.csrf.value.value;
+            var v = this;
+            axios.post(url, datos)
+                .then(function (res) {
+                    if (res.data.respuesta) {
+                        Store.addHabilidad({
+                            id: res.data.respuesta.habilidad.id,
+                            nombre: datos.nombre,
+                            esFuncion: (datos.funcion == -1) ? false : true
+                        });
+                        v.reiniciarCampos();
+                        v.$toast.open({
+                            duration: 3000,
+                            message: 'Habilidad creada con éxito',
+                            position: 'is-top',
+                            type: 'is-dark'
+                        });
+                    } else if (res.data.errores) {
+                        var errores = res.data.errores;
+                        if (errores.nombre) v.errores.nombre = errores.nombre[0];
+                        if (errores.funcion) v.errores.funcion = errores.funcion[0];
+                    }
+                }).catch(function (err) {
+                    Utilidades.mostrarMensajeErrorAjax();
+                }).finally(function () {
+                    v.cargando = false;
+                });
+        },
+        validarCampos: function () {
+            this.reiniciarErrores();
+            if (!this.form.nombre) {
+                this.errores.nombre = 'Este campo es obligatorio';
+            }
+            if (this.form.funcion != 1 && this.form.funcion != -1) {
+                this.errores.funcion = 'Este campo tiene un valor inválido'
+            }
+
+            if (Utilidades.objetoTienePropiedadValida(this.errores)) {
+                return false;
+            }
+            return true;
+        },
+        reiniciarCampos: function () {
+            this.form = {
+                nombre: '',
+                funcion: -1
+            };
+        },
+        reiniciarErrores: function () {
+            this.errores = {
+                nombre: '',
+                funcion: ''
+            }
+        }
+    }
+}; */
+
+/* Componente del menú de instituciones */
+var MenuInstituciones = {
+    template: '<div>\
+    <div class="columns">\
+        <div class="column">\
+            <div class="level is-mobile">\
+                <div class="level-left">\
+                    <div class="level-item" v-show="state.cantidad.instituciones > 0">\
+                        <p class="title">{{ state.cantidad.instituciones }} Institucion<span v-show="state.cantidad.instituciones > 1">es</span></p>\
+                    </div>\
+                </div>\
+            </div>\
+            <div v-if="state.cantidad.instituciones > 0">\
+                <b-table :data="state.institucion" hoverable v-if="cargado">\
+                    <template slot-scope="props">\
+                        <b-table-column label="Nombre">{{ props.row.nombre }}</b-table-column>\
+                        <b-table-column label="Departamento">{{ props.row.departamento }}</b-table-column>\
+                        <b-table-column label="Ciudad">{{ props.row.ciudad }}</b-table-column>\
+                    </template>\
+                </b-table>\
+            </div>\
+            <div v-else>\
+                <section class="section">\
+                    <div class="content has-text-grey has-text-centered">\
+                        <p><b-icon icon="alert-circle" size="is-large"></b-icon></p>\
+                        <p class="subtitle">Aún no se han ingresado instituciones</p>\
+                    </div>\
+                </section>\
+            </div>\
+        </div>\
+    </div>\
+</div>',
+    data: function () {
+        return {
+            state: Store.state,
+            institucion: [],
+            cargado: true,
+        }
+    },
+    methods: {
+        abrirModalInstitucion: function () {
+            this.$modal.open({
+                parent: this,
+                component: FormingresarInstitucion,
+                hasModalCard: true
+            });
+        },
+        /* editarInstitucion: function (institucion) {
+            alert('editando: ' + institucion.nombre)
+        } */
+    }
+};
+
+
 /* Componente de la vista de administración */
 Vue.component('vista-administrar', {
-    template: 
-        '<b-tabs type="is-boxed" position="is-centered" class="block" expanded>\
-            <b-tab-item label="Actividades" icon="shape-plus">\
-                <menu-actividades></menu-actividades>\
-            </b-tab-item>\
-            <b-tab-item label="Niveles" icon="cube-outline">\
-                <menu-niveles></menu-niveles>\
-            </b-tab-item>\
-            <b-tab-item label="Instituciones" icon="school">\
-            <p>Tab instituciones</p>\
-            </b-tab-item>\
-            <b-tab-item label="Administradores" icon="security">\
-            <p>Tab admins</p>\
-            </b-tab-item>\
-        </b-tabs>',
+    template:
+        `<b-tabs type="is-boxed" position="is-centered" class="block" expanded>
+            <b-tab-item label="Actividades" icon="shape-plus">
+                <menu-actividades></menu-actividades>
+            </b-tab-item>
+            <b-tab-item label="Niveles" icon="cube-outline">
+                <menu-niveles></menu-niveles>
+            </b-tab-item>
+            <b-tab-item label="Instituciones" icon="school">
+                <menu-instituciones></menu-instituciones>
+            </b-tab-item>
+            <b-tab-item label="Administradores" icon="security">
+            <p>Tab admins</p>
+            </b-tab-item>
+        </b-tabs>`,
     components: {
         'menu-actividades': MenuActividades,
-        'menu-niveles': MenuNiveles
+        'menu-niveles': MenuNiveles,
+        'menu-instituciones': MenuInstituciones
     }
 });
 
@@ -2052,13 +2233,13 @@ var EventBus = new Vue();
 
 var vm = new Vue({
     el: '#app',
-    data: function() {
+    data: function () {
         return {
             vistaActual: 'Inicio',
             vistas: [
-                {nombre: 'Inicio', icono: 'application'},
-                {nombre: 'Administrar', icono: 'settings'},
-                {nombre: 'Reportes', icono: 'file-chart'}
+                { nombre: 'Inicio', icono: 'application' },
+                { nombre: 'Administrar', icono: 'settings' },
+                { nombre: 'Reportes', icono: 'file-chart' }
             ],
             navMovilActivo: false,
             cargaInicial: false,
@@ -2066,30 +2247,30 @@ var vm = new Vue({
         }
     },
     computed: {
-        componenteVistaActual: function() {
+        componenteVistaActual: function () {
             return 'vista-' + this.vistaActual.toLowerCase();
         }
     },
     methods: {
-        toggleNavMovil: function() {
+        toggleNavMovil: function () {
             this.navMovilActivo = !this.navMovilActivo;
         },
-        cargandoComponente: function(estado) {
+        cargandoComponente: function (estado) {
             this.componenteCargado = estado;
         }
     },
-    beforeMount: function() {
+    beforeMount: function () {
         var datos = JSON.parse(this.$el.attributes['data-info'].value);
         Store.setGrados(datos.grados);
         Store.setNiveles(datos.niveles);
         Store.setCantidades(datos.cantidad);
         Store.setUrls(datos.urls);
     },
-    mounted: function() {
+    mounted: function () {
         Store.setCamposCsrf(this.$refs.csrfname, this.$refs.csrfvalue);
         this.cargaInicial = true;
         var v = this;
-        EventBus.$on('cargando', function(estado){
+        EventBus.$on('cargando', function (estado) {
             v.cargandoComponente(estado);
         });
     }
@@ -2098,14 +2279,14 @@ var vm = new Vue({
 /* 
     Funciones que procesan la información enviada por las actividades
 */
-function completarActividadPrevia(mensaje){
+function completarActividadPrevia(mensaje) {
     swal({
         type: 'info',
         title: mensaje
     });
 }
 
-function enviarPuntaje(puntaje){
+function enviarPuntaje(puntaje) {
     var num = (puntaje * 100).toFixed(2);
     swal({
         type: 'info',
@@ -2113,7 +2294,7 @@ function enviarPuntaje(puntaje){
     });
 }
 
-function enviarActividadManual(imagen, objetivo){
+function enviarActividadManual(imagen, objetivo) {
     swal({
         imageUrl: imagen,
         imageHeight: 250,

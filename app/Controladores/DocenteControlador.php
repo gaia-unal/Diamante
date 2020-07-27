@@ -44,7 +44,7 @@ class DocenteControlador{
                 'registrarEstudiante' => $router->pathFor('docente.registro.estudiante'),
                 'calificarActividad' => $router->pathFor('docente.calificar.actividad'),
                 'consultarReporte' => $router->pathFor('docente.consultar.reporte'),
-                'descargarReporte' => $router->pathFor('docente.descargar.reporte')
+                'descargarReporte' => $router->pathFor('docente.descargar.reporte'),
             ]
         ];
 
