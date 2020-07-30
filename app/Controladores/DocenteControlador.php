@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controladores;
 
 use Slim\Views\Twig;
@@ -43,8 +44,7 @@ class DocenteControlador{
                 'estudiantes' => $router->pathFor('docente.consultar.estudiantes'),
                 'registrarEstudiante' => $router->pathFor('docente.registro.estudiante'),
                 'calificarActividad' => $router->pathFor('docente.calificar.actividad'),
-                'consultarReporte' => $router->pathFor('docente.consultar.reporte'),
-                'descargarReporte' => $router->pathFor('docente.descargar.reporte'),
+                'consultarReporte' => $router->pathFor('docente.consultar.reporte')
             ]
         ];
 
@@ -119,11 +119,5 @@ class DocenteControlador{
         $pruebaId = $request->getQueryParam('prueba');
         $resultado = $pruebaServicio->consultarReporteDePrueba($pruebaId);
         return $response->withJson(['reporte' => $resultado], 200);
-    }
-
-    public function descargarReporteDePrueba($request, $response, PruebaServicio $pruebaServicio){
-        $pruebaID = $request->getQueryParam('prueba');
-        $resultado = $pruebaServicio->descargarReporteDePrueba($pruebaId);
-        return $pdf->OutPut();
     }
 }

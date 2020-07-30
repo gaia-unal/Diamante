@@ -5,9 +5,9 @@ var Store = {
     state: {
         grados: [],
         niveles: [],
-        institucion: [],
         categorias: [],
         habilidades: [],
+        instituciones: [],
         cantidad: {
             actividades: 0,
             actividadesPrevias: 0,
@@ -80,11 +80,12 @@ var Store = {
     addHabilidad: function (habilidad) {
         this.state.habilidades.push(habilidad);
     },
-    setInstituciones: function (institucion) {
-        this.state.institucion = [];
-        if (institucion.length > 0) {
-            for (i in institucion) {
-                this.state.institucion.push(institucion[i]);
+    setInstituciones: function () {
+        alert('js yes');
+        this.state.instituciones = [];
+        if (instituciones.length > 0) {
+            for (i in instituciones) {
+                this.state.instituciones.push(instituciones[i]);
             }
         }
     },
@@ -1269,59 +1270,60 @@ var ActividadesNormales = {
 var FormEditarActividadPrevia = {
     template:
         '<form @submit.prevent="actualizar">\
-                    <div class="columns">\
-                        <div class="column">\
-                            <b-field label="Nombre" :type="errores.nombre ? \'is-danger\':\'\'" :message="errores.nombre">\
-                                <b-input type="text" v-model="nueva.nombre" maxlength="100"></b-input>\
-                            </b-field>\
-                        </div>\
-                        <div class="column">\
-                        <b-field label="Instrucción" :type="errores.instruccion ? \'is-danger\':\'\'" :message="errores.instruccion">\
-                            <b-input type="text" v-model="nueva.instruccion" maxlength="150"></b-input>\
+            <div class="columns">\
+                <div class="column">\
+                    <b-field label="Nombre" :type="errores.nombre ? \'is-danger\':\'\'" :message="errores.nombre">\
+                        <b-input type="text" v-model="nueva.nombre" maxlength="100"></b-input>\
+                    </b-field>\
+                </div>\
+                <div class="column">\
+                    <b-field label="Instrucción" :type="errores.instruccion ? \'is-danger\':\'\'" :message="errores.instruccion">\
+                        <b-input type="text" v-model="nueva.instruccion" maxlength="150"></b-input>\
+                    </b-field>\
+                    </div>\
+                </div>\
+                <div class="columns">\
+                    <div class="column">\
+                        <b-field label="Descripción" :type="errores.descripcion ? \'is-danger\':\'\'" :message="errores.descripcion">\
+                            <b-input type="textarea" v-model="nueva.descripcion" maxlength="500"></b-input>\
                         </b-field>\
-                        </div>\
                     </div>\
-                    <div class="columns">\
-                        <div class="column">\
-                            <b-field label="Descripción" :type="errores.descripcion ? \'is-danger\':\'\'" :message="errores.descripcion">\
-                                <b-input type="textarea" v-model="nueva.descripcion" maxlength="500"></b-input>\
-                            </b-field>\
-                        </div>\
-                    </div>\
-                    <div class="columns">\
-                        <div class="column">\
-                            <b-tooltip label="Las actividades inactivas no aparecen en las pruebas" type="is-dark" position="is-top" animated>\
+                </div>\
+                <div class="columns">\
+                    <div class="column">\
+                        <b-tooltip label="Las actividades inactivas no aparecen en las pruebas" type="is-dark" position="is-top" animated>\
                             <b-field label="Estado" :type="errores.estado ? \'is-danger\':\'\'" :message="errores.estado">\
                                 <b-switch v-model="nueva.estado.valor" true-value="1" false-value="2" type="is-success">\
                                     {{ nueva.estado.valor == 1 ? "Activa" : "Inactiva" }}\
                                 </b-switch>\
                             </b-field>\
-                            </b-tooltip>\
-                        </div>\
+                        </b-tooltip>\
                     </div>\
-                    <div class="columns is-multiline" v-if="false">\
-                        <div class="column">\
-                            <b-field class="file" :type="errores.archivo ? \'is-danger\':\'\'" :message="errores.archivo">\
-                                <b-upload v-model="form.archivo" @input="validarArchivoActividad($event)">\
-                                    <a class="button is-primary">\
-                                        <b-icon icon="upload"></b-icon>\
-                                        <span>Subir archivo</span>\
-                                    </a>\
-                                </b-upload>\
-                                <span class="file-name" v-if="form.archivo && form.archivo.length">\
-                                    {{ form.archivo[0].name }}\
-                                </span>\
-                            </b-field>\
-                        </div>\
+                </div>\
+                <div class="columns is-multiline" v-if="false">\
+                    <div class="column">\
+                        <b-field class="file" :type="errores.archivo ? \'is-danger\':\'\'" :message="errores.archivo">\
+                            <b-upload v-model="form.archivo" @input="validarArchivoActividad($event)">\
+                                <a class="button is-primary">\
+                                    <b-icon icon="upload"></b-icon>\
+                                    <span>Subir archivo</span>\
+                                </a>\
+                            </b-upload>\
+                            <span class="file-name" v-if="form.archivo && form.archivo.length">\
+                                {{ form.archivo[0].name }}\
+                            </span>\
+                        </b-field>\
                     </div>\
-                    <div class="buttons is-centered">\
-                        <button type="button" class="button" @click="$emit(\'regresar\')">Cancelar</button>\
-                        <button type="submit" class="button is-success" :class="{\'is-loading\': cargando}" :disabled="!editado">\
-                            <b-icon icon="square-edit-outline"></b-icon>\
-                            <span>Actualizar actividad</span>\
-                        </button>\
-                    </div>\
-                </form>',
+                </div>\
+                <div class="buttons is-centered">\
+                    <button type="button" class="button" @click="$emit(\'regresar\')">Cancelar</button>\
+                    <button type="submit" class="button is-success" :class="{\'is-loading\': cargando}" :disabled="!editado">\
+                        <b-icon icon="square-edit-outline"></b-icon>\
+                        <span>Actualizar actividad</span>\
+                    </button>\
+                </div>\
+            </div>\
+        </form>',
     data: function () {
         return {
             state: Store.state,
@@ -2148,55 +2150,74 @@ var MenuNiveles = {
 
 /* Componente del menú de instituciones */
 var MenuInstituciones = {
-    template: '<div>\
-    <div class="columns">\
-        <div class="column">\
-            <div class="level is-mobile">\
-                <div class="level-left">\
-                    <div class="level-item" v-show="state.cantidad.instituciones > 0">\
-                        <p class="title">{{ state.cantidad.instituciones }} Institucion<span v-show="state.cantidad.instituciones > 1">es</span></p>\
-                    </div>\
-                </div>\
-            </div>\
-            <div v-if="state.cantidad.instituciones > 0">\
-                <b-table :data="state.institucion" hoverable v-if="cargado">\
-                    <template slot-scope="props">\
-                        <b-table-column label="Nombre">{{ props.row.nombre }}</b-table-column>\
-                        <b-table-column label="Departamento">{{ props.row.departamento }}</b-table-column>\
-                        <b-table-column label="Ciudad">{{ props.row.ciudad }}</b-table-column>\
-                    </template>\
-                </b-table>\
-            </div>\
-            <div v-else>\
-                <section class="section">\
-                    <div class="content has-text-grey has-text-centered">\
-                        <p><b-icon icon="alert-circle" size="is-large"></b-icon></p>\
-                        <p class="subtitle">Aún no se han ingresado instituciones</p>\
-                    </div>\
-                </section>\
-            </div>\
-        </div>\
-    </div>\
-</div>',
+    template: `<div>
+    <div class="columns">
+        <div class="column">
+            <div class="level is-mobile">
+                <div class="level-left">
+                    <div class="level-item" v-show="state.cantidad.instituciones > 0">
+                        <p class="title">{{ state.cantidad.instituciones }} Institucion<span v-show="state.cantidad.instituciones > 1">es</span></p>
+                    </div>
+                </div>
+            </div>
+            <div v-if="state.cantidad.instituciones > 0">
+                <b-table v-if="cargado" :data="state.instituciones" :loading="tabla.cargando" hoverable>
+                    <template slot-scope="props">
+                        <b-table-column label="Nombre" field="nombre">{{ props.row.nombre }}</b-table-column>
+                        <b-table-column label="Departamento" centered>{{ props.row.departamento }}</b-table-column>
+                        <b-table-column label="Ciudad" centered>{{ props.row.ciudad }}</b-table-column>
+                    </template>
+                </b-table>
+                <paginacion-tabla :pagina="tabla.pagina" :total="tabla.paginas" @cambiar=cambiarPagina($event)></paginacion-tabla>
+            </div>
+            <div v-else>
+                <section class="section">
+                    <div class="content has-text-grey has-text-centered">
+                        <p><b-icon icon="alert-circle" size="is-large"></b-icon></p>
+                        <p class="subtitle">Aún no se han ingresado instituciones</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>`,
     data: function () {
         return {
             state: Store.state,
-            institucion: [],
-            cargado: true,
+            tabla: {
+                pagina: 1,
+                porPagina: 15,
+                paginas: 0,
+                busqueda: '',
+                grado: -1,
+                nivel: -1,
+                cargando: false
+            },
+            cargado: false,
         }
     },
     methods: {
-        abrirModalInstitucion: function () {
-            this.$modal.open({
-                parent: this,
-                component: FormingresarInstitucion,
-                hasModalCard: true
-            });
+        cargaInicial: function () {
+            if (this.state.cantidad.instituciones > 0) {
+                alert('yes');
+                this.$emit('cargando', true);
+                var url = this.state.urls.instituciones;
+                var v = this;
+                axios.get(url)
+                    .then(function (res) {
+                        Store.setInstituciones();
+                    }).catch(function (err) {
+                        Utilidades.mostrarMensajeErrorAjax(`Ha ocurrido un error cargando las instituciones, por favor recarga la página`);
+                    }).finally(function () {
+                        v.cargado = true;
+                        v.$emit('cargando', false);
+                    });
+            } else this.cargado = true;
         },
-        /* editarInstitucion: function (institucion) {
-            alert('editando: ' + institucion.nombre)
-        } */
-    }
+    },
+    created: function () {
+        this.cargaInicial();
+    },
 };
 
 

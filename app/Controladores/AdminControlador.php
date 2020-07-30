@@ -27,32 +27,30 @@ class AdminControlador{
         Twig $view,
         AutenticacionServicio $autenticacion,
         AdministradorServicio $adminServicio,
-        ActividadServicio $actividadServicio,
-        DocenteServicio $docenteServicio){
+        ActividadServicio $actividadServicio){
         $this->view = $view;
         $this->autenticacion = $autenticacion;
         $this->adminServicio = $adminServicio;
         $this->actividadServicio = $actividadServicio;
-        $this->docenteServicio = $docenteServicio;
     }
 
     public function index(
         $request,
         $response,
         Router $router,
-        EstudianteServicio $estudianteServicio
+        EstudianteServicio $estudianteServicio,
+        DocenteServicio $docenteServicio
     ){
         $datos = [
             'usuario' => $this->autenticacion->obtenerUsuarioActual(),
             'grados' => $this->actividadServicio->getGrados(),
             'niveles' => $this->actividadServicio->getNiveles(),
-            'institucion' => $this->docenteServicio->getInstituciones(),
             'cantidad' => [
                 'actividades' => $this->actividadServicio->consultarCantidadActividades(),
                 'actividadesPrevias' => $this->actividadServicio->consultarCantidadActividadesPrevias(),
                 'estudiantes' => $estudianteServicio->consultarCantidadEstudiantes(),
-                'docentes' => $this->docenteServicio->consultarCantidadDocentes(),
-                'instituciones' => $this->docenteServicio->consultarCantidadInstituciones()
+                'docentes' => $docenteServicio->consultarCantidadDocentes(),
+                'instituciones' => $docenteServicio->consultarCantidadInstituciones()
             ],
             'urls' => [
                 'actividades' => $router->pathFor('admin.actividades'),
@@ -195,25 +193,6 @@ class AdminControlador{
         }
 
         $resultado = $this->actividadServicio->crearHabilidad($datos);
-        $res = [];
-        if($resultado){
-            $res['creado'] = true;
-            $res['habilidad'] = $resultado;
-        }else{
-            $res['creado'] = false;
-        }
-
-        return $response->withJson(['respuesta' => $res], 200);
-    }
-
-    public function ingresarInstitucion($request, $response, ValidarIngresarInstitucion $validador){
-        $datos = $request->getParams();
-        $errores = $validador->validarDatos($datos);
-        if($errores){
-            return $response->withJson(['errores' => $errores], 200);
-        }
-
-        $resultado = $this->docenteServicio->crearHabilidad($datos);
         $res = [];
         if($resultado){
             $res['creado'] = true;

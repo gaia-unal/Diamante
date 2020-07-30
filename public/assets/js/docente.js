@@ -29,8 +29,7 @@ var Store = {
             estudiantes: '',
             registrarEstudiante: '',
             calificarActividad: '',
-            consultarReporte: '',
-            descargarReporte:''
+            consultarReporte: ''
         }
     },
     setGrados: function (grados) {
@@ -114,7 +113,6 @@ var Store = {
         this.state.urls.registrarEstudiante = urls.registrarEstudiante;
         this.state.urls.calificarActividad = urls.calificarActividad;
         this.state.urls.consultarReporte = urls.consultarReporte;
-        this.state.urls.descargarReporte = urls.descargarReporte;
     },
     setCamposCsrf: function (nameEl, valueEl) {
         this.state.csrf.name.name = nameEl.name;

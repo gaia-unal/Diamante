@@ -2,7 +2,7 @@
 
 namespace App\Utilidades;
 
-require 'vendor/pdf/fpdf.php';
+/* require 'vendor/pdf/fpdf.php'; */
 
 class UtilidadesGenerales {
 
@@ -62,7 +62,7 @@ class UtilidadesGenerales {
 }
 
 
-class PDF extends FPDF{
+/* class PDF extends FPDF{
     // Cabecera de página
     function Header()
     {
@@ -89,3 +89,4 @@ class PDF extends FPDF{
         $this->Cell(0,10,utf8_decode('Página '.$this->PageNo().'/{nb}'),0,0,'C');
     }
 }
+ */

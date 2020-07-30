@@ -28,7 +28,6 @@ class DocenteServicio{
         $this->estudianteRepositorio = $estudianteRepo;
         $this->pruebaRepositorio = $pruebaRepo;
         $this->pruebaServicio = $pruebaServicio;
-        $this->instituciones = $this->consultarInstituciones();
     }
 
     public function consultarDocentes(){
@@ -79,10 +78,6 @@ class DocenteServicio{
             array_push($resultado, $objeto);
         }
         return $resultado;
-    }
-
-    public function getInstituciones(){
-        return $this->instituciones;
     }
 
     public function consultarCantidadInstituciones(){
