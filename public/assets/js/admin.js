@@ -80,15 +80,6 @@ var Store = {
     addHabilidad: function (habilidad) {
         this.state.habilidades.push(habilidad);
     },
-    setInstituciones: function () {
-        alert('js yes');
-        this.state.instituciones = [];
-        if (instituciones.length > 0) {
-            for (i in instituciones) {
-                this.state.instituciones.push(instituciones[i]);
-            }
-        }
-    },
     setCantidades: function (cantidades) {
         this.state.cantidad.actividades = cantidades.actividades;
         this.state.cantidad.actividadesPrevias = cantidades.actividadesPrevias;
@@ -101,6 +92,16 @@ var Store = {
     },
     addCantidadActividadesPrevias: function () {
         this.state.cantidad.actividadesPrevias++;
+    },
+    setInstituciones: function () {
+        alert(this.state.cantidad.instituciones);
+        this.state.instituciones = [];
+        if (this.state.cantidad.instituciones  > 0) {
+            for (i =1; i<=6; i++) {
+                alert('vamos bien');
+                this.state.instituciones.push(this.state.instituciones[i]);
+            }
+        }
     },
 
     setCamposCsrf: function (nameEl, valueEl) {
@@ -119,6 +120,7 @@ var Store = {
         this.state.urls.categoriasHabilidades = urls.categoriasHabilidades;
         this.state.urls.crearCategoria = urls.crearCategoria;
         this.state.urls.crearHabilidad = urls.crearHabilidad;
+        this.state.urls.instituciones = urls.instituciones;
     },
     crearObjetoGrado: function (gradoId) {
         return this.state.grados.find(function (gr) {
@@ -201,13 +203,6 @@ Vue.component('vista-inicio', {
                 <div class="column is-12-tablet is-6-desktop is-3-widescreen">\
                     <div class="notification is-success has-text-centered">\
                         <p class="title is-1">{{ state.cantidad.actividades }}</p>\
-                        <b-icon icon="shape-plus" custom-size="mdi-48px"></b-icon>\
-                        <p class="subtitle is-4">Actividades</p>\
-                    </div>\
-                </div>\
-                <div class="column is-12-tablet is-6-desktop is-3-widescreen">\
-                    <div class="notification is-success has-text-centered">\
-                        <p class="title is-1">{{ state.institucion }}</p>\
                         <b-icon icon="shape-plus" custom-size="mdi-48px"></b-icon>\
                         <p class="subtitle is-4">Actividades</p>\
                     </div>\
@@ -2040,113 +2035,8 @@ var MenuNiveles = {
 };
 
 /* Componente del formulario para ingresar nuevas instituciones */
-/* var FormingresarInstitucion = {
-    template:
-        '<form>\
-            <div class="modal-card">\
-                <header class="modal-card-head has-text-centered">\
-                    <p class="modal-card-title">Ingresar Institución</p>\
-                </header>\
-                <section class="modal-card-body">\
-                    <b-field :type="errores.nombre ? \'is-danger\':\'\'" :message="errores.nombre">\
-                        <b-input type="text" v-model="form.nombre" placeholder="Nombre de la institucion" icon="format-color-text" maxlength="50"></b-input>\
-                    </b-field>\
-                    <b-field :type="errores.departamento ? \'is-danger\':\'\'" :message="errores.departamento">\
-                        <b-input type="text" v-model="form.departamento" placeholder="Departamento" icon="format-color-text" maxlength="50"></b-input>\
-                    </b-field>\
-                    <b-field :type="errores.ciudad ? \'is-danger\':\'\'" :message="errores.ciudad">\
-                        <b-input type="text" v-model="form.ciudad" placeholder="Ciudad" icon="format-color-text" maxlength="50"></b-input>\
-                    </b-field>\
-                </section>\
-                <footer class="modal-card-foot">\
-                    <button class="button" type="button" @click="$parent.close()">Cerrar</button>\
-                    <button class="button is-success" :class="{\'is-loading\': cargando}" @click.prevent="crear">Crear</button>\
-                </footer>\
-            </div>\
-        </form>',
-    data: function () {
-        return {
-            state: Store.state,
-            form: {
-                nombre: '',
-                funcion: -1
-            },
-            errores: {
-                nombre: '',
-                funcion: ''
-            },
-            cargando: false
-        }
-    },
-    methods: {
-        crear: function () {
-            if (!this.validarCampos()) {
-                return false;
-            }
-            this.cargando = true;
-            var url = this.state.urls.ingresarInstitucion;
-            var datos = {
-                'nombre': this.form.nombre,
-                'departamento': this.form.departamento,
-                'ciudad': this.form.ciudad
-            };
-            datos[this.state.csrf.name.name] = this.state.csrf.name.value;
-            datos[this.state.csrf.value.name] = this.state.csrf.value.value;
-            var v = this;
-            axios.post(url, datos)
-                .then(function (res) {
-                    if (res.data.respuesta) {
-                        Store.addHabilidad({
-                            id: res.data.respuesta.habilidad.id,
-                            nombre: datos.nombre,
-                            esFuncion: (datos.funcion == -1) ? false : true
-                        });
-                        v.reiniciarCampos();
-                        v.$toast.open({
-                            duration: 3000,
-                            message: 'Habilidad creada con éxito',
-                            position: 'is-top',
-                            type: 'is-dark'
-                        });
-                    } else if (res.data.errores) {
-                        var errores = res.data.errores;
-                        if (errores.nombre) v.errores.nombre = errores.nombre[0];
-                        if (errores.funcion) v.errores.funcion = errores.funcion[0];
-                    }
-                }).catch(function (err) {
-                    Utilidades.mostrarMensajeErrorAjax();
-                }).finally(function () {
-                    v.cargando = false;
-                });
-        },
-        validarCampos: function () {
-            this.reiniciarErrores();
-            if (!this.form.nombre) {
-                this.errores.nombre = 'Este campo es obligatorio';
-            }
-            if (this.form.funcion != 1 && this.form.funcion != -1) {
-                this.errores.funcion = 'Este campo tiene un valor inválido'
-            }
-
-            if (Utilidades.objetoTienePropiedadValida(this.errores)) {
-                return false;
-            }
-            return true;
-        },
-        reiniciarCampos: function () {
-            this.form = {
-                nombre: '',
-                funcion: -1
-            };
-        },
-        reiniciarErrores: function () {
-            this.errores = {
-                nombre: '',
-                funcion: ''
-            }
-        }
-    }
-}; */
+var FormingresarInstitucion = {
+};
 
 /* Componente del menú de instituciones */
 var MenuInstituciones = {
@@ -2156,11 +2046,13 @@ var MenuInstituciones = {
             <div class="level is-mobile">
                 <div class="level-left">
                     <div class="level-item" v-show="state.cantidad.instituciones > 0">
-                        <p class="title">{{ state.cantidad.instituciones }} Institucion<span v-show="state.cantidad.instituciones > 1">es</span></p>
+                        <p class="title">{{ state.cantidad.instituciones }} Institucion<span 
+                            v-show="state.cantidad.instituciones > 1">es</span></p>
                     </div>
                 </div>
             </div>
             <div v-if="state.cantidad.instituciones > 0">
+                <p>{{ state.instituciones }}</p>
                 <b-table v-if="cargado" :data="state.instituciones" :loading="tabla.cargando" hoverable>
                     <template slot-scope="props">
                         <b-table-column label="Nombre" field="nombre">{{ props.row.nombre }}</b-table-column>
@@ -2199,9 +2091,9 @@ var MenuInstituciones = {
     methods: {
         cargaInicial: function () {
             if (this.state.cantidad.instituciones > 0) {
-                alert('yes');
                 this.$emit('cargando', true);
                 var url = this.state.urls.instituciones;
+                alert(url);
                 var v = this;
                 axios.get(url)
                     .then(function (res) {

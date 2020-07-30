@@ -46,4 +46,5 @@ $app->group('/admin', function(){
     $this->get('/categorias-habilidades', ['App\Controladores\AdminControlador', 'getCategoriasHabilidades'])->setName('admin.categorias.habilidades');
     $this->post('/crear-categoria', ['App\Controladores\AdminControlador', 'crearCategoria'])->setName('admin.crear.categoria');
     $this->post('/crear-habilidad', ['App\Controladores\AdminControlador', 'crearHabilidad'])->setName('admin.crear.habilidad');
+    $this->get('/instituciones',['App\Controladores\AdminControlador','consultarInstituciones'])->setName('admin.consultar.instituciones');
 })->add('App\Middlewares\Autenticacion\DenegarNoAdmin');

@@ -744,6 +744,7 @@ var GraficaReporteGeneral = {
             var color = "#CCC";
             if (this.datos > 0.796) {
                 color = "#4caf50";
+                infoGeneral = "No tiene dificultades en las matemáticas";
             } else if (this.datos > 0.496) {
                 color = "#2196f3";
                 infoGeneral = 'Tiene algunas dificultades en matemáticas pero no hay tendencia a la discalculia.'
@@ -822,19 +823,19 @@ var DetalleReporte = {
             switch (nivel.nombre) {
                 case "Nivel Espacial":
                     swal(nivel.nombre, `<b>Descripción:</b> Ayuda a identificar la ubicación entre su cuerpo y los objetos. <br>
-                        <b>Correctas:</b> ` + bn[0] + "/5. <br>" + rec, "info");
+                        <b>Correctas:</b> ` + bn[0].toFixed(2) + "/5. <br>" + rec, "info");
                     break;
                 case "Nivel Temporal":
                     swal(nivel.nombre, `<b>Descripción:</b> Sitúa sucesos en el pasado o en el futuro, proporcionándole así un 
-                        horizonte temporal.<br> <b>Correctas:</b> ` + bn[1] + "/5. <br>" + rec, "info");
+                        horizonte temporal.<br> <b>Correctas:</b> ` + bn[1].toFixed(2) + "/5. <br>" + rec, "info");
                     break;
                 case "Nivel Simbolico":
                     swal(nivel.nombre, `<b>Descripción:</b> Representación de operaciones o relaciones entre números o valores 
-                        por medio de imágenes. <br> <b>Correctas:</b> ` + bn[2] + "/5. <br>" + rec, "info");
+                        por medio de imágenes. <br> <b>Correctas:</b> ` + bn[2].toFixed(2) + "/5. <br>" + rec, "info");
                     break;
                 case "Nivel Cognitivo":
                     swal(nivel.nombre, `<b>Descripción:</b> Permite captar, codificar, almacenar y trabajar la información con 
-                        el fin de obtener algún producto mental. <br> <b>Correctas:</b> ` + bn[3] + "/5. <br>" + rec, "info");
+                        el fin de obtener algún producto mental. <br> <b>Correctas:</b> ` + bn[3].toFixed(2) + "/5. <br>" + rec, "info");
                     break;
                 default:
                     swal("Ups", "Ocurrió un error", "error");
@@ -842,7 +843,7 @@ var DetalleReporte = {
             }
         },
         detalleTotal: function () {
-            swal("Desempeño General", "Puntaje: " + tot.toFixed(2) + ". Para un total de 20 actividades. <br>" + infoGeneral, "info");
+            swal("Desempeño General", "Puntaje: " + tot.toFixed(2) + "/30. <br>" + infoGeneral, "info");
         }
     },
     components: {
@@ -865,9 +866,9 @@ var ReportesEstudiante = {
                     <b-icon icon="arrow-left-thick"></b-icon><span>Regresar</span>
                 </button>
                 <p id="guiaResultados"><br>
-                    <button class="button is-info" @click="descargarReporte()">
+                    /* <button class="button is-info" @click="descargarReporte()">
                         <b-icon icon="arrow-down-thick"></b-icon><span>Descargar</span>
-                    </button>
+                    </button> */
                 <br><b style="center">Guia de Resultados</b><br>
                     Puedes hacer clic en cada nivel para conocer el detalle de cuantas respuestas fueron correctas.
                     <ul>
@@ -974,7 +975,7 @@ var ReportesEstudiante = {
             }
             return reporte;
         },
-        descargarReporte: function(){
+        descargarReporte: function () {
             this.$emit('cargando', true);
             var url = this.state.urls.descargarReporte;
             return url;
@@ -1007,7 +1008,7 @@ Vue.component('vista-reportes', {
                     <section class="section">\
                         <div class="content has-text-grey has-text-centered">\
                             <p><b-icon icon="emoticon-sad" size="is-large"></b-icon></p>\
-                            <p class="subtitle">No tienes reportes disponibles. Recuerda calificar las actividades realizadas por los estudiantes para poder generar reportes.</p>\
+                            <p class="subtitle">No tienes reportes disponibles. Recuerda calificar las actividades realizadas por los estudiantes para poder generar reportes o recargar la página en caso de ya haber calificado las actividades</p>\
                         </div>\
                     </section>\
                 </div>\

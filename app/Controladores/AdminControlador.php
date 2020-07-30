@@ -45,6 +45,7 @@ class AdminControlador{
             'usuario' => $this->autenticacion->obtenerUsuarioActual(),
             'grados' => $this->actividadServicio->getGrados(),
             'niveles' => $this->actividadServicio->getNiveles(),
+            'instituciones' => $this->adminServicio->consultarInstituciones(),
             'cantidad' => [
                 'actividades' => $this->actividadServicio->consultarCantidadActividades(),
                 'actividadesPrevias' => $this->actividadServicio->consultarCantidadActividadesPrevias(),
@@ -61,7 +62,8 @@ class AdminControlador{
                 'editarActividadPrevia' => $router->pathFor('admin.editar.actividad.previa'),
                 'categoriasHabilidades' => $router->pathFor('admin.categorias.habilidades'),
                 'crearCategoria' => $router->pathFor('admin.crear.categoria'),
-                'crearHabilidad' => $router->pathFor('admin.crear.habilidad')
+                'crearHabilidad' => $router->pathFor('admin.crear.habilidad'),
+                'instituciones' => $router->pathFor('admin.consultar.instituciones')
             ]
         ];
         
@@ -202,5 +204,11 @@ class AdminControlador{
         }
 
         return $response->withJson(['respuesta' => $res], 200);
+    }
+    public function consultarInstituciones($request, $response){
+        $resultado = [];
+        $resultado['instituciones'] = $this->adminServicio->consultarInstituciones();
+        
+        return $response->withJson($resultado, 200);
     }
 }

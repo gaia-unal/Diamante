@@ -14,4 +14,6 @@ interface AdministradorRepoInterface{
     public function crear(Administrador $administrador);
 
     public function actualizar(Administrador $administrador);
+
+    public function consultarInstituciones();
 }

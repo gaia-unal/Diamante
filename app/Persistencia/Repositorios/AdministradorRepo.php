@@ -35,5 +35,15 @@ class AdministradorRepo extends Repositorio implements AdministradorRepoInterfac
         
     }
 
-    public function actualizar(Administrador $administrador){}
+    public function actualizar(Administrador $administrador){
+
+    }
+    
+    public function consultarInstituciones(){
+        $sql = 'SELECT * FROM institucion WHERE institucion_id <> 0 ORDER BY nombre ASC';
+
+        $query = $this->db->query($sql);
+        
+        return $query->fetchAll();
+    }
 }
