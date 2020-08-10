@@ -42,7 +42,7 @@
 	position: absolute;
 	left: 590px;
 	top: 397px;
-	display: none;
+	display: block;
 }
 #opcion1, #opcion2, #opcion3, #opcion4, #opcion5, #opcion6{
 	width:80px;

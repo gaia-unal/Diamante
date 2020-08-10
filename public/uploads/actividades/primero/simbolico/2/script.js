@@ -1,35 +1,35 @@
 // Iniciar el Canvas cuando se haya cargado la página
-window.addEventListener('load', function() {
+window.addEventListener('load', function () {
     iniciarCanvas();
-    document.getElementById('btn-continuar').onclick = function(){procesarPuntaje()};
+    document.getElementById('btn-continuar').onclick = function () { procesarPuntaje() };
 });
 
 var objetos;
 var realizado = false;
 
-function procesarPuntaje(){
+function procesarPuntaje() {
     var valido = true;
-    if(!realizado){
+    if (!realizado) {
         var texto = 'Por favor completa la actividad';
-        if(typeof parent.mostrarAlerta === "function") {
+        if (typeof parent.mostrarAlerta === "function") {
             parent.mostrarAlerta(texto);
-        }else{
+        } else {
             alert(texto);
         }
         ocultarContinuar();
         valido = false;
     }
 
-    if(valido){
+    if (valido) {
         var puntaje = 0;
         var resultado = 0;
-        
-        for(var i=0; i < objetos.length; i++){
-            
+
+        for (var i = 0; i < objetos.length; i++) {
+
             resultado += objetos[i].valor;
         }
-        
-        if(resultado == 3){
+
+        if (resultado == 3) {
             puntaje = 1;
         }
 
@@ -37,12 +37,21 @@ function procesarPuntaje(){
     }
 }
 
-function mostrarContinuar(){
+function mostrarContinuar() {
     document.getElementById('continuar').style.display = "block";
 }
 
-function ocultarContinuar(){
+function ocultarContinuar() {
     document.getElementById('continuar').style.display = "none";
+}
+
+
+function sonido() {
+    sound = document.createElement("embed");
+    sound.src = "pS2.mp3";
+    sound.style.visibility = "hidden";
+    sound.style.position = "absolute";
+    document.body.appendChild(sound);
 }
 
 function iniciarCanvas() {
@@ -80,7 +89,7 @@ function iniciarCanvas() {
         ];
 
         objetos = [
-        	{
+            {
                 nombre: 'PALETA 1',
                 src: 'paleta.png',
                 largo: objetosLargo,
@@ -158,19 +167,19 @@ function iniciarCanvas() {
     function cargarImagenes(callback) {
         var objetosCargados = 0;
         var contenedoresCargadas = 0;
-        objetos.forEach(function(actual) {
+        objetos.forEach(function (actual) {
             var img = new Image(actual.largo, actual.alto);
             img.src = actual.src;
 
-            img.onload = function() {
+            img.onload = function () {
                 actual.img = img;
                 objetosCargados++;
                 if (objetosCargados >= objetos.length) {
-                    contenedores.forEach(function(cont) {
+                    contenedores.forEach(function (cont) {
                         var imgJ = new Image(cont.largo, cont.alto);
                         imgJ.src = cont.src;
 
-                        imgJ.onload = function() {
+                        imgJ.onload = function () {
                             cont.img = imgJ;
                             contenedoresCargadas++;
                             if (contenedoresCargadas >= contenedores.length) {
@@ -193,10 +202,10 @@ function iniciarCanvas() {
 
     // Dibuja en el canvas todas las imagenes
     function dibujarImagenes() {
-        contenedores.forEach(function(cont) {
+        contenedores.forEach(function (cont) {
             ctx.drawImage(cont.img, cont.posX, cont.posY, cont.largo, cont.alto);
         });
-        objetos.forEach(function(obj) {
+        objetos.forEach(function (obj) {
             ctx.drawImage(obj.img, obj.posX, obj.posY, obj.largo, obj.alto);
         });
     }
@@ -301,10 +310,10 @@ function iniciarCanvas() {
         var objPosX1 = objeto.posX;
         var objPosX2 = objPosX1 + objeto.largo;
         var objPosY1 = objeto.posY;
-        var objPosY2 = objPosY1 + objeto.alto;        
-        
-        for(var i=0; i < contenedores.length; i++){
-        	var jauPosX1 = contenedores[i].posX;
+        var objPosY2 = objPosY1 + objeto.alto;
+
+        for (var i = 0; i < contenedores.length; i++) {
+            var jauPosX1 = contenedores[i].posX;
             var jauPosX2 = jauPosX1 + contenedores[i].largo;
             var jauPosY1 = contenedores[i].posY;
             var jauPosY2 = jauPosY1 + contenedores[i].alto;
@@ -313,7 +322,7 @@ function iniciarCanvas() {
                 objPosX2 <= jauPosX2 &&
                 objPosY1 >= jauPosY1 &&
                 objPosY2 <= jauPosY2
-            ){
+            ) {
                 if (objeto.tipo == contenedores[i].tipo) {
                     objeto.valor = 1;
 
@@ -322,8 +331,8 @@ function iniciarCanvas() {
                 }
                 mostrarContinuar();
                 break;
-            }else{
-            	objeto.valor = 0;
+            } else {
+                objeto.valor = 0;
             }
         }
     }

@@ -205,10 +205,9 @@ class AdminControlador{
 
         return $response->withJson(['respuesta' => $res], 200);
     }
-    public function consultarInstituciones($request, $response){
-        $resultado = [];
-        $resultado['instituciones'] = $this->adminServicio->consultarInstituciones();
-        
-        return $response->withJson($resultado, 200);
+    public function consultarInstituciones($request, $response, DocenteServicio $docenteServicio){
+        $instituciones = $docenteServicio->consultarInstituciones();
+
+        return $this->view->render($response, 'dashboard.twig', ['instituciones' => $instituciones]);
     }
 }

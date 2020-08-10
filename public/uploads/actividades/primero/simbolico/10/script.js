@@ -4,6 +4,15 @@ window.addEventListener('load', function() {
     continuar=document.getElementById('btn-continuar');
     continuar.onclick=function(){procesarPuntaje()}
 });
+
+function sonido(){
+	sound=document.createElement("embed");
+	sound.src="pS10.mp3";
+	sound.style.visibility="hidden";
+	sound.style.position="absolute";
+	document.body.appendChild(sound);
+}
+
 domOpcion1= document.getElementById('opcion1');
 domOpcion2= document.getElementById('opcion2');
 domOpcion3= document.getElementById('opcion3');
@@ -13,7 +22,7 @@ domOpcion6= document.getElementById('opcion6');
 var marcada= 0;
 var puntaje=0;
 var contadas=0;
-var listaOraciones=['+','-','4','7','9','=','23','?','<','3','862','45'];
+var listaOraciones=['+','-','4','7','9','=',';','?','<','3','¿','#'];
 domOpciones= document.getElementsByClassName('respuesta');
 
 domOpcion1.onclick=function(){cambioColor(domOpcion1)}

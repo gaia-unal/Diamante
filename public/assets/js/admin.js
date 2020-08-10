@@ -7,7 +7,6 @@ var Store = {
         niveles: [],
         categorias: [],
         habilidades: [],
-        instituciones: [],
         cantidad: {
             actividades: 0,
             actividadesPrevias: 0,
@@ -92,16 +91,6 @@ var Store = {
     },
     addCantidadActividadesPrevias: function () {
         this.state.cantidad.actividadesPrevias++;
-    },
-    setInstituciones: function () {
-        alert(this.state.cantidad.instituciones);
-        this.state.instituciones = [];
-        if (this.state.cantidad.instituciones  > 0) {
-            for (i =1; i<=6; i++) {
-                alert('vamos bien');
-                this.state.instituciones.push(this.state.instituciones[i]);
-            }
-        }
     },
 
     setCamposCsrf: function (nameEl, valueEl) {
@@ -2076,6 +2065,7 @@ var MenuInstituciones = {
     data: function () {
         return {
             state: Store.state,
+            instituciones: [],
             tabla: {
                 pagina: 1,
                 porPagina: 15,
@@ -2097,7 +2087,12 @@ var MenuInstituciones = {
                 var v = this;
                 axios.get(url)
                     .then(function (res) {
-                        Store.setInstituciones();
+                        v.setInstituciones(res.data.instituciones.instituciones);
+                        v.setDatosPaginacion(
+                            1,
+                            res.data.instituciones.porPagina,
+                            res.data.instituciones.paginas
+                        )
                     }).catch(function (err) {
                         Utilidades.mostrarMensajeErrorAjax(`Ha ocurrido un error cargando las instituciones, por favor recarga la página`);
                     }).finally(function () {
@@ -2106,6 +2101,14 @@ var MenuInstituciones = {
                     });
             } else this.cargado = true;
         },
+    },
+    setInstituciones: function(instituciones){
+        this.instituciones = [];
+        if(instituciones.length>0){
+            for(i in instituciones){
+                this.instituciones.push(instituciones[i]);
+            }
+        }
     },
     created: function () {
         this.cargaInicial();

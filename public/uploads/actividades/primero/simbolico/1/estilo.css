@@ -37,7 +37,7 @@
 	position: absolute;
 	left: 590px;
 	top: 397px;
-	display: none;
+	display: block;
 }
 
 .btnSigno{position:absolute;width:50px;height:50px;font-size:40px;background-color:#DDD;color:#787878;text-align:center;vertical-align:middle;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;border:2px solid #ccc;cursor:pointer;}
