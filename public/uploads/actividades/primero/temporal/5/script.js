@@ -4,6 +4,14 @@ window.addEventListener('load', function() {
     document.getElementById('btn-continuar').onclick = function(){procesarPuntaje()};
 });
 
+function sonido() {
+    sound = document.createElement("embed");
+    sound.src = "pT5.mp3";
+    sound.style.visibility = "hidden";
+    sound.style.position = "absolute";
+    document.body.appendChild(sound);
+}
+
 var puntajes = [];
 
 function iniciarCanvas() {

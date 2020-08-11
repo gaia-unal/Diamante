@@ -37,7 +37,7 @@
 	position: absolute;
 	left: 590px;
 	top: 397px;
-	display: none;
+	display: block;
 }
 
 #caja1{position:absolute;top:50px;left:10px;}

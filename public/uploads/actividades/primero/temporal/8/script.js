@@ -3,37 +3,37 @@ var puntaje = null;
 var boton = document.getElementById('btn-continuar');
 boton.addEventListener('click', procesarPuntaje, false);
 
-function mostrarContinuar(){
+function mostrarContinuar() {
 	document.getElementById('continuar').style.display = "block";
 }
 
-function ocultarContinuar(){
+function ocultarContinuar() {
 	document.getElementById('continuar').style.display = "none";
 }
 
-function procesarPuntaje(){
-	if(puntaje == null || isNaN(puntaje)){
+function procesarPuntaje() {
+	if (puntaje == null || isNaN(puntaje)) {
 		alert('Por favor completa la actividad');
 		ocultarContinuar();
-	}else{
+	} else {
 		parent.enviarPuntaje(puntaje);
 	}
 }
 
-function Error(){
+function Error() {
 	puntaje = 0;
 	mostrarContinuar();
 }
 
-function Correcto(){
+function Correcto() {
 	puntaje = 1;
 	mostrarContinuar();
 }
 
-function sonido(){
-	sound=document.createElement("embed");
-	sound.src=" ";/*Falta el audio para vincularlo*/
-	sound.style.visibility="hidden";
-	sound.style.position="absolute";
+function sonido() {
+	sound = document.createElement("embed");
+	sound.src = "pT8.mp3";/*Falta el audio para vincularlo*/
+	sound.style.visibility = "hidden";
+	sound.style.position = "absolute";
 	document.body.appendChild(sound);
 }

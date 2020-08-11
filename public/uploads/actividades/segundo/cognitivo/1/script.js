@@ -3,43 +3,43 @@ var puntaje = null;
 var boton = document.getElementById('btn-continuar');
 boton.addEventListener('click', procesarPuntaje, false);
 
-function mostrarContinuar(){
+function mostrarContinuar() {
 	document.getElementById('continuar').style.display = "block";
 }
 
-function ocultarContinuar(){
+function ocultarContinuar() {
 	document.getElementById('continuar').style.display = "none";
 }
 
-function procesarPuntaje(){
-	if(puntaje == null || isNaN(puntaje)){
+function procesarPuntaje() {
+	if (puntaje == null || isNaN(puntaje)) {
 		var texto = 'Por favor completa la actividad';
-		if(typeof parent.mostrarAlerta === "function") {
+		if (typeof parent.mostrarAlerta === "function") {
 			parent.mostrarAlerta(texto);
-		}else{
+		} else {
 			alert(texto);
 		}
 		ocultarContinuar();
-	}else{
+	} else {
 		parent.enviarPuntaje(puntaje);
 	}
 }
 
-function Error(){
+function Error() {
 	puntaje = 0;
 	mostrarContinuar();
 }
 
-function Correcto(){
+function Correcto() {
 	puntaje = 1;
 	mostrarContinuar();
 }
 
-function sonido(){
-	sound=document.createElement("embed");
-	sound.src=" ";
-	sound.style.visibility="hidden";
-	sound.style.position="absolute";
+function sonido() {
+	sound = document.createElement("embed");
+	sound.src = "sC1.mp3";
+	sound.style.visibility = "hidden";
+	sound.style.position = "absolute";
 	document.body.appendChild(sound);
 }
 
@@ -47,7 +47,7 @@ var numero1 = 0;
 var numero2 = 0;
 var resultado = 0;
 
-window.onload = function(){
+window.onload = function () {
 	var numeroMinimo = 1;
 	var numeroMaximo = 999;
 	numero1 = Math.floor(Math.random() * (numeroMaximo - numeroMinimo + 1)) + numeroMinimo;
@@ -68,20 +68,20 @@ window.onload = function(){
 }
 
 var input = document.getElementById('respuesta');
-input.addEventListener('input', function(e){
+input.addEventListener('input', function (e) {
 	calificar(this.value);
 });
 
-function calificar(valor){
+function calificar(valor) {
 	console.log(resultado)
-	if(!valor || isNaN(valor)){
+	if (!valor || isNaN(valor)) {
 		ocultarContinuar();
 		return false;
 	}
 
-	if(valor == resultado){
+	if (valor == resultado) {
 		Correcto();
-	}else{
+	} else {
 		Error();
 	}
 }

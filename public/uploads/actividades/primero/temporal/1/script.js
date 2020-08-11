@@ -1,8 +1,16 @@
 ﻿// Iniciar el Canvas cuando se haya cargado la página
-window.addEventListener('load', function() {
+window.addEventListener('load', function () {
     iniciarCanvas();
-    document.getElementById('btn-continuar').onclick = function(){ procesarPuntaje()};
+    document.getElementById('btn-continuar').onclick = function () { procesarPuntaje() };
 });
+
+function sonido() {
+    sound = document.createElement("embed");
+    sound.src = "pT1.mp3";
+    sound.style.visibility = "hidden";
+    sound.style.position = "absolute";
+    document.body.appendChild(sound);
+}
 
 var puntajes = [];
 
@@ -96,8 +104,8 @@ function iniciarCanvas() {
             },
         ];
 
-        objetos.forEach(function(obj){
-        	puntajes.push(null);
+        objetos.forEach(function (obj) {
+            puntajes.push(null);
         });
 
         cargarImagenes(dibujarCanvas);
@@ -109,19 +117,19 @@ function iniciarCanvas() {
     function cargarImagenes(callback) {
         var objetosCargados = 0;
         var contenedoresCargadas = 0;
-        objetos.forEach(function(actual) {
+        objetos.forEach(function (actual) {
             var img = new Image(actual.largo, actual.alto);
             img.src = actual.src;
 
-            img.onload = function() {
+            img.onload = function () {
                 actual.img = img;
                 objetosCargados++;
                 if (objetosCargados >= objetos.length) {
-                    contenedores.forEach(function(cont) {
+                    contenedores.forEach(function (cont) {
                         var imgJ = new Image(cont.largo, cont.alto);
                         imgJ.src = cont.src;
 
-                        imgJ.onload = function() {
+                        imgJ.onload = function () {
                             cont.img = imgJ;
                             contenedoresCargadas++;
                             if (contenedoresCargadas >= contenedores.length) {
@@ -144,10 +152,10 @@ function iniciarCanvas() {
 
     // Dibuja en el canvas todas las imagenes
     function dibujarImagenes() {
-        contenedores.forEach(function(cont) {
+        contenedores.forEach(function (cont) {
             ctx.drawImage(cont.img, cont.posX, cont.posY, cont.largo, cont.alto);
         });
-        objetos.forEach(function(obj) {
+        objetos.forEach(function (obj) {
             ctx.drawImage(obj.img, obj.posX, obj.posY, obj.largo, obj.alto);
         });
     }
@@ -252,10 +260,10 @@ function iniciarCanvas() {
         var objPosX1 = objeto.posX;
         var objPosX2 = objPosX1 + objeto.largo;
         var objPosY1 = objeto.posY;
-        var objPosY2 = objPosY1 + objeto.alto;        
-        
-        for(var i=0; i < contenedores.length; i++){
-        	var jauPosX1 = contenedores[i].posX;
+        var objPosY2 = objPosY1 + objeto.alto;
+
+        for (var i = 0; i < contenedores.length; i++) {
+            var jauPosX1 = contenedores[i].posX;
             var jauPosX2 = jauPosX1 + contenedores[i].largo;
             var jauPosY1 = contenedores[i].posY;
             var jauPosY2 = jauPosY1 + contenedores[i].alto;
@@ -264,39 +272,39 @@ function iniciarCanvas() {
                 objPosX2 <= jauPosX2 &&
                 objPosY1 >= jauPosY1 &&
                 objPosY2 <= jauPosY2
-            ){
+            ) {
                 if (objeto.tipo == contenedores[i].tipo) {
-                    puntajes[indiceObjetoSeleccionado] = 1/(objetos.length);
+                    puntajes[indiceObjetoSeleccionado] = 1 / (objetos.length);
                 } else {
                     puntajes[indiceObjetoSeleccionado] = 0;
                 }
                 break;
-            }else{
-            	puntajes[indiceObjetoSeleccionado] = null;
+            } else {
+                puntajes[indiceObjetoSeleccionado] = null;
             }
         }
     }
 
-    function mostrarContinuar(){
-    	var puntajesCorrectos = true;
-    	for(var i=0; i < puntajes.length; i++){
-    		if(puntajes[i] == null){
-    			puntajesCorrectos = false;
-    			break;
-    		}
-    	}
+    function mostrarContinuar() {
+        var puntajesCorrectos = true;
+        for (var i = 0; i < puntajes.length; i++) {
+            if (puntajes[i] == null) {
+                puntajesCorrectos = false;
+                break;
+            }
+        }
 
-    	var btnContinuar = document.getElementById('continuar');
-    	if(puntajesCorrectos){
-    		btnContinuar.style.display = "block";
-    	}else{
-    		btnContinuar.style.display = "none";
-    	}
+        var btnContinuar = document.getElementById('continuar');
+        if (puntajesCorrectos) {
+            btnContinuar.style.display = "block";
+        } else {
+            btnContinuar.style.display = "none";
+        }
     }
 
     // Ordena aleatoriamente el arreglo pasado
-    function ordenAleatorio(arreglo){
-        for (var i = arreglo.length-1; i > 0; i--){
+    function ordenAleatorio(arreglo) {
+        for (var i = arreglo.length - 1; i > 0; i--) {
             var j = Math.floor(Math.random() * (i + 1));
             var temp = arreglo[i];
             arreglo[i] = arreglo[j];
@@ -305,17 +313,17 @@ function iniciarCanvas() {
     }
 }
 
-function  procesarPuntaje(){
+function procesarPuntaje() {
     var puntaje = 0;
-    for(var i=0; i < puntajes.length; i++){
-    	
-    	if(puntajes[i] == null){
-    		alert("Por favor completa la actividad");
-    		document.getElementById('continuar').style.display = "none";
-    		return false;
-    	}
-    	puntaje += puntajes[i];
+    for (var i = 0; i < puntajes.length; i++) {
+
+        if (puntajes[i] == null) {
+            alert("Por favor completa la actividad");
+            document.getElementById('continuar').style.display = "none";
+            return false;
+        }
+        puntaje += puntajes[i];
     }
-    
+
     parent.enviarPuntaje(puntaje);
 }

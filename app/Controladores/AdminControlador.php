@@ -208,6 +208,6 @@ class AdminControlador{
     public function consultarInstituciones($request, $response, DocenteServicio $docenteServicio){
         $instituciones = $docenteServicio->consultarInstituciones();
 
-        return $this->view->render($response, 'dashboard.twig', ['instituciones' => $instituciones]);
+        return $this->view->render($response, 'dashboard.twig/view', ['instituciones' => $instituciones]);
     }
 }

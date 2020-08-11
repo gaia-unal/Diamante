@@ -3,7 +3,15 @@ var puntaje = null;
 var boton = document.getElementById('btn-continuar');
 boton.addEventListener('click', procesarPuntaje, false);
 
-window.onload = function(){
+function sonido() {
+	sound = document.createElement("embed");
+	sound.src = "sC16.mp3";
+	sound.style.visibility = "hidden";
+	sound.style.position = "absolute";
+	document.body.appendChild(sound);
+}
+
+window.onload = function () {
 	var numeroMinimo = 1;
 	var numeroMaximo = 999;
 	num_base = Math.floor(Math.random() * (numeroMaximo - numeroMinimo + 1)) + numeroMinimo;
@@ -12,7 +20,7 @@ window.onload = function(){
 }
 
 
-function mostrarContinuar(){
+function mostrarContinuar() {
 	var cen = document.getElementById("cen").value
 	var dec = document.getElementById("dec").value
 	var uni = document.getElementById("uni").value
@@ -24,11 +32,11 @@ function mostrarContinuar(){
 	}
 }
 
-function ocultarContinuar(){
+function ocultarContinuar() {
 	document.getElementById('continuar').style.display = "none";
 }
 
-function procesarPuntaje(){
+function procesarPuntaje() {
 	num_base = String(num_base)
 	if (num_base.length == 1) {
 		num_base = "00" + num_base
@@ -42,15 +50,15 @@ function procesarPuntaje(){
 	if (cen == false || dec == false || uni == false) {
 		puntaje = 0;
 		parent.enviarPuntaje(puntaje);
-	}else{
+	} else {
 		puntaje = 1;
 		parent.enviarPuntaje(puntaje);
 	}
 }
 
-function validarNumeros(e){
-  var key = window.event ? e.which : e.keyCode;
-  if (key < 48 || key > 57) {
-    e.preventDefault();
-  }
+function validarNumeros(e) {
+	var key = window.event ? e.which : e.keyCode;
+	if (key < 48 || key > 57) {
+		e.preventDefault();
+	}
 }

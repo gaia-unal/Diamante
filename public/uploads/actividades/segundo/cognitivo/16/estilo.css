@@ -37,7 +37,7 @@
     position: absolute;
     left: 590px;
     top: 397px;
-	display: none;
+	display: block;
 }
 
 .num{position:absolute;color:#787878;font-size:40px;}
