@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controladores;
+require 'pdf/fpdf.php';
 
 use Slim\Views\Twig;
 use Slim\Router;
@@ -9,6 +10,7 @@ use App\Dominio\Servicios\DocenteServicio;
 use App\Dominio\Servicios\EstudianteServicio;
 use App\Dominio\Servicios\ActividadServicio;
 use App\Dominio\Servicios\PruebaServicio;
+use App\Dominio\Servicios\Reporte;
 
 use App\Validaciones\ValidarRegistroEstudiante;
 use App\Validaciones\ValidarCalificacionActividad;
@@ -44,7 +46,8 @@ class DocenteControlador{
                 'estudiantes' => $router->pathFor('docente.consultar.estudiantes'),
                 'registrarEstudiante' => $router->pathFor('docente.registro.estudiante'),
                 'calificarActividad' => $router->pathFor('docente.calificar.actividad'),
-                'consultarReporte' => $router->pathFor('docente.consultar.reporte')
+                'consultarReporte' => $router->pathFor('docente.consultar.reporte'),
+                'descargarReporte' => $router->pathFor('docente.descargar.reporte')
             ]
         ];
 
@@ -119,5 +122,15 @@ class DocenteControlador{
         $pruebaId = $request->getQueryParam('prueba');
         $resultado = $pruebaServicio->consultarReporteDePrueba($pruebaId);
         return $response->withJson(['reporte' => $resultado], 200);
+    }
+
+    public function descargarReporteDePrueba($request, $response){
+        $pdf = new FPDF();
+        $pdf->AliasNbPages(); //Genera los pie de página en cada reporte
+        $pdf->AddPage();
+        $pdf->SetFont('Times','',12);
+        for($i=1;$i<=40;$i++)
+            $pdf->Cell(0,10, utf8_decode('Imprimiendo línea número '.$i),0,1);
+        $pdf->Output();
     }
 }

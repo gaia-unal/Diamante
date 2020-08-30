@@ -28,7 +28,7 @@
 #sonido{
     position:absolute;
     top:45px;left:50px;
-    display: none;
+    display: block;
 }
             
 #marco1{
@@ -47,4 +47,31 @@
     position:absolute;
     top:185px;
     left:241px;
+}
+
+#continuar {
+	position: absolute;
+	left: 270px;
+	top: 392px;
+	display: none;
+}
+
+#btn-continuar {
+	width: 106px;
+	background-color:#3d94f6;
+	-moz-border-radius:13px;
+	-webkit-border-radius:13px;
+	border-radius:13px;
+	border:1px solid #337fed;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-size:17px;
+	padding:10px 15px;
+	text-decoration:none;
+
+}
+
+#btn-continuar:hover {
+	background-color:#1e62d0;
 }

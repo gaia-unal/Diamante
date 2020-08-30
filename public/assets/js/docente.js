@@ -29,7 +29,8 @@ var Store = {
             estudiantes: '',
             registrarEstudiante: '',
             calificarActividad: '',
-            consultarReporte: ''
+            consultarReporte: '',
+            descargarReporte: ''
         }
     },
     setGrados: function (grados) {
@@ -113,6 +114,7 @@ var Store = {
         this.state.urls.registrarEstudiante = urls.registrarEstudiante;
         this.state.urls.calificarActividad = urls.calificarActividad;
         this.state.urls.consultarReporte = urls.consultarReporte;
+        this.state.urls.descargarReporte = urls.descargarReporte;
     },
     setCamposCsrf: function (nameEl, valueEl) {
         this.state.csrf.name.name = nameEl.name;
@@ -866,9 +868,9 @@ var ReportesEstudiante = {
                     <b-icon icon="arrow-left-thick"></b-icon><span>Regresar</span>
                 </button>
                 <p id="guiaResultados"><br>
-                    /* <button class="button is-info" @click="descargarReporte()">
+                    <button class="button is-info" v-for="(pr, index) in estudiante.pruebas" :key="pr.id" @click="descargarReporte(pr)">
                         <b-icon icon="arrow-down-thick"></b-icon><span>Descargar</span>
-                    </button> */
+                    </button>
                 <br><b style="center">Guia de Resultados</b><br>
                     Puedes hacer clic en cada nivel para conocer el detalle de cuantas respuestas fueron correctas.
                     <ul>
@@ -880,7 +882,7 @@ var ReportesEstudiante = {
             </div>
             <div class="column">
                 <detalle-reporte v-if="reporte" :reporte="reporte"></detalle-reporte>
-                <section class="section" v-show="!reporte">
+                <section id="descRep" class="section" v-show="!reporte">
                     <div class="content has-text-grey has-text-centered">
                         <p><b-icon icon="information" size="is-large"></b-icon></p>
                         <p class="subtitle">Selecciona una prueba para ver su reporte asociado</p>
@@ -975,9 +977,27 @@ var ReportesEstudiante = {
             }
             return reporte;
         },
-        descargarReporte: function () {
+        descargarReporte: function (prueba) {
             this.$emit('cargando', true);
             var url = this.state.urls.descargarReporte;
+            var params = {
+                prueba: prueba.id
+            };
+            var v = this;
+            axios.get(url, { params: params })
+                .then(function (res) {
+                    var img = new Image();
+                    img.source = path.resolve('public/assets/img/logo-oscuro.png');
+                    var doc = new jsPDF();
+                    doc.text(35, 25, 'Reporte del estudiante');
+                    doc.addImage(img, 'PNG', 1,2);
+                    doc.save('reporte.pdf'); 
+                }).catch(function (err) {
+                    Utilidades.mostrarMensajeErrorAjax();
+                }).finally(function () {
+                    v.$emit('cargando', false);
+                });
+            /* window.open(url, '_blank'); */
             return url;
         }
     },

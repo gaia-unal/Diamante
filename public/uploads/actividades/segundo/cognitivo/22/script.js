@@ -1,10 +1,35 @@
 var puntaje = null;
 
+function sonido() {
+	sound = document.createElement("embed");
+	sound.src = "sC22.mp3";
+	sound.style.visibility = "hidden";
+	sound.style.position = "absolute";
+	document.body.appendChild(sound);
+}
+
 var boton = document.getElementById('btn-continuar');
 boton.addEventListener('click', procesarPuntaje, false);
 
+window.onload = function(){
+	var numeroMinimo = 1;
+	var numeroMaximo = 999;
+	num_base = Math.floor(Math.random() * (numeroMaximo - numeroMinimo + 1)) + numeroMinimo;
+	var num = document.getElementById('num_base')
+	num.textContent = num_base;
+}
+
+
 function mostrarContinuar(){
-	document.getElementById('continuar').style.display = "block";
+	var cen = document.getElementById("cen").value
+	var dec = document.getElementById("dec").value
+	var uni = document.getElementById("uni").value
+	if (cen != "" && dec != "" && uni != "") {
+		document.getElementById('continuar').style.display = "block";
+	}
+	else {
+		ocultarContinuar()
+	}
 }
 
 function ocultarContinuar(){
@@ -12,103 +37,28 @@ function ocultarContinuar(){
 }
 
 function procesarPuntaje(){
-	if(puntaje == null || isNaN(puntaje)){
-		var texto = 'Por favor completa la actividad';
-		if(typeof parent.mostrarAlerta === "function") {
-			parent.mostrarAlerta(texto);
-		}else{
-			alert(texto);
-		}
-		ocultarContinuar();
-	}else{
+	num_base = String(num_base)
+	if (num_base.length == 1) {
+		num_base = "00" + num_base
+	}
+	if (num_base.length == 2) {
+		num_base = "0" + num_base
+	}
+	var cen = document.getElementById("cen").value == num_base[0]
+	var dec = document.getElementById("dec").value == num_base[1]
+	var uni = document.getElementById("uni").value == num_base[2]
+	if (cen == false || dec == false || uni == false) {
+		puntaje = 0;
 		parent.enviarPuntaje(puntaje);
-		//alert("Puntaje: " + puntaje);
+	}else{
+		puntaje = 1;
+		parent.enviarPuntaje(puntaje);
 	}
 }
 
-function Error(){
-	puntaje = 0;
-	mostrarContinuar();
-}
-
-function Correcto(n){
-	puntaje = n;
-	mostrarContinuar();
-}
-
-function sonido(){
-	sound=document.createElement("embed");
-	sound.src=" ";
-	sound.style.visibility="hidden";
-	sound.style.position="absolute";
-	document.body.appendChild(sound);
-}
-
-var respuestaOperacion = null;
-var respuestaValor = null;
-
-function seleccionar(valor){
-	switch(valor){
-		case 0:
-			respuestaOperacion = "SUMA";
-			document.getElementById('btnSigno1').classList.add('seleccionado');
-			document.getElementById('btnSigno2').classList.remove('seleccionado');
-			document.getElementById('btnSigno3').classList.remove('seleccionado');
-			break;
-		case 1:
-			respuestaOperacion = "RESTA";
-			document.getElementById('btnSigno2').classList.add('seleccionado');
-			document.getElementById('btnSigno1').classList.remove('seleccionado');
-			document.getElementById('btnSigno3').classList.remove('seleccionado');
-			break;
-		case 2:
-			respuestaOperacion = "MULTIPLICACION";
-			document.getElementById('btnSigno3').classList.add('seleccionado');
-			document.getElementById('btnSigno1').classList.remove('seleccionado');
-			document.getElementById('btnSigno2').classList.remove('seleccionado');
-			break;
-	}
-
-	verificarRespuestas();
-}
-
-var input = document.getElementById('respuesta');
-input.addEventListener('input', function(e){
-	calificar(this.value);
-});
-
-function calificar(valor){
-	if(!valor || isNaN(valor)){
-		ocultarContinuar();
-		return false;
-	}
-
-	respuestaValor = valor;
-
-	verificarRespuestas();
-}
-
-function verificarRespuestas() {
-	if (respuestaOperacion != null && respuestaValor != null && !isNaN(respuestaValor)) {
-		if (respuestaOperacion == "RESTA") {
-			if (respuestaValor == 8) {
-				Correcto(1);
-			}
-			else {
-				Correcto(0.5);
-			}
-		} else if (respuestaValor == 8) {
-			if (respuestaOperacion == "RESTA") {
-				Correcto(1);
-			}
-			else {
-				Correcto(0.5);
-			}
-			mostrarContinuar();
-		} else{
-			Error();
-		}
-	} else {
-		ocultarContinuar();
-	}
+function validarNumeros(e){
+  var key = window.event ? e.which : e.keyCode;
+  if (key < 48 || key > 57) {
+    e.preventDefault();
+  }
 }
