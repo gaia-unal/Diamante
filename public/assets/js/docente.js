@@ -1,8 +1,29 @@
 Vue.use(Buefy.default);
 
-var bn = [];
+var bn = [], porc = [], recNivel = [];
 var infoGeneral;
 var tot = 0;
+var rec = '';
+var desc = {
+    espacial: 'Ayuda a identificar la ubicación entre su cuerpo y los objetos.',
+    temporal: `Sitúa sucesos en el pasado o en el futuro, proporcionándole 
+    así un horizonte temporal.`,
+    simbolico: `Representación de operaciones o relaciones entre números o 
+    valores por medio de imágenes.`,
+    cognitivo: `Permite captar, codificar, almacenar y trabajar la información
+     con el fin de obtener algún producto mental`
+};
+function recomendacion() {
+    for (v = 0; v < 4; v++) {
+        if (porc[v] <= 0.5)
+            recNivel[v] = `Se recomienda reforzarlo porque presenta grandes dificultades
+            en el aprendizaje de las matemáticas`;
+        else if (porc[v] <= 0.8)
+            recNivel[v] = `Se presentan algunas dificultades, se recomienda reforzarlo`;
+        else
+            recNivel[v] = `El estudiante no tiene ninguna dificultad en este nivel`;
+    }
+};
 
 /* Store global para almacenar datos que se utilizan en diferentes componentes de la aplicación */
 var Store = {
@@ -29,8 +50,7 @@ var Store = {
             estudiantes: '',
             registrarEstudiante: '',
             calificarActividad: '',
-            consultarReporte: '',
-            descargarReporte: ''
+            consultarReporte: ''
         }
     },
     setGrados: function (grados) {
@@ -114,7 +134,6 @@ var Store = {
         this.state.urls.registrarEstudiante = urls.registrarEstudiante;
         this.state.urls.calificarActividad = urls.calificarActividad;
         this.state.urls.consultarReporte = urls.consultarReporte;
-        this.state.urls.descargarReporte = urls.descargarReporte;
     },
     setCamposCsrf: function (nameEl, valueEl) {
         this.state.csrf.name.name = nameEl.name;
@@ -707,6 +726,23 @@ var GraficaReporteNivel = {
     methods: {
         determinarColor: function () {
             var color = "#CCC";
+            switch (this.nivel.nombre) {
+                case "Nivel Espacial":
+                    porc[0] = this.nivel.porcentaje;
+                    break;
+                case "Nivel Temporal":
+                    porc[1] = this.nivel.porcentaje;
+                    break;
+                case "Nivel Simbolico":
+                    porc[2] = this.nivel.porcentaje;
+                    break;
+                case "Nivel Cognitivo":
+                    porc[3] = this.nivel.porcentaje;
+                    break;
+                default:
+                    swal("Ups", "Ocurrió un error", "error");
+                    break;
+            }
             if (this.nivel.porcentaje > 0.8) {
                 color = "#4caf50";
             } else if (this.nivel.porcentaje > 0.5) {
@@ -749,10 +785,12 @@ var GraficaReporteGeneral = {
                 infoGeneral = "No tiene dificultades en las matemáticas";
             } else if (this.datos > 0.496) {
                 color = "#2196f3";
-                infoGeneral = 'Tiene algunas dificultades en matemáticas pero no hay tendencia a la discalculia.'
+                infoGeneral = `Tiene algunas dificultades en matemáticas pero no hay tendencia 
+                a la discalculia`
             } else {
                 color = "#ff9800";
-                infoGeneral = 'Tiene muchas dificultades con la matemática y tendencia a la discalculia. Se recomienda reforzar.'
+                infoGeneral = `Tiene muchas dificultades con la matemática y tendencia a la 
+                discalculia. Se recomienda reforzar.`
             }
             return color;
         }
@@ -782,7 +820,7 @@ var DetalleReporte = {
     template:
         '<div class="columns is-vcentered">\
             <div class="column">\
-                <div class="columns is-multiline">\
+                <div id="reporteNivel" class="columns is-multiline">\
                     <div v-for="(nivel, index) in reporte.niveles" :key="index" class="column is-6">\
                         <div class="box" style="cursor: pointer;"  @click="seleccionarNivel(nivel)">\
                             <div class="has-text-centered contenedor-grafica-reporte">\
@@ -797,7 +835,7 @@ var DetalleReporte = {
                 </div>\
             </div>\
             <div class="column">\
-                <div class="box" style="cursor: pointer;"  @click="detalleTotal()">\
+                <div id="reporteGeneral" class="box" style="cursor: pointer;"  @click="detalleTotal()">\
                     <div class="has-text-centered contenedor-grafica-reporte">\
                         <p class="subtitle">Desempeño general</p>\
                         <grafica-general :datos="reporte.porcentajeTotal" :width="200" :height="200"></grafica-general>\
@@ -817,27 +855,24 @@ var DetalleReporte = {
     methods: {
         /* TODO, cambiar vista y mostrar las actividades/categorias */
         seleccionarNivel: function (nivel) {
-            var rec = '';
+            var rec;
             if (nivel.porcentaje <= 0.5)
                 rec = 'Se recomienda reforzar el nivel porque presenta grandes dificultades y tendencia a la discalculia';
             else if (nivel.porcentaje <= 0.8)
                 rec = 'No hay tendencia a la discalculia, pero se presentan dificultades en el nivel, se recomienda reforzar';
             switch (nivel.nombre) {
                 case "Nivel Espacial":
-                    swal(nivel.nombre, `<b>Descripción:</b> Ayuda a identificar la ubicación entre su cuerpo y los objetos. <br>
+                    swal(nivel.nombre, `<b>Descripción:</b>` + desc.espacial + `<br>
                         <b>Correctas:</b> ` + bn[0].toFixed(2) + "/5. <br>" + rec, "info");
                     break;
                 case "Nivel Temporal":
-                    swal(nivel.nombre, `<b>Descripción:</b> Sitúa sucesos en el pasado o en el futuro, proporcionándole así un 
-                        horizonte temporal.<br> <b>Correctas:</b> ` + bn[1].toFixed(2) + "/5. <br>" + rec, "info");
+                    swal(nivel.nombre, `<b>Descripción:</b>` + desc.temporal + `<br> <b>Correctas:</b> ` + bn[1].toFixed(2) + "/5. <br>" + rec, "info");
                     break;
                 case "Nivel Simbolico":
-                    swal(nivel.nombre, `<b>Descripción:</b> Representación de operaciones o relaciones entre números o valores 
-                        por medio de imágenes. <br> <b>Correctas:</b> ` + bn[2].toFixed(2) + "/5. <br>" + rec, "info");
+                    swal(nivel.nombre, `<b>Descripción:</b>` + desc.simbolico + ` <br> <b>Correctas:</b> ` + bn[2].toFixed(2) + "/5. <br>" + rec, "info");
                     break;
                 case "Nivel Cognitivo":
-                    swal(nivel.nombre, `<b>Descripción:</b> Permite captar, codificar, almacenar y trabajar la información con 
-                        el fin de obtener algún producto mental. <br> <b>Correctas:</b> ` + bn[3].toFixed(2) + "/5. <br>" + rec, "info");
+                    swal(nivel.nombre, `<b>Descripción:</b> ` + desc.cognitivo + ` <br> <b>Correctas:</b> ` + bn[3].toFixed(2) + "/5. <br>" + rec, "info");
                     break;
                 default:
                     swal("Ups", "Ocurrió un error", "error");
@@ -846,7 +881,7 @@ var DetalleReporte = {
         },
         detalleTotal: function () {
             swal("Desempeño General", "Puntaje: " + tot.toFixed(2) + "/30. <br>" + infoGeneral, "info");
-        }
+        },
     },
     components: {
         'grafica-nivel': GraficaReporteNivel,
@@ -857,10 +892,10 @@ var DetalleReporte = {
 /* Componente que muestra los reportes asociados a un estudiante específico */
 var ReportesEstudiante = {
     template:
-        `<div>
+        `<div id="reportePDF">
         <p class="title is-4">Reportes de {{ estudiante.nombre }}</p>
         <div class="columns">
-            <div class="column is-one-third">
+            <div class="column is-one-third" id="hide">
                 <div class="box item-lista" v-for="(pr, index) in estudiante.pruebas" :key="pr.id" @click="generarReporte(pr)">
                     <p><strong>{{ index + 1 }}. Prueba finalizada en {{ pr.fechaFin }}</strong></p>
                 </div>
@@ -868,22 +903,22 @@ var ReportesEstudiante = {
                     <b-icon icon="arrow-left-thick"></b-icon><span>Regresar</span>
                 </button>
                 <p id="guiaResultados"><br>
-                    <button class="button is-info" v-for="(pr, index) in estudiante.pruebas" :key="pr.id" @click="descargarReporte(pr)">
+                    <button class="button is-info" v-for="(pr, index) in estudiante.pruebas" :key="pr.id" @click="descargarReporte(pr, estudiante.nombre)">
                         <b-icon icon="arrow-down-thick"></b-icon><span>Descargar</span>
                     </button>
                 <br><b style="center">Guia de Resultados</b><br>
                     Puedes hacer clic en cada nivel para conocer el detalle de cuantas respuestas fueron correctas.
                     <ul>
-                        <li><b>- Naranja:</b> Indica que tiene discalculia o tiende a tenerla</li>
-                        <li><b>- Azul:</b> Tiene algunas dificultades pero no es propenso a tener discalculia</li>
-                        <li><b>- Verde:</b> No tienen ninguna dificultad con las matemáticas.</li>
+                        <li><b> Naranja:</b> Indica que tiene discalculia o tiende a tenerla</li>
+                        <li><b> Azul:</b> Tiene algunas dificultades pero no es propenso a tener discalculia</li>
+                        <li><b> Verde:</b> No tienen ninguna dificultad con las matemáticas.</li>
                     </ul>
                 </p>
             </div>
             <div class="column">
                 <detalle-reporte v-if="reporte" :reporte="reporte"></detalle-reporte>
                 <section id="descRep" class="section" v-show="!reporte">
-                    <div class="content has-text-grey has-text-centered">
+                    <div id="hidediv" class="content has-text-grey has-text-centered">
                         <p><b-icon icon="information" size="is-large"></b-icon></p>
                         <p class="subtitle">Selecciona una prueba para ver su reporte asociado</p>
                     </div>
@@ -955,18 +990,19 @@ var ReportesEstudiante = {
                     reporte.tiempoTotal += nivel.tiempo;
                     switch (nivel.nombre) {
                         case "Nivel Espacial":
-                            bn[0] = nivel.valor;
+                            bn[0] = nivel.valor.toFixed(2);
                             break;
                         case "Nivel Temporal":
-                            bn[1] = nivel.valor;
+                            bn[1] = nivel.valor.toFixed(2);
                             break;
                         case "Nivel Simbolico":
-                            bn[2] = nivel.valor;
+                            bn[2] = nivel.valor.toFixed(2);
                             break;
                         case "Nivel Cognitivo":
-                            bn[3] = nivel.valor;
+                            bn[3] = nivel.valor.toFixed(2);
                             break;
                     }
+                    recomendacion();
                     tot = tot + nivel.valor;
                 });
                 reporte.porcentajePorNivel = reporte.niveles.length / reporte.cantActividades;
@@ -977,29 +1013,61 @@ var ReportesEstudiante = {
             }
             return reporte;
         },
-        descargarReporte: function (prueba) {
+        descargarReporte: function (prueba, estudiante) {
             this.$emit('cargando', true);
-            var url = this.state.urls.descargarReporte;
             var params = {
-                prueba: prueba.id
+                prueba: prueba.id,
+                estudiante: estudiante
             };
-            var v = this;
-            axios.get(url, { params: params })
-                .then(function (res) {
-                    var img = new Image();
-                    img.source = path.resolve('public/assets/img/logo-oscuro.png');
-                    var doc = new jsPDF();
-                    doc.text(35, 25, 'Reporte del estudiante');
-                    doc.addImage(img, 'PNG', 1,2);
-                    doc.save('reporte.pdf'); 
-                }).catch(function (err) {
-                    Utilidades.mostrarMensajeErrorAjax();
-                }).finally(function () {
-                    v.$emit('cargando', false);
-                });
-            /* window.open(url, '_blank'); */
-            return url;
-        }
+            var hide = document.getElementById("hide");
+            hide.style.display = "none";
+            reporteGeneral = document.getElementById("reporteGeneral");
+            reporteNivel = document.getElementById("reporteNivel");
+            recomendacion();
+            var doc = new jsPDF();
+            var logo = document.getElementById('logo');
+            logo.style.display = "block";
+            html2canvas(logo, {
+                onrendered: function (canvas) {
+                    var logo = canvas.toDataURL("image/png");
+                    doc.addImage(logo, 'JPEG', 35, 10);
+                    doc.setFont('times');
+                    doc.setFontType('italic');
+                    doc.text(80, 50, `Reporte de ` + estudiante);
+                    doc.text(20, 65, 'Los resultados del estudiante, de acuerdo a cada nivel, son:');
+                    html2canvas(reporteNivel, {
+                        onrendered: function (canvas) {
+                            var img = canvas.toDataURL("image/png");
+                            doc.addImage(img, 'JPEG', 40, 70);
+                            doc.text(20, 215, 'Nivel espacial: ' + desc.espacial);
+                            doc.text(20, 222, 'Obtuvo un puntaje de ' + bn[0] + ' para 5 actividades.');
+                            doc.text(20, 229, recNivel[0]);
+                            doc.text(20, 245, 'Nivel temporal: ' + desc.temporal);
+                            doc.text(20, 259, 'Obtuvo un puntaje de ' + bn[1] + ' para 5 actividades.');
+                            doc.text(20, 266, recNivel[1]);
+                            doc.addPage()
+                            doc.text(20, 30, 'Nivel simbólico: ' + desc.simbolico);
+                            doc.text(20, 44, 'Obtuvo un puntaje de ' + bn[2] + ' para 5 actividades.');
+                            doc.text(20, 51, recNivel[2]);
+                            doc.text(20, 70, 'Nivel cognitivo: ' + desc.cognitivo);
+                            doc.text(20, 84, 'Obtuvo un puntaje de ' + bn[3] + ' para 5 actividades.');
+                            doc.text(20, 91, recNivel[3]);
+                            doc.text(20, 110, 'Respecto al reporte general, el puntaje fue:');
+                            html2canvas(reporteGeneral, {
+                                onrendered: function (canvas) {
+                                    var img = canvas.toDataURL("image/png");
+                                    doc.addImage(img, 'JPEG', 50, 115);
+                                    doc.text(20, 195, infoGeneral);
+                                    doc.save('Reporte ' + estudiante + '.pdf');
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+            logo.style.display = "none";
+            hide.style.display = "block";
+        },
     },
     components: {
         'detalle-reporte': DetalleReporte
