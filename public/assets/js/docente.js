@@ -863,16 +863,16 @@ var DetalleReporte = {
             switch (nivel.nombre) {
                 case "Nivel Espacial":
                     swal(nivel.nombre, `<b>Descripción:</b>` + desc.espacial + `<br>
-                        <b>Correctas:</b> ` + bn[0].toFixed(2) + "/5. <br>" + rec, "info");
+                        <b>Correctas:</b> ` + bn[0] + "/5. <br>" + rec, "info");
                     break;
                 case "Nivel Temporal":
-                    swal(nivel.nombre, `<b>Descripción:</b>` + desc.temporal + `<br> <b>Correctas:</b> ` + bn[1].toFixed(2) + "/5. <br>" + rec, "info");
+                    swal(nivel.nombre, `<b>Descripción:</b>` + desc.temporal + `<br> <b>Correctas:</b> ` + bn[1] + "/5. <br>" + rec, "info");
                     break;
                 case "Nivel Simbolico":
-                    swal(nivel.nombre, `<b>Descripción:</b>` + desc.simbolico + ` <br> <b>Correctas:</b> ` + bn[2].toFixed(2) + "/5. <br>" + rec, "info");
+                    swal(nivel.nombre, `<b>Descripción:</b>` + desc.simbolico + ` <br> <b>Correctas:</b> ` + bn[2] + "/5. <br>" + rec, "info");
                     break;
                 case "Nivel Cognitivo":
-                    swal(nivel.nombre, `<b>Descripción:</b> ` + desc.cognitivo + ` <br> <b>Correctas:</b> ` + bn[3].toFixed(2) + "/5. <br>" + rec, "info");
+                    swal(nivel.nombre, `<b>Descripción:</b> ` + desc.cognitivo + ` <br> <b>Correctas:</b> ` + bn[3] + "/5. <br>" + rec, "info");
                     break;
                 default:
                     swal("Ups", "Ocurrió un error", "error");

@@ -15,7 +15,7 @@ var objetos = [
 		nombre: 'objeto debajo',
 		seleccionado: false
 	},
-    {
+	{
 		nombre: 'objeto abajo',
 		seleccionado: false
 	},
@@ -38,59 +38,59 @@ var objetos = [
 
 ];
 
-var valorCorrecto = 1/(objetos.length);
-var puntajes = [valorCorrecto, valorCorrecto, 0, 0,0,valorCorrecto,valorCorrecto,valorCorrecto,valorCorrecto];
+var valorCorrecto = 1 / (objetos.length);
+var puntajes = [valorCorrecto, valorCorrecto, 0, 0, 0, valorCorrecto, valorCorrecto, valorCorrecto, valorCorrecto];
 
 var boton = document.getElementById('btn-continuar');
 boton.addEventListener('click', procesarPuntaje, false);
 
-function mostrarContinuar(){
+function mostrarContinuar() {
 	document.getElementById('continuar').style.display = "block";
 }
 
-function ocultarContinuar(){
+function ocultarContinuar() {
 	document.getElementById('continuar').style.display = "none";
 }
 
-function procesarPuntaje(){
-	if(verificarPuntajes()){
+function procesarPuntaje() {
+	if (verificarPuntajes()) {
 		var puntaje = 0;
-		puntajes.forEach(function(pun){
+		puntajes.forEach(function (pun) {
 			puntaje += pun;
 		});
 
 		parent.enviarPuntaje(puntaje);
-	}else{
+	} else {
 		var texto = 'Por favor completa la actividad';
-		if(typeof parent.mostrarAlerta === "function") {
+		if (typeof parent.mostrarAlerta === "function") {
 			parent.mostrarAlerta(texto);
 
-		}else{
+		} else {
 			alert(texto);
 		}
 		ocultarContinuar();
 	}
 }
 
-function Error(pos){
+function Error(pos) {
 	puntajes[pos] = 0;
 }
 
-function Correcto(pos){
+function Correcto(pos) {
 	puntajes[pos] = valorCorrecto;
 }
 
-function sonido(){
-	sound=document.createElement("embed");
-	sound.src=" ";
-	sound.style.visibility="hidden";
-	sound.style.position="absolute";
+function sonido() {
+	sound = document.createElement("embed");
+	sound.src = "sE15.mp3";
+	sound.style.visibility = "hidden";
+	sound.style.position = "absolute";
 	document.body.appendChild(sound);
 }
 
-function seleccionar(numero){
+function seleccionar(numero) {
 	var img;
-	switch(numero){
+	switch (numero) {
 		case 0:
 			img = document.getElementById("marco1");
 			break;
@@ -119,84 +119,84 @@ function seleccionar(numero){
 			img = document.getElementById("marco9");
 			break;
 	}
-	img.style.display=(img.style.display=="none")?"inline":"none";
-	
+	img.style.display = (img.style.display == "none") ? "inline" : "none";
+
 	objetos[numero].seleccionado = !objetos[numero].seleccionado;
 
 	calificar(numero);
 }
 
-function calificar(numero){
+function calificar(numero) {
 	var correcto = false;
-	switch(numero){
+	switch (numero) {
 		case 0:
-			if(!objetos[0].seleccionado){
+			if (!objetos[0].seleccionado) {
 				Correcto(numero);
 				correcto = true;
 			}
 			break;
 		case 1:
-			if(!objetos[1].seleccionado){
+			if (!objetos[1].seleccionado) {
 				Correcto(numero);
 				correcto = true;
 			}
 			break;
 		case 2:
-			if(objetos[2].seleccionado){
+			if (objetos[2].seleccionado) {
 				Correcto(numero);
 				correcto = true;
 			}
 			break;
 		case 3:
-			if(objetos[3].seleccionado){
+			if (objetos[3].seleccionado) {
 				Correcto(numero);
 				correcto = true;
 			}
 			break;
 		case 4:
-			if(objetos[4].seleccionado){
+			if (objetos[4].seleccionado) {
 				Correcto(numero);
 				correcto = true;
 			}
 			break;
 		case 5:
-			if(!objetos[5].seleccionado){
+			if (!objetos[5].seleccionado) {
 				Correcto(numero);
 				correcto = true;
 			}
 			break;
 		case 6:
-			if(!objetos[6].seleccionado){
+			if (!objetos[6].seleccionado) {
 				Correcto(numero);
 				correcto = true;
 			}
 			break;
 		case 7:
-			if(!objetos[7].seleccionado){
+			if (!objetos[7].seleccionado) {
 				Correcto(numero);
 				correcto = true;
 			}
 			break;
 		case 8:
-			if(!objetos[8].seleccionado){
+			if (!objetos[8].seleccionado) {
 				Correcto(numero);
 				correcto = true;
 			}
 			break;
 	}
 
-	if(!correcto) Error(numero);
+	if (!correcto) Error(numero);
 
-	if(verificarPuntajes()){
+	if (verificarPuntajes()) {
 		mostrarContinuar();
-	}else{
+	} else {
 		ocultarContinuar();
 	}
 }
 
-function verificarPuntajes(){
-	for(var i = 0; i < puntajes.length; i++){
-		if(puntajes[i] == null){
+function verificarPuntajes() {
+	for (var i = 0; i < puntajes.length; i++) {
+		if (puntajes[i] == null) {
 			return false;
 		}
 	}

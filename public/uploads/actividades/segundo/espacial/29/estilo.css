@@ -37,7 +37,7 @@
 	position: absolute;
 	left: 590px;
 	top: 397px;
-	display: none;
+	display: block;
 }
 
 #imagen1{position:absolute;top:20px;left:140px;}

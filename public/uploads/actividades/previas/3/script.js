@@ -1,95 +1,103 @@
-﻿var valoresCorrectos = [4, 5, 6];
+﻿var valoresCorrectos = [4, 2, 7];
 var respuesta = [null, null, null];
 
-window.addEventListener('load', function() {
-	document.getElementById('btn-continuar').onclick = function(){ continuarActividad()};	
+window.addEventListener('load', function () {
+	document.getElementById('btn-continuar').onclick = function () { continuarActividad() };
 });
 
 var input1 = document.getElementById('respuesta1');
 var input2 = document.getElementById('respuesta2');
 var input3 = document.getElementById('respuesta3');
 
-input1.addEventListener('change', function(e){
+input1.addEventListener('change', function (e) {
 	calificar(1);
 });
-input2.addEventListener('change', function(e){
+input2.addEventListener('change', function (e) {
 	calificar(2);
 });
-input3.addEventListener('change', function(e){
+input3.addEventListener('change', function (e) {
 	calificar(3);
 });
 
 function calificar(numero) {
 	var valor = 0;
-	switch(numero){
+	switch (numero) {
 		case 1:
 			valor = document.getElementById('respuesta1').value;
-			if(valor){
+			if (valor) {
 				respuesta[0] = (valor == valoresCorrectos[0]) ? 1 : 0;
-			}else{
+			} else {
 				respuesta[0] = null;
 			}
-		break;
+			break;
 		case 2:
 			valor = document.getElementById('respuesta2').value;
-			if(valor){
+			if (valor) {
 				respuesta[1] = (valor == valoresCorrectos[1]) ? 1 : 0;
-			}else{
+			} else {
 				respuesta[1] = null;
 			}
-		break;
+			break;
 		case 3:
 			valor = document.getElementById('respuesta3').value;
-			if(valor){
+			if (valor) {
 				respuesta[2] = (valor == valoresCorrectos[2]) ? 1 : 0;
-			}else{
+			} else {
 				respuesta[2] = null;
 			}
-		break;
+			break;
 	}
 
 	mostrarContinuar();
 }
 
 function reproducirAudio(numero) {
-	// TODO reproducir instrucción, el parametro indica qué instrucción se debe reproducir
+	src = "aP3-";
+	switch (numero) {
+		case 1:
+			src += "1.mp3";
+			break;
+		case 2:
+			src += "2.mp3";
+			break;
+		case 3:
+			src += "3.mp3";
+			break;
+	}
+	sound = document.createElement("embed");
+	sound.src = src;
+	sound.style.visibility = "hidden";
+	sound.style.position = "absolute";
+	document.body.appendChild(sound);
 }
 
-function mostrarContinuar(){
+function mostrarContinuar() {
 	document.getElementById('continuar').style.display = "block";
 }
 
-function ocultarContinuar(){
+function ocultarContinuar() {
 	document.getElementById('continuar').style.display = "none";
 }
 
-function continuarActividad(){
+function continuarActividad() {
 	var valido = true;
 	for (var i = 0; i < respuesta.length; i++) {
-		if(respuesta[i] == null){
+		if (respuesta[i] == null) {
 			valido = false;
 			break;
 		}
 	}
 
-	if(valido){
+	if (valido) {
 		var mensaje = '';
-		if(respuesta[0] == 1 && respuesta[1] == 1 && respuesta[2] == 1) {
+		if (respuesta[0] == 1 && respuesta[1] == 1 && respuesta[2] == 1) {
 			mensaje = '¡Lo has hecho muy bien!';
-		}else{
+		} else {
 			mensaje = 'Tienes algún error, pero la próxima vez lo harás bien!';
 		}
 		parent.completarActividadPrevia(mensaje);
-	}else{
+	} else {
 		alert('Por favor completa la actividad');
 		ocultarContinuar();
 	}
-}
-
-function sonido(){
-	sound=document.createElement("embed");
-	sound.src=" ";
-	sound.style.visibility="hidden";
-	sound.style.position="absolute";
-	document.body.appendChild(sound);
 }

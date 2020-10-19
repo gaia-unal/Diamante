@@ -3,43 +3,43 @@ var puntaje = null;
 var boton = document.getElementById('btn-continuar');
 boton.addEventListener('click', procesarPuntaje, false);
 
-function mostrarContinuar(){
+function mostrarContinuar() {
 	document.getElementById('continuar').style.display = "block";
 }
 
-function ocultarContinuar(){
+function ocultarContinuar() {
 	document.getElementById('continuar').style.display = "none";
 }
 
-function procesarPuntaje(){
-	if(puntaje == null || isNaN(puntaje)){
+function procesarPuntaje() {
+	if (puntaje == null || isNaN(puntaje)) {
 		var texto = 'Por favor completa la actividad';
-		if(typeof parent.mostrarAlerta === "function") {
+		if (typeof parent.mostrarAlerta === "function") {
 			parent.mostrarAlerta(texto);
-		}else{
+		} else {
 			alert(texto);
 		}
 		ocultarContinuar();
-	}else{
+	} else {
 		parent.enviarPuntaje(puntaje);
 	}
 }
 
-function Error(){
+function Error() {
 	puntaje = 0;
 	mostrarContinuar();
 }
 
-function Correcto(){
+function Correcto() {
 	puntaje = 1;
 	mostrarContinuar();
 }
 
-function sonido(){
-	sound=document.createElement("embed");
-	sound.src=" ";
-	sound.style.visibility="hidden";
-	sound.style.position="absolute";
+function sonido() {
+	sound = document.createElement("embed");
+	sound.src = "sE5.mp3";
+	sound.style.visibility = "hidden";
+	sound.style.position = "absolute";
 	document.body.appendChild(sound);
 }
 
@@ -48,10 +48,10 @@ var img2 = document.getElementById("imagen2");
 var img3 = document.getElementById("imagen3");
 var img4 = document.getElementById("imagen4");
 
-function seleccionar(numero){
+function seleccionar(numero) {
 	var colorSeleccion = "#62bda8";
 	var colorDefault = "#CCC";
-	switch(numero){
+	switch (numero) {
 		case 1:
 			Error();
 			img1.style.borderColor = colorSeleccion;
@@ -60,14 +60,14 @@ function seleccionar(numero){
 			img4.style.borderColor = colorDefault;
 			break;
 		case 2:
-		    Correcto();
-		    img1.style.borderColor = colorDefault;
+			Correcto();
+			img1.style.borderColor = colorDefault;
 			img2.style.borderColor = colorSeleccion;
 			img3.style.borderColor = colorDefault;
 			img4.style.borderColor = colorDefault;
 			break;
 		case 3:
-		    Error();
+			Error();
 			img1.style.borderColor = colorDefault;
 			img2.style.borderColor = colorDefault;
 			img3.style.borderColor = colorSeleccion;
@@ -75,7 +75,7 @@ function seleccionar(numero){
 			break;
 
 		case 4:
-		    Error();
+			Error();
 			img1.style.borderColor = colorDefault;
 			img2.style.borderColor = colorDefault;
 			img3.style.borderColor = colorDefault;

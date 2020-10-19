@@ -1,10 +1,10 @@
 ﻿// Iniciar el Canvas cuando se haya cargado la página
-window.addEventListener('load', function() {
+window.addEventListener('load', function () {
 	var imagenes = ['imagen1.png', 'imagen2.png'];
 	var fuente = imagenes[Math.floor(Math.random() * imagenes.length)];
 	document.getElementById('imagen').src = fuente;
 	iniciarCanvas();
-	document.getElementById('btn-continuar').onclick = function(){ continuarActividad()};
+	document.getElementById('btn-continuar').onclick = function () { continuarActividad() };
 });
 
 var canvas, ctx;
@@ -34,7 +34,7 @@ function dibujarCanvas() {
 }
 
 // Evento cuando se presiona el mouse
-function mousePresionado(evento) {    	
+function mousePresionado(evento) {
 	var posMouse = posicionMouse(evento);
 
 	mouseActivo = true;
@@ -54,48 +54,48 @@ function mousePresionado(evento) {
 
 // Evento cuando se mueve el mouse
 function mouseMoviendose(evento) {
-    if(mouseActivo){
-    	var posMouse = posicionMouse(evento);
-    	ctx.strokeStyle = '#000';
-    	ctx.lineCap = 'round';
-    	ctx.lineTo(posMouse[0], posMouse[1]);
-    	ctx.stroke();
-    	mostrarContinuar();
-    }
+	if (mouseActivo) {
+		var posMouse = posicionMouse(evento);
+		ctx.strokeStyle = '#000';
+		ctx.lineCap = 'round';
+		ctx.lineTo(posMouse[0], posMouse[1]);
+		ctx.stroke();
+		mostrarContinuar();
+	}
 }
 
 // Evento cuando se deja de presionar el mouse
 function mouseNoPresionado(evento) {
-    ctx.closePath();
-    mouseActivo = false;
-    dibujoTerminado = true;
+	ctx.closePath();
+	mouseActivo = false;
+	dibujoTerminado = true;
 }
 
 // Obtener posición precisa del mouse
 function posicionMouse(evento) {
-    var bRect = canvas.getBoundingClientRect();
-    mouseX = (evento.clientX - bRect.left) * (canvas.width / bRect.width);
-    mouseY = (evento.clientY - bRect.top) * (canvas.height / bRect.height);
+	var bRect = canvas.getBoundingClientRect();
+	mouseX = (evento.clientX - bRect.left) * (canvas.width / bRect.width);
+	mouseY = (evento.clientY - bRect.top) * (canvas.height / bRect.height);
 
-   	return [mouseX, mouseY];
+	return [mouseX, mouseY];
 }
 
-function mostrarContinuar(){
+function mostrarContinuar() {
 	document.getElementById('continuar').style.display = "block";
 }
 
-function ocultarContinuar(){
+function ocultarContinuar() {
 	document.getElementById('continuar').style.display = "none";
 }
 
-function continuarActividad(){
+function continuarActividad() {
 	parent.completarActividadPrevia('¡Dibujas muy bien!');
 }
 
-function sonido(){
-	sound=document.createElement("embed");
-	sound.src=" ";/*Falta el audio para vincularlo*/
-	sound.style.visibility="hidden";
-	sound.style.position="absolute";
+function sonido() {
+	sound = document.createElement("embed");
+	sound.src = "aP1.mp3";
+	sound.style.visibility = "hidden";
+	sound.style.position = "absolute";
 	document.body.appendChild(sound);
 }
