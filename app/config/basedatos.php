@@ -1,6 +1,6 @@
 <?php
 
-/* return [
+return [
     'host' => 'localhost',
     'user' => 'root',
     'password' => '',
@@ -10,9 +10,9 @@
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
     ]
-]; */
+];
 
-return [
+/* return [
     'host' => 'localhost',
     'user' => 'diamante',
     'password' => '%diamante$',
@@ -22,4 +22,4 @@ return [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
     ]
-];
+]; */

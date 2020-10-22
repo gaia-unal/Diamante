@@ -1,355 +1,206 @@
-// Iniciar el Canvas cuando se haya cargado la página
-window.addEventListener('load', function() {
-    iniciarCanvas();
-    document.getElementById('btn-continuar').onclick = function(){procesarPuntaje()};
-});
+var objetos = [
+	{
+		nombre: 'objeto interior',
+		seleccionado: false
+	},
+	{
+		nombre: 'objeto exterior',
+		seleccionado: false
+	},
+	{
+		nombre: 'objeto fuera',
+		seleccionado: false
+	},
+	{
+		nombre: 'objeto debajo',
+		seleccionado: false
+	},
+    {
+		nombre: 'objeto abajo',
+		seleccionado: false
+	},
+	{
+		nombre: 'objeto agrupados',
+		seleccionado: false
+	},
+	{
+		nombre: 'objeto dentro',
+		seleccionado: false
+	},
+	{
+		nombre: 'objeto dispersos',
+		seleccionado: false
+	},
+	{
+		nombre: 'objeto agrupados2',
+		seleccionado: false
+	}
 
-var puntajes = [];
+];
 
-function procesarPuntaje(){
-    var puntaje = 0;
-    for(var i=0; i < puntajes.length; i++){
-        if(isNaN(puntajes[i]) || puntajes[i] == null){
-            alert("Por favor completa la actividad");
-            ocultarContinuar();
-            return false;
-        }else{
-            puntaje += puntajes[i];
-        }
-    }
+var valorCorrecto = 1/(objetos.length);
+var puntajes = [0, valorCorrecto, valorCorrecto, valorCorrecto,valorCorrecto,0,0,valorCorrecto,valorCorrecto];
 
-   parent.enviarPuntaje(puntaje);
-   //alert(puntaje);
-}
+var boton = document.getElementById('btn-continuar');
+boton.addEventListener('click', procesarPuntaje, false);
 
 function mostrarContinuar(){
-    document.getElementById('continuar').style.display = "block";
+	document.getElementById('continuar').style.display = "block";
 }
 
 function ocultarContinuar(){
-    document.getElementById('continuar').style.display = "none";
+	document.getElementById('continuar').style.display = "none";
 }
 
-function iniciarCanvas() {
-    var canvas = document.getElementById('lienzo');
-    var ctx = canvas.getContext('2d');
+function procesarPuntaje(){
+	if(verificarPuntajes()){
+		var puntaje = 0;
+		puntajes.forEach(function(pun){
+			puntaje += pun;
+		});
 
-    var fondo;
-    var contenedores;
-    var objetos;
+		parent.enviarPuntaje(puntaje);
+		/* alert(puntaje); */
+	}else{
+		var texto = 'Por favor completa la actividad';
+		if(typeof parent.mostrarAlerta === "function") {
+			parent.mostrarAlerta(texto);
 
-    var indiceObjetoSeleccionado;
-    var arrastrando;
-    var mouseX;
-    var mouseY;
-    var mouseArrastrandoX;
-    var mouseArrastrandoY;
+		}else{
+			alert(texto);
+		}
+		ocultarContinuar();
+	}
+}
 
-    iniciar();
+function Error(pos){
+	puntajes[pos] = 0;
+}
 
-    // Carga los recursos iniciales dentro del canvas
-    function iniciar() {        
+function Correcto(pos){
+	puntajes[pos] = valorCorrecto;
+}
 
-        fondo = {
-            nombre: 'Fondo',
-            src: 'fondo.png',
-            largo: canvas.width,
-            alto: canvas.height,
-            img: null,
-            posX: 0,
-            posY: 0
-        };
+function sonido(){
+	sound=document.createElement("embed");
+	sound.src=" ";
+	sound.style.visibility="hidden";
+	sound.style.position="absolute";
+	document.body.appendChild(sound);
+}
 
-        contenedores = [
-            {
-                nombre: 'Canasta frutas',
-                src: 'canasta_frutas.png',
-                largo: 230,
-                alto: 127,
-                img: null,
-                posX: 50,
-                posY: 120,
-                tipo: 'A'
-            },
-            {
-                nombre: 'Canasta verduras',
-                src: 'canasta_verduras.png',
-                largo: 230,
-                alto: 127,
-                img: null,
-                posX: 320,
-                posY: 120,
-                tipo: 'B'
-            },
-        ];
+function seleccionar(numero){
+	var img;
+	switch(numero){
+		case 0:
+			img = document.getElementById("marco1");
+			break;
+		case 1:
+			img = document.getElementById("marco2");
+			break;
+		case 2:
+			img = document.getElementById("marco3");
+			break;
+		case 3:
+			img = document.getElementById("marco4");
+			break;
+		case 4:
+			img = document.getElementById("marco5");
+			break;
+		case 5:
+			img = document.getElementById("marco6");
+			break;
+		case 6:
+			img = document.getElementById("marco7");
+			break;
+		case 7:
+			img = document.getElementById("marco8");
+			break;
+		case 8:
+			img = document.getElementById("marco9");
+			break;
+	}
+	img.style.display=(img.style.display=="none")?"inline":"none";
+	
+	objetos[numero].seleccionado = !objetos[numero].seleccionado;
 
-        objetos = [
-        	{
-                nombre: 'FRUTA 1',
-                src: 'fruta1.png',
-                largo: 60,
-                alto: 85,
-                img: null,
-                posX: 30,
-                posY: 240,
-                tipo: 'A'
-            },
-            {
-                nombre: 'VERDURA 1',
-                src: 'verdura1.png',
-                largo: 57,
-                alto: 82,
-                img: null,
-                posX: 120,
-                posY: 245,
-                tipo: 'B'
-            },
-            {
-                nombre: 'FRUTA 2',
-                src: 'fruta2.png',
-                largo: 73,
-                alto: 77,
-                img: null,
-                posX: 210,
-                posY: 250,
-                tipo: 'A'
-            },
-            {
-                nombre: 'VERDURA 2',
-                src: 'verdura2.png',
-                largo: 61,
-                alto: 84,
-                img: null,
-                posX: 315,
-                posY: 250,
-                tipo: 'B'
-            },
-            {
-                nombre: 'FRUTA 3',
-                src: 'fruta3.png',
-                largo: 68,
-                alto: 68,
-                img: null,
-                posX: 500,
-                posY: 260,
-                tipo: 'A'
-            },
-            {
-                nombre: 'VERDURA 3',
-                src: 'verdura3.png',
-                largo: 93,
-                alto: 93,
-                img: null,
-                posX: 400,
-                posY: 240,
-                tipo: 'B'
-            },
-        ];
+	calificar(numero);
+}
 
-        //puntajes = [null, null, null, null, null, null];
+function calificar(numero){
+	var correcto = false;
+	switch(numero){
+		case 0:
+			if(objetos[0].seleccionado){
+				Correcto(numero);
+				correcto = true;
+			}
+			break;
+		case 1:
+			if(!objetos[1].seleccionado){
+				Correcto(numero);
+				correcto = true;
+			}
+			break;
+		case 2:
+			if(!objetos[2].seleccionado){
+				Correcto(numero);
+				correcto = true;
+			}
+			break;
+		case 3:
+			if(!objetos[3].seleccionado){
+				Correcto(numero);
+				correcto = true;
+			}
+			break;
+		case 4:
+			if(!objetos[4].seleccionado){
+				Correcto(numero);
+				correcto = true;
+			}
+			break;
+		case 5:
+			if(objetos[5].seleccionado){
+				Correcto(numero);
+				correcto = true;
+			}
+			break;
+		case 6:
+			if(objetos[6].seleccionado){
+				Correcto(numero);
+				correcto = true;
+			}
+			break;
+		case 7:
+			if(!objetos[7].seleccionado){
+				Correcto(numero);
+				correcto = true;
+			}
+			break;
+		case 8:
+			if(!objetos[8].seleccionado){
+				Correcto(numero);
+				correcto = true;
+			}
+			break;
+	}
 
-        objetos.forEach(function(obj){
-            puntajes.push(null);
-        });
+	if(!correcto) Error(numero);
 
-        cargarImagenes(dibujarCanvas);
+	if(verificarPuntajes()){
+		mostrarContinuar();
+	}else{
+		ocultarContinuar();
+	}
+}
 
-        canvas.addEventListener('mousedown', mousePresionado, false);
-    }
+function verificarPuntajes(){
+	for(var i = 0; i < puntajes.length; i++){
+		if(puntajes[i] == null){
+			return false;
+		}
+	}
 
-    // Carga inicial de las imagenes, cuando se han cargado todas, las dibuja en el canvas
-    function cargarImagenes(callback) {
-        var objetosCargados = 0;
-        var contenedoresCargadas = 0;
-        objetos.forEach(function(actual) {
-            var img = new Image(actual.largo, actual.alto);
-            img.src = actual.src;
-
-            img.onload = function() {
-                actual.img = img;
-                objetosCargados++;
-                if (objetosCargados >= objetos.length) {
-                    contenedores.forEach(function(cont) {
-                        var imgJ = new Image(cont.largo, cont.alto);
-                        imgJ.src = cont.src;
-
-                        imgJ.onload = function() {
-                            cont.img = imgJ;
-                            contenedoresCargadas++;
-                            if (contenedoresCargadas >= contenedores.length) {
-                                var imgF = new Image(fondo.largo, fondo.alto);
-                                imgF.src = fondo.src;
-                                
-                                imgF.onload = function(){
-                                    fondo.img = imgF;
-                                    callback();
-                                }
-                            }
-                        }
-                    });
-                }
-            }
-        });
-    }
-
-    // Prepara el canvas para dibujar las imagenes
-    function dibujarCanvas() {
-        /*ctx.fillStyle = '#FFF';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);*/
-
-        ctx.drawImage(fondo.img, fondo.posX, fondo.posY, fondo.largo, fondo.alto);
-
-        dibujarImagenes();
-    }
-
-    // Dibuja en el canvas todas las imagenes
-    function dibujarImagenes() {
-        contenedores.forEach(function(cont) {
-            ctx.drawImage(cont.img, cont.posX, cont.posY, cont.largo, cont.alto);
-        });
-        objetos.forEach(function(objeto) {
-            ctx.drawImage(objeto.img, objeto.posX, objeto.posY, objeto.largo, objeto.alto);
-        });
-    }
-
-    // Determina si un objeto ha sido seleccionado según posiciones indicadas
-    function objetoSeleccionado(objeto, mx, my) {
-        if (
-            mx >= (objeto.posX) &&
-            mx <= (objeto.posX + objeto.largo) &&
-            my >= (objeto.posY) &&
-            my <= (objeto.posY + objeto.alto)
-        ) {
-            return true;
-        }
-
-        return false;
-    }
-
-    // Evento cuando se presiona el mouse
-    function mousePresionado(evento) {
-        var i;
-
-        var indiceMasCercano = -1;
-
-        // Obtener posición precisa del mouse
-        var bRect = canvas.getBoundingClientRect();
-        mouseX = (evento.clientX - bRect.left) * (canvas.width / bRect.width);
-        mouseY = (evento.clientY - bRect.top) * (canvas.height / bRect.height);
-
-        for (i = 0; i < objetos.length; i++) {
-            if (objetoSeleccionado(objetos[i], mouseX, mouseY)) {
-                arrastrando = true;
-                if (i > indiceMasCercano) {
-                    // Tendremos en cuenta el punto del cual el mouse está sosteniendo el objeto
-                    mouseArrastrandoX = mouseX - objetos[i].posX;
-                    mouseArrastrandoY = mouseY - objetos[i].posY;
-                    indiceMasCercano = i;
-                    indiceObjetoSeleccionado = i;
-                }
-            }
-        }
-
-        if (arrastrando) {
-            window.addEventListener('mousemove', mouseMoviendose, false);
-        }
-        canvas.removeEventListener('mousedown', mousePresionado, false);
-        window.addEventListener('mouseup', mouseNoPresionado, false);
-
-        // Evita que el evento de mouse presionado tenga efecto fuera de la ventana principal del navegador
-        if (evento.preventDefault) {
-            evento.preventDefault();
-        } else if (evento.returnValue) {
-            evento.returnValue = false;
-        }
-
-        return false;
-    }
-
-    // Evento cuando se mueve el mouse
-    function mouseMoviendose(evento) {
-        var posX;
-        var posY;
-        var largoObjeto = objetos[indiceObjetoSeleccionado].largo;
-        var altoObjeto = objetos[indiceObjetoSeleccionado].alto;
-        //var minX = largoObjeto;
-        var minX = 0;
-        var maxX = canvas.width - largoObjeto;
-        //var minY = altoObjeto;
-        var minY = 0;
-        var maxY = canvas.height - altoObjeto;
-
-        // Obtener posición precisa del mouse
-        var bRect = canvas.getBoundingClientRect();
-        mouseX = (evento.clientX - bRect.left) * (canvas.width / bRect.width);
-        mouseY = (evento.clientY - bRect.top) * (canvas.height / bRect.height);
-
-        // Evita que el objeto sea movido fuera del canvas
-        posX = mouseX - mouseArrastrandoX;
-        posX = (posX < minX) ? minX : ((posX > maxX) ? maxX : posX);
-        posY = mouseY - mouseArrastrandoY;
-        posY = (posY < minY) ? minY : ((posY > maxY) ? maxY : posY);
-
-        objetos[indiceObjetoSeleccionado].posX = posX;
-        objetos[indiceObjetoSeleccionado].posY = posY;
-
-        dibujarCanvas();
-    }
-
-    // Evento cuando se deja de presionar el mouse
-    function mouseNoPresionado(evento) {
-        canvas.addEventListener('mousedown', mousePresionado, false);
-        window.removeEventListener('mouseup', mouseNoPresionado, false);
-        if (arrastrando) {
-            arrastrando = false;
-            window.removeEventListener('mousemove', mouseMoviendose, false);
-            calificarObjeto(objetos[indiceObjetoSeleccionado]);
-            verificarPuntajes();
-        }
-    }
-
-    function calificarObjeto(objeto) {
-        var objPosX1 = objeto.posX;
-        var objPosX2 = objPosX1 + objeto.largo;
-        var objPosY1 = objeto.posY;
-        var objPosY2 = objPosY1 + objeto.alto;
-        
-        for(var i=0; i < contenedores.length; i++){
-        	var jauPosX1 = contenedores[i].posX;
-            var jauPosX2 = jauPosX1 + contenedores[i].largo;
-            var jauPosY1 = contenedores[i].posY;
-            var jauPosY2 = jauPosY1 + contenedores[i].alto;
-            if (
-                objPosX1 >= jauPosX1 &&
-                objPosX2 <= jauPosX2 &&
-                objPosY1 >= jauPosY1 &&
-                objPosY2 <= jauPosY2
-            ){
-                if (objeto.tipo == contenedores[i].tipo) {
-                    puntajes[indiceObjetoSeleccionado] = 1/(objetos.length);
-                } else {
-                    puntajes[indiceObjetoSeleccionado] = 0;
-                }
-                break;
-            }else{
-            	puntajes[indiceObjetoSeleccionado] = null;
-            }
-        }
-    }
-
-    function verificarPuntajes(){
-    	var puntajesCorrectos = true;
-    	for(var i=0; i < puntajes.length; i++){
-    		if(puntajes[i] == null){
-    			puntajesCorrectos = false;
-    			break;
-    		}
-    	}
-
-    	if(puntajesCorrectos){
-            mostrarContinuar();
-        }else{
-            ocultarContinuar();
-        }
-    }
+	return true;
 }
